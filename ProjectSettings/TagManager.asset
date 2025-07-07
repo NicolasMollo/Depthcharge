@@ -44,3 +44,6 @@ TagManager:
   - name: Environment
     uniqueID: 2297527729
     locked: 0
+  - name: Actors
+    uniqueID: 2916608749
+    locked: 0
