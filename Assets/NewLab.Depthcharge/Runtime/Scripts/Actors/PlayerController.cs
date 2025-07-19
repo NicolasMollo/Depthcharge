@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
+using Depthcharge.Actors.Modules;
 
 namespace Depthcharge.Actors
 {
@@ -7,6 +7,10 @@ namespace Depthcharge.Actors
     [DisallowMultipleComponent]
     public class PlayerController : MonoBehaviour
     {
+
+        [SerializeField]
+        private InputModule _inputModule = null;
+        public InputModule InputModule { get => _inputModule; }
 
         [SerializeField]
         private MovementModule _movementModule = null;
@@ -17,29 +21,59 @@ namespace Depthcharge.Actors
         public HealthModule HealthModule { get => _healthModule; }
 
         [SerializeField]
-        private CollisionModule _collisionModule = null;
-        public CollisionModule CollisionModule { get => _collisionModule; }
-
-
-        private PlayerInputActions playerInput = null;
-
-        private float horizontal = 0.0f;
+        private ShootModule _shootModule = null;
+        public ShootModule ShootModule { get => _shootModule; }
 
 
         private void Start()
         {
 
-            playerInput = new PlayerInputActions();
-            _movementModule.SetUpModule(this.gameObject);
+            _inputModule.SetUpModule();
+            _movementModule.SetUpModule();
+            _healthModule.SetUpModule();
+            _shootModule.SetUpModule();
 
         }
 
+        [SerializeField]
+        private BaseBulletFactory bulletFactory = null;
+        private float counter = 20f;
+        private bool decreaseCounter = false;
 
         private void Update()
         {
 
-            horizontal = playerInput.Std_ActionMap.HorizontalMovement.ReadValue<float>();
-            _movementModule.MoveTarget(horizontal);
+            float movementInput = _inputModule.GetMovementInput();
+            Vector2 direction = new Vector2(movementInput, 0);
+            _movementModule.MoveTarget(direction);
+
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                _shootModule.Shoot();
+            }
+            else if (Input.GetKeyDown(KeyCode.R))
+            {
+                _shootModule.Reload();
+            }
+            else if (Input.GetKeyDown(KeyCode.F))
+            {
+                _shootModule.ChangeBulletsType(bulletFactory);
+                counter = 20f;
+                decreaseCounter = true;
+            }
+
+            if (decreaseCounter)
+            {
+                counter -= Time.deltaTime;
+                if (counter <= 0)
+                {
+                    _shootModule.ResetBulletsType();
+                    decreaseCounter = !decreaseCounter;
+                }
+                Debug.Log(counter);
+            }
+
 
         }
 

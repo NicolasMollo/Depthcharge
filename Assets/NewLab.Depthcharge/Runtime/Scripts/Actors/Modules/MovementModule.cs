@@ -1,38 +1,44 @@
 using UnityEngine;
 
-namespace Depthcharge.Actors
+namespace Depthcharge.Actors.Modules
 {
+
+    [DisallowMultipleComponent]
     public class MovementModule : BaseModule
     {
 
-        private Transform targetTransform = null;
+        [SerializeField]
+        private BaseMovementAdapter target = null;
+
+        [SerializeField]
+        private BaseMovementStrategy movementStrategy = null;
 
         [SerializeField]
         [Range(1.0f, 50.0f)]
-        private float movementSpeed = 0.0f;
+        private float movementSpeed = 1.0f;
+
 
         public override void SetUpModule(GameObject owner = null)
         {
 
-            if (owner == null)
+            if (target == null)
             {
-                Debug.LogError($"=== {this.name}.MovementModule.SetUpModule() === This module requires a GameObject owner to function!");
+                Debug.LogError($"=== {this.name}.MovementModule.SetUpModule() === target is null!");
                 return;
             }
 
-            targetTransform = owner.transform;
+            if (movementStrategy == null)
+            {
+                Debug.LogError($"=== {this.name}.MovementModule.SetUpModule() === movementStrategy is null!");
+                return;
+            }
 
         }
 
-        public void MoveTarget(float directionX)
+        public void MoveTarget(Vector2 direction = default)
         {
 
-            Vector2 direction = new Vector2(directionX, 0);
-            Vector2 directionNormalized = direction.normalized;
-            float calculatedMovementSpeed = movementSpeed * Time.deltaTime;
-            Vector2 velocity = directionNormalized * calculatedMovementSpeed;
-
-            targetTransform.Translate(velocity);
+            movementStrategy.Movement(target, movementSpeed, direction);
 
         }
 

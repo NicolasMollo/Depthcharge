@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Depthcharge.Actors
+namespace Depthcharge.Actors.Modules
 {
 
     public abstract class BaseModule : MonoBehaviour
