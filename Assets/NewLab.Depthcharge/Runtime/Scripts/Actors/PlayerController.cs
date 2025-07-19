@@ -1,5 +1,7 @@
 using UnityEngine;
 using Depthcharge.Actors.Modules;
+using UnityEngine.InputSystem;
+using System;
 
 namespace Depthcharge.Actors
 {
@@ -32,13 +34,26 @@ namespace Depthcharge.Actors
             _movementModule.SetUpModule();
             _healthModule.SetUpModule();
             _shootModule.SetUpModule();
+            _inputModule.SubscribeOnShoot(OnPressShootButton);
 
         }
 
-        [SerializeField]
-        private BaseBulletFactory bulletFactory = null;
-        private float counter = 20f;
-        private bool decreaseCounter = false;
+        private void OnDestroy()
+        {
+
+            _inputModule.UnsubscribeFromShoot(OnPressShootButton);
+
+        }
+
+        private void OnPressShootButton(InputAction.CallbackContext context)
+        {
+            _shootModule.Shoot();
+        }
+
+        //[SerializeField]
+        //private BaseBulletFactory bulletFactory = null;
+        //private float counter = 20f;
+        //private bool decreaseCounter = false;
 
         private void Update()
         {
@@ -47,33 +62,35 @@ namespace Depthcharge.Actors
             Vector2 direction = new Vector2(movementInput, 0);
             _movementModule.MoveTarget(direction);
 
+            #region Debug
 
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                _shootModule.Shoot();
-            }
-            else if (Input.GetKeyDown(KeyCode.R))
-            {
-                _shootModule.Reload();
-            }
-            else if (Input.GetKeyDown(KeyCode.F))
-            {
-                _shootModule.ChangeBulletsType(bulletFactory);
-                counter = 20f;
-                decreaseCounter = true;
-            }
+            //if (Input.GetKeyDown(KeyCode.Space))
+            //{
+            //    _shootModule.Shoot();
+            //}
+            //else if (Input.GetKeyDown(KeyCode.R))
+            //{
+            //    _shootModule.Reload();
+            //}
+            //else if (Input.GetKeyDown(KeyCode.F))
+            //{
+            //    _shootModule.ChangeBulletsType(bulletFactory);
+            //    counter = 20f;
+            //    decreaseCounter = true;
+            //}
 
-            if (decreaseCounter)
-            {
-                counter -= Time.deltaTime;
-                if (counter <= 0)
-                {
-                    _shootModule.ResetBulletsType();
-                    decreaseCounter = !decreaseCounter;
-                }
-                Debug.Log(counter);
-            }
+            //if (decreaseCounter)
+            //{
+            //    counter -= Time.deltaTime;
+            //    if (counter <= 0)
+            //    {
+            //        _shootModule.ResetBulletsType();
+            //        decreaseCounter = !decreaseCounter;
+            //    }
+            //    Debug.Log(counter);
+            //}
 
+            #endregion
 
         }
 
