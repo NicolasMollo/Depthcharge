@@ -16,6 +16,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 1872231010672010564, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
+      propertyPath: movementContext._target
+      value: 
+      objectReference: {fileID: 7858874334201386506}
     - target: {fileID: 2378253913963114499, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -85,3 +89,14 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
+--- !u!114 &7858874334201386506 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6207484860202728568, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
+  m_PrefabInstance: {fileID: 4266384421126253170}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf5be25b5542af04a8882eef22abfc3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

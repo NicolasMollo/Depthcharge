@@ -7,14 +7,14 @@ namespace Depthcharge.Actors.Modules
     public class MS_TranslationBased : BaseMovementStrategy
     {
 
-        public override void Movement(BaseMovementAdapter target, float speed, Vector2 direction = default)
+        public override void Movement(MovementContext movementContext)
         {
 
-            Vector2 directionNormalized = direction.normalized;
-            float calculatedSpeed = speed * Time.deltaTime;
+            Vector2 directionNormalized = movementContext.Direction.normalized;
+            float calculatedSpeed = movementContext.Speed * Time.deltaTime;
             Vector2 velocity = directionNormalized * calculatedSpeed;
 
-            target.Translate(velocity);
+            movementContext.Target.Translate(velocity);
 
         }
 

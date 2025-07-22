@@ -270,6 +270,7 @@ MonoBehaviour:
   setComponentsAutomatically: 0
   collisionStrategies:
   - {fileID: 11400000, guid: 69d02f335793a7f429985a7c36818d2a, type: 2}
+  - {fileID: 11400000, guid: d943bd0476b96eb42ac37fc093dc3042, type: 2}
 --- !u!1 &5567646193081478872
 GameObject:
   m_ObjectHideFlags: 0
@@ -378,6 +379,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7eb0d8c37ac82dc47859d493a445bff2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _damage: 1
   movementModule: {fileID: 1872231010672010564}
   collisionModule: {fileID: 9114464592461525435}
+  _damage: 1

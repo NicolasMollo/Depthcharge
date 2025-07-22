@@ -17,6 +17,7 @@ namespace Depthcharge.Actors.Modules
             {
                 BulletController bulletController = owner.GetComponentInParent<BulletController>();
                 bulletController.Deactivation();
+                Debug.Log($"Collision with {other.name}");
             }
 
         }

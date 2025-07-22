@@ -24,6 +24,11 @@ namespace Depthcharge.Actors.Modules
             rb.AddForce(force, forceMode2D);
         }
 
+        public override void SetVelocity(Vector2 velocity)
+        {
+            rb.velocity = velocity;
+        }
+
     }
 
 }

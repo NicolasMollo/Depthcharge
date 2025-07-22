@@ -10,6 +10,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 26bc3d2915b8ac147a0afefb573db027, type: 3}
-  m_Name: MS_Translation
+  m_Name: MS_EnemyTranslation
   m_EditorClassIdentifier: 
   movementSpeed: 3.5

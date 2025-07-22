@@ -8,12 +8,9 @@ namespace Depthcharge.Actors
     public class BulletController : MonoBehaviour
     {
 
-        [SerializeField]
-        private float _damage = 1.0f;
-        public float Damage { get => _damage; }
+        #region Modules
 
-        private bool _isShooted = false;
-        public bool IsShooted { get => _isShooted; }
+        [Header("MODULES")]
 
         [SerializeField]
         private MovementModule movementModule = null;
@@ -22,6 +19,23 @@ namespace Depthcharge.Actors
         [SerializeField]
         private CollisionModule collisionModule = null;
         public CollisionModule CollisionModule { get => collisionModule; }
+
+        #endregion
+        #region Settings
+
+        [Header("SETTINGS")]
+
+        [SerializeField]
+        private float _damage = 1.0f;
+        public float Damage { get => _damage; }
+
+        [SerializeField]
+        private Vector2 movementDirection = Vector2.zero;
+
+        #endregion
+
+        private bool _isShooted = false;
+        public bool IsShooted { get => _isShooted; }
 
 
         private void Start()
@@ -32,7 +46,7 @@ namespace Depthcharge.Actors
 
         private void FixedUpdate()
         {
-            movementModule.MoveTarget();
+            movementModule.MoveTarget(movementDirection);
         }
 
         private void OnEnable()

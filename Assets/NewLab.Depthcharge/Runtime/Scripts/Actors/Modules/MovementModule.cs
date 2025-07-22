@@ -13,9 +13,10 @@ namespace Depthcharge.Actors.Modules
         [SerializeField]
         private BaseMovementStrategy movementStrategy = null;
 
+        [Header("SETTINGS")]
+
         [SerializeField]
-        [Range(1.0f, 50.0f)]
-        private float movementSpeed = 1.0f;
+        private MovementContext movementContext = default;
 
 
         public override void SetUpModule(GameObject owner = null)
@@ -38,7 +39,8 @@ namespace Depthcharge.Actors.Modules
         public void MoveTarget(Vector2 direction = default)
         {
 
-            movementStrategy.Movement(target, movementSpeed, direction);
+            movementContext.Direction = direction;
+            movementStrategy.Movement(movementContext);
 
         }
 

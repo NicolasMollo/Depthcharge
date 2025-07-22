@@ -1,7 +1,6 @@
 using UnityEngine;
-using Depthcharge.Actors.Modules;
 using UnityEngine.InputSystem;
-using System;
+using Depthcharge.Actors.Modules;
 
 namespace Depthcharge.Actors
 {
