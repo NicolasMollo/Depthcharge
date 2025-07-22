@@ -1,3 +1,4 @@
+using Depthcharge.Actors.AI;
 using Depthcharge.Actors.Modules;
 using UnityEngine;
 
@@ -25,6 +26,14 @@ namespace Depthcharge.Actors
         public ShootModule ShootModule { get => _shootModule; }
 
         #endregion
+        #region Fsm
+
+        [Header("FMS")]
+
+        [SerializeField]
+        private Fsm fsm = null;
+
+        #endregion
         #region Settings
 
         [Header("SETTINGS")]
@@ -44,20 +53,14 @@ namespace Depthcharge.Actors
             _movementModule.SetUpModule();
             _healthModule.SetUpModule();
             _shootModule.SetUpModule();
+            fsm.SetStartState();
 
         }
 
-        float counter = 2.0f;
         private void Update()
         {
 
             _movementModule.MoveTarget(movementDirection);
-            counter -= Time.deltaTime;
-            if (counter <= 0)
-            {
-                _shootModule.Shoot();
-                counter = 2.0f;
-            }
 
         }
 

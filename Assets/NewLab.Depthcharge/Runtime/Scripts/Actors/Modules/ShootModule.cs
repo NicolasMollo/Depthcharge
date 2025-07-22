@@ -14,7 +14,8 @@ namespace Depthcharge.Actors.Modules
         private List<BulletController> deadBullets = null;
         private BaseBulletFactory originalBulletFactory = null;
         private int bulletsShooted = 0;
-        private bool isReloading = false;
+        private bool _isReloading = false;
+        public bool IsReloading { get => _isReloading; }
 
         #region References
 
@@ -80,11 +81,11 @@ namespace Depthcharge.Actors.Modules
         public void Reload()
         {
 
-            isReloading = true;
+            _isReloading = true;
             ResetBulletsTransform();
             bulletsShooted = 0;
             OnReload?.Invoke();
-            isReloading = !isReloading;
+            _isReloading = !_isReloading;
 
         }
 
@@ -129,19 +130,19 @@ namespace Depthcharge.Actors.Modules
 
         private void ReloadAutomatically()
         {
-            if (!isReloading)
+            if (!_isReloading)
                 StartCoroutine(ReloadAutomatically(reloadTime));
         }
         private IEnumerator ReloadAutomatically(float delay)
         {
 
-            isReloading = true;
+            _isReloading = true;
             yield return new WaitUntil(AreBulletsDisabled);
             yield return new WaitForSeconds(delay);
             ResetBulletsTransform();
             bulletsShooted = 0;
             OnReload?.Invoke();
-            isReloading = !isReloading;
+            _isReloading = !_isReloading;
 
         }
 
