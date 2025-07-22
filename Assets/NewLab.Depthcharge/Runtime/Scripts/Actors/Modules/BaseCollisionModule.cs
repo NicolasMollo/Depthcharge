@@ -5,20 +5,19 @@ namespace Depthcharge.Actors.Modules
 {
 
     [RequireComponent(typeof(BoxCollider2D))]
-    public class CollisionModule : BaseModule
+    public class BaseCollisionModule : BaseModule
     {
 
         [SerializeField]
-        private Rigidbody2D rb = null;
-        private SpriteRenderer spriteRenderer = null;
-        private BoxCollider2D boxCollider = null;
+        protected Rigidbody2D rb = null;
+        protected SpriteRenderer spriteRenderer = null;
+        protected BoxCollider2D boxCollider = null;
 
         [SerializeField]
-        private bool setComponentsAutomatically = false;
+        protected bool setComponentsAutomatically = false;
 
         [SerializeField]
-        private List<BaseCollisionStrategy> collisionStrategies = null;
-
+        protected List<BaseCollisionStrategy> collisionStrategies = null;
 
         public override void SetUpModule(GameObject owner = null)
         {
@@ -42,16 +41,6 @@ namespace Depthcharge.Actors.Modules
             rb.useFullKinematicContacts = true;
             boxCollider = GetComponent<BoxCollider2D>();
             boxCollider.size = new Vector3(spriteRenderer.sprite.bounds.size.x, spriteRenderer.sprite.bounds.size.y, 0);
-
-        }
-
-        private void OnCollisionEnter2D(Collision2D collision)
-        {
-
-            foreach (BaseCollisionStrategy strategy in collisionStrategies)
-            {
-                strategy.OnCollision(this.gameObject, collision.collider);
-            }
 
         }
 

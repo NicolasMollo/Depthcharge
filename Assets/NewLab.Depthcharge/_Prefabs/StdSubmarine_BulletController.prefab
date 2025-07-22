@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 292324314802498973, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
+      propertyPath: m_TagString
+      value: Bullet
+      objectReference: {fileID: 0}
     - target: {fileID: 1273053961131784414, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
       propertyPath: m_Layer
       value: 8
@@ -40,10 +44,18 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 3864034688771729828, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
+      propertyPath: m_TagString
+      value: Bullet
+      objectReference: {fileID: 0}
     - target: {fileID: 5567646193081478872, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 6078273427229168085, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
+      propertyPath: collisionModule
+      value: 
+      objectReference: {fileID: 6673058948979798059}
     - target: {fileID: 7843772964008721873, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
       propertyPath: m_Name
       value: StdSubmarine_BulletController
@@ -51,6 +63,26 @@ PrefabInstance:
     - target: {fileID: 7843772964008721873, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
       propertyPath: m_Layer
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7843772964008721873, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
+      propertyPath: m_TagString
+      value: Bullet
+      objectReference: {fileID: 0}
+    - target: {fileID: 7890283852154873049, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
+      propertyPath: m_Size.x
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 7890283852154873049, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
+      propertyPath: m_Size.y
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 7890283852154873049, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
+      propertyPath: m_Offset.x
+      value: -0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 7890283852154873049, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
+      propertyPath: m_Offset.y
+      value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: 8004812159510302742, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -104,11 +136,20 @@ PrefabInstance:
       propertyPath: collisionStrategies.Array.data[1]
       value: 
       objectReference: {fileID: 11400000, guid: ff79212e778c45e429704356fc8ab456, type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 9114464592461525435, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3864034688771729828, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6673058948979798059}
   m_SourcePrefab: {fileID: 100100000, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
+--- !u!50 &3945380286620699702 stripped
+Rigidbody2D:
+  m_CorrespondingSourceObject: {fileID: 6779551026982658931, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
+  m_PrefabInstance: {fileID: 7553948119796592453}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &4535240675679736637 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6207484860202728568, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
@@ -120,3 +161,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf5be25b5542af04a8882eef22abfc3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &6722410627999074017 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3864034688771729828, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
+  m_PrefabInstance: {fileID: 7553948119796592453}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6673058948979798059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6722410627999074017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8b17e6fd10ab38488fe4689cef5f85e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 3945380286620699702}
+  setComponentsAutomatically: 0
+  collisionStrategies:
+  - {fileID: 11400000, guid: fd83a40337192c946a59801fecb7abad, type: 2}
+  - {fileID: 11400000, guid: ff79212e778c45e429704356fc8ab456, type: 2}

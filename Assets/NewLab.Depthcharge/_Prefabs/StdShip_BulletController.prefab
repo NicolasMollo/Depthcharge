@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 292324314802498973, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
+      propertyPath: m_TagString
+      value: Bullet
+      objectReference: {fileID: 0}
     - target: {fileID: 1273053961131784414, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -28,10 +32,18 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 3864034688771729828, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
+      propertyPath: m_TagString
+      value: Bullet
+      objectReference: {fileID: 0}
     - target: {fileID: 5567646193081478872, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 6078273427229168085, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
+      propertyPath: collisionModule
+      value: 
+      objectReference: {fileID: 6594105580803089848}
     - target: {fileID: 7843772964008721873, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
       propertyPath: m_Name
       value: StdShip_BulletController
@@ -39,6 +51,10 @@ PrefabInstance:
     - target: {fileID: 7843772964008721873, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7843772964008721873, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
+      propertyPath: m_TagString
+      value: Bullet
       objectReference: {fileID: 0}
     - target: {fileID: 8004812159510302742, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -84,11 +100,43 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 9114464592461525435, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3864034688771729828, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6594105580803089848}
   m_SourcePrefab: {fileID: 100100000, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
+--- !u!1 &1056922136821302230 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3864034688771729828, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
+  m_PrefabInstance: {fileID: 4266384421126253170}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6594105580803089848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1056922136821302230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32d2d2500561c1d4394ae00397695963, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 7287092184045717761}
+  setComponentsAutomatically: 0
+  collisionStrategies:
+  - {fileID: 11400000, guid: 69d02f335793a7f429985a7c36818d2a, type: 2}
+  - {fileID: 11400000, guid: d943bd0476b96eb42ac37fc093dc3042, type: 2}
+  - {fileID: 11400000, guid: 2f3bdc59f4c83234eb8a46795031ea1e, type: 2}
+--- !u!50 &7287092184045717761 stripped
+Rigidbody2D:
+  m_CorrespondingSourceObject: {fileID: 6779551026982658931, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
+  m_PrefabInstance: {fileID: 4266384421126253170}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &7858874334201386506 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6207484860202728568, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}

@@ -17,8 +17,8 @@ namespace Depthcharge.Actors
         public MovementModule MovementModule { get => movementModule; }
 
         [SerializeField]
-        private CollisionModule collisionModule = null;
-        public CollisionModule CollisionModule { get => collisionModule; }
+        private BaseCollisionModule collisionModule = null;
+        public BaseCollisionModule CollisionModule { get => collisionModule; }
 
         #endregion
         #region Settings
