@@ -462,7 +462,7 @@ MonoBehaviour:
   minShootDelay: 1
   maxShootDelay: 1
   _shootDelay: 0
-  enemyGraphics: {fileID: 5768467481125651871}
+  aggressivenessMultiplier: 0
 --- !u!1 &4513265544863555701
 GameObject:
   m_ObjectHideFlags: 0
@@ -518,7 +518,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4904398745828017029}
   - component: {fileID: 321931992824715677}
-  - component: {fileID: 2447562333572820009}
+  - component: {fileID: 1690983363449566770}
   m_Layer: 7
   m_Name: EnemyGraphics
   m_TagString: Enemy
@@ -593,8 +593,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!60 &2447562333572820009
-PolygonCollider2D:
+--- !u!61 &1690983363449566770
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -625,7 +625,7 @@ PolygonCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.04150772, y: -0.05819875}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -635,26 +635,9 @@ PolygonCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0.07494044, y: 0.2890246}
-      - {x: 0.07, y: 0.66999996}
-      - {x: -0.26999998, y: 0.90999997}
-      - {x: -0.32, y: 0.91999996}
-      - {x: -0.42, y: 0.91999996}
-      - {x: -0.48, y: 0.88}
-      - {x: -0.68, y: 0.71}
-      - {x: -0.71, y: 0.29999998}
-      - {x: -1.18, y: 0.29999998}
-      - {x: -1.3, y: 0.21}
-      - {x: -1.39, y: 0.099999994}
-      - {x: -1.39, y: -0.22999999}
-      - {x: -1.22, y: -0.39999998}
-      - {x: 1.15, y: -0.39999998}
-      - {x: 1.4699999, y: -0.22}
-      - {x: 1.4699999, y: 0.14999999}
-      - {x: 1.1783696, y: 0.28380138}
-  m_UseDelaunayMesh: 0
+  serializedVersion: 2
+  m_Size: {x: 2.847312, y: 0.6575278}
+  m_EdgeRadius: 0
 --- !u!1 &6250339451012920689
 GameObject:
   m_ObjectHideFlags: 0
@@ -891,7 +874,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.67818254, y: -0.029921383}
+  m_Offset: {x: 0.0005829334, y: -0.03429295}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -902,7 +885,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.017115235, y: 0.09088385}
+  m_Size: {x: 1.2480898, y: 0.03141409}
   m_EdgeRadius: 0
 --- !u!114 &2191717182897755735
 MonoBehaviour:
