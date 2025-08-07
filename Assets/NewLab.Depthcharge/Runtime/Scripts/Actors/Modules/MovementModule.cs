@@ -8,7 +8,8 @@ namespace Depthcharge.Actors.Modules
     {
 
         [SerializeField]
-        private BaseMovementAdapter target = null;
+        private BaseMovementAdapter _target = null;
+        public BaseMovementAdapter Target { get => _target; }
 
         [SerializeField]
         private BaseMovementStrategy movementStrategy = null;
@@ -17,12 +18,13 @@ namespace Depthcharge.Actors.Modules
 
         [SerializeField]
         private MovementContext movementContext = default;
+        public float MovementSpeed { get => movementContext.Speed; }
 
 
         public override void SetUpModule(GameObject owner = null)
         {
 
-            if (target == null)
+            if (_target == null)
             {
                 Debug.LogError($"=== {this.name}.MovementModule.SetUpModule() === target is null!");
                 return;
@@ -40,7 +42,14 @@ namespace Depthcharge.Actors.Modules
         {
 
             movementContext.Direction = direction;
-            movementStrategy.Movement(movementContext);
+            movementStrategy.MoveTarget(movementContext);
+
+        }
+
+        public void SetMovementSpeed(float speed)
+        {
+
+            movementContext.Speed = speed;
 
         }
 

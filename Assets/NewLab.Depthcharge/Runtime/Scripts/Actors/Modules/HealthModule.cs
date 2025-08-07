@@ -20,7 +20,7 @@ namespace Depthcharge.Actors.Modules
 
         public Action<float> OnTakeDamage = null;
         public Action<float> OnTakeHealth = null;
-        public Action<float> OnDeath = null;
+        public Action OnDeath = null;
 
         #region API
 
@@ -38,7 +38,7 @@ namespace Depthcharge.Actors.Modules
             OnTakeDamage?.Invoke(Health);
             if (Health == 0)
             {
-                OnDeath?.Invoke(Health);
+                OnDeath?.Invoke();
             }
 
         }
@@ -48,6 +48,13 @@ namespace Depthcharge.Actors.Modules
 
             Health += health;
             OnTakeHealth?.Invoke(Health);
+
+        }
+
+        public void SetMaxHealth(float maxHealth)
+        {
+
+            this.maxHealth = maxHealth;
 
         }
 

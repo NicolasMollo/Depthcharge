@@ -12,6 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba7ed9414a18a234d9b1627014d52fdc, type: 3}
   m_Name: MS_Parabolic
   m_EditorClassIdentifier: 
-  arcHeight: 3
-  duration: 1
-  positionTarget: {x: -4, y: 0, z: 0}
+  forceY: 1

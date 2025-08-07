@@ -36,10 +36,14 @@ namespace Depthcharge.Actors.Modules
         [Header("SETTINGS")]
 
         [SerializeField]
+        private int poolSize = 0;
+
+        [SerializeField]
         private bool reloadAutomatically = false;
 
         [SerializeField]
         private float reloadTime = 5.0f;
+        public float ReloadTime { get => reloadTime; }
 
         #endregion
 
@@ -53,8 +57,9 @@ namespace Depthcharge.Actors.Modules
         public override void SetUpModule(GameObject owner = null)
         {
             originalBulletFactory = bulletFactory;
-            bullets = bulletFactory.CreateBulletPool(this);
+            bullets = bulletFactory.CreateBulletPool(this, poolSize);
             deadBullets = new List<BulletController>();
+            base.SetUpModule(owner); // IsModuleSetUp = true;
         }
 
         public void Shoot()
@@ -104,7 +109,7 @@ namespace Depthcharge.Actors.Modules
 
             }
             bullets.Clear();
-            bullets = this.bulletFactory.CreateBulletPool(this);
+            bullets = this.bulletFactory.CreateBulletPool(this, poolSize);
             OnChangeBullets?.Invoke();
 
         }
@@ -151,7 +156,7 @@ namespace Depthcharge.Actors.Modules
 
             foreach (BulletController bullet in bullets)
             {
-                if (!bullet.gameObject.activeSelf)
+                if (!bullet.IsShooted)
                 {
                     bullet.transform.SetParent(bulletsParent);
                     bullet.transform.position = shootPoint.position;
@@ -174,6 +179,18 @@ namespace Depthcharge.Actors.Modules
                 return true;
             return false;
 
+        }
+
+        public void ResetBullets()
+        {
+            foreach (BulletController bullet in bullets)
+            {
+                if (bullet.transform.parent == null && !bullet.gameObject.activeSelf)
+                {
+                    bullet.transform.SetParent(bulletsParent);
+                    bullet.transform.position = shootPoint.position;
+                }
+            }
         }
 
         #endregion

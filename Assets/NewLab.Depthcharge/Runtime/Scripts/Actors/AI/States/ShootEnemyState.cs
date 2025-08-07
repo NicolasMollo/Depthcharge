@@ -12,7 +12,7 @@ namespace Depthcharge.Actors.AI
 
         public override void OnStateEnter()
         {
-            Debug.Log($"I'm in {this.name}");
+            // Debug.Log($"I'm in {this.name}");
             if (!isShootModuleGot)
             {
                 shootModule = fsm.Owner.GetComponentInChildren<ShootModule>();

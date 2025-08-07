@@ -18,4 +18,7 @@ public struct MovementContext
     private Vector2 _startPosition;
     public Vector2 StartPosition { get => _startPosition; set => _startPosition = value; }
 
+    private float _spawnTime;
+    public float SpawnTime { get => _spawnTime; set => _spawnTime = value; }
+
 }

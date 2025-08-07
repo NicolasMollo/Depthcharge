@@ -7,7 +7,7 @@ namespace Depthcharge.Actors.Modules
     public class MS_TranslationBased : BaseMovementStrategy
     {
 
-        public override void Movement(MovementContext movementContext)
+        public override void MoveTarget(MovementContext movementContext)
         {
 
             Vector2 directionNormalized = movementContext.Direction.normalized;

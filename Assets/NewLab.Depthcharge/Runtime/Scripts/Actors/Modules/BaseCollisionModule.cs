@@ -5,7 +5,7 @@ namespace Depthcharge.Actors.Modules
 {
 
     [RequireComponent(typeof(BoxCollider2D))]
-    public class BaseCollisionModule : BaseModule
+    public abstract class BaseCollisionModule : BaseModule
     {
 
         [SerializeField]

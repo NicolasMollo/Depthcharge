@@ -12,7 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3bc49a235201f547bb24e6b13095f6c, type: 3}
   m_Name: MS_EnemyBulletSine
   m_EditorClassIdentifier: 
-  forwardDirection: {x: 0, y: 1}
-  lateralDirection: {x: 1, y: 0}
-  frequency: 2
-  amplitude: 0.5
+  frequency: 1
+  amplitude: 0.25

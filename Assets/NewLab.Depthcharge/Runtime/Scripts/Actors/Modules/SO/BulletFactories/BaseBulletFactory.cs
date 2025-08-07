@@ -8,7 +8,7 @@ namespace Depthcharge.Actors.Modules
     {
 
         protected abstract BulletController CreateBullet(ShootModule shootModule);
-        public abstract List<BulletController> CreateBulletPool(ShootModule shootModule);
+        public abstract List<BulletController> CreateBulletPool(ShootModule shootModule, int poolSize);
 
     }
 

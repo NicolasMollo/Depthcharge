@@ -11,11 +11,7 @@ namespace Depthcharge.Actors.Modules
         [SerializeField]
         private GameObject prefabBullet = null;
 
-        [SerializeField]
-        [Range(1, 10)]
-        private int poolSize = 1;
-
-        public override List<BulletController> CreateBulletPool(ShootModule shootModule)
+        public override List<BulletController> CreateBulletPool(ShootModule shootModule, int poolSize)
         {
 
             List<BulletController> bullets = new List<BulletController>();
@@ -40,6 +36,7 @@ namespace Depthcharge.Actors.Modules
                 shootModule.BulletsParent
                 );
             BulletController bulletController = bulletObj.GetComponent<BulletController>();
+            bulletController.SetUp(shootModule);
             return bulletController;
 
         }

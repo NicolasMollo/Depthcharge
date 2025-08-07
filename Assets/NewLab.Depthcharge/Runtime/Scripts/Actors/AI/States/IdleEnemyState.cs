@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using Depthcharge.Actors.Modules;
 
 namespace Depthcharge.Actors.AI
 {
@@ -8,29 +7,30 @@ namespace Depthcharge.Actors.AI
     public class IdleEnemyState : BaseState
     {
 
-        private ShootModule shootModule = null;
-        private bool isShootModuleGot = false;
-
-        [SerializeField]
-        [Range(0.0f, 10.0f)]
-        private float additionalTime = 0;
+        private EnemyController enemyController = null;
+        private bool isEnemyControllerTaken = false;
 
         public override void OnStateEnter()
         {
-            Debug.Log($"I'm in {this.name}");
-            if (!isShootModuleGot)
+
+            // Debug.Log($"I'm in {this.name}");
+            if (!isEnemyControllerTaken)
             {
-                shootModule = fsm.Owner.GetComponentInChildren<ShootModule>();
-                isShootModuleGot = true;
+                enemyController = fsm.Owner.GetComponent<EnemyController>();
+                isEnemyControllerTaken = true;
             }
-            StartCoroutine(WaitAdditionalTime(!shootModule.IsReloading, additionalTime));
+            StartCoroutine(WaitToShoot());
+
         }
 
-        private IEnumerator WaitAdditionalTime(bool condition, float additionalDelay)
+        private IEnumerator WaitToShoot()
         {
-            yield return new WaitUntil(() => condition);
-            yield return new WaitForSeconds(additionalDelay);
+
+            yield return new WaitForSeconds(enemyController.ShootDelay);
+            if (enemyController.ShootModule.IsReloading)
+                yield return new WaitUntil(() => enemyController.ShootModule.IsReloading);
             fsm.ChangeState(nextState);
+
         }
 
     }

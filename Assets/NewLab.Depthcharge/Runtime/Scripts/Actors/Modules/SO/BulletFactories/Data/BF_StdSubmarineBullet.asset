@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5282b2e6086216e48b386edf8875de68, type: 3}
   m_Name: BF_StdSubmarineBullet
   m_EditorClassIdentifier: 
-  prefabBullet: {fileID: 292644061691105940, guid: 5510e4890ef4bf94388ad0e2abdae26d, type: 3}
-  poolSize: 1
+  prefabBullet: {fileID: 3690254776392881853, guid: 5a77c94c089207643ae41488a1380d90, type: 3}
+  poolSize: 5

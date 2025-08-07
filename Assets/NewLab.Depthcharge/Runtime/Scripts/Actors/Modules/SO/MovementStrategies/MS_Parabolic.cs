@@ -7,10 +7,14 @@ namespace Depthcharge.Actors.Modules
     public class MS_Parabolic : BaseMovementStrategy
     {
 
-        public override void Movement(MovementContext movementContext)
+        [SerializeField]
+        [Range(0.0f, 1.0f)]
+        private float forceY = 0.0f;
+
+        public override void MoveTarget(MovementContext movementContext)
         {
 
-            Vector2 force = new Vector2(0f, 0f);
+            Vector2 force = new Vector2(0f, forceY);
             movementContext.Target.AddForce(force, ForceMode2D.Impulse);
 
         }

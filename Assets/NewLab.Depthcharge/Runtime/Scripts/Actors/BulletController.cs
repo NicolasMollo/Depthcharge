@@ -8,6 +8,12 @@ namespace Depthcharge.Actors
     public class BulletController : MonoBehaviour
     {
 
+        private ShootModule owner = null;
+        private bool _isShooted = false;
+        public bool IsShooted { get => _isShooted; }
+
+        private MovementContext movementContext = default;
+
         #region Modules
 
         [Header("MODULES")]
@@ -34,12 +40,11 @@ namespace Depthcharge.Actors
 
         #endregion
 
-        private bool _isShooted = false;
-        public bool IsShooted { get => _isShooted; }
 
-
-        private void Start()
+        public void SetUp(ShootModule owner)
         {
+            this.owner = owner;
+            movementContext = new MovementContext();
             movementModule.SetUpModule();
             collisionModule.SetUpModule(this.gameObject);
         }
@@ -51,6 +56,8 @@ namespace Depthcharge.Actors
 
         private void OnEnable()
         {
+            movementContext.SpawnTime = Time.time;
+            movementContext.StartPosition = movementModule.Target.GetPosition();
             _isShooted = true;
         }
         private void OnDisable()
@@ -61,6 +68,12 @@ namespace Depthcharge.Actors
         public void Deactivation()
         {
             this.gameObject.SetActive(false);
+        }
+
+        public void ResetBulletTransform()
+        {
+            movementModule.MoveTarget(owner.ShootPoint.position);
+            transform.SetParent(owner.BulletsParent);
         }
 
     }

@@ -8,31 +8,24 @@ namespace Depthcharge.Actors.Modules
     {
 
         [SerializeField]
-        private Vector2 forwardDirection = Vector2.zero;
-
-        [SerializeField]
-        private Vector2 lateralDirection = Vector2.zero;
-
-        [SerializeField]
         private float frequency = 2f;
 
         [SerializeField]
         private float amplitude = 0.5f;
 
-        public override void Movement(MovementContext movementContext)
+        public override void MoveTarget(MovementContext movementContext)
         {
 
-            Vector2 forwardDirection = this.forwardDirection;
-            Vector2 lateralDirection = this.lateralDirection;
-            float phaseOffset = (movementContext.Target.GetInstanceID() % 360) * Mathf.Deg2Rad;
-            float wave = Mathf.Sin(Time.time * frequency);
-            Vector2 velocity = forwardDirection * movementContext.Speed;
+            float timeSinceSpawn = Time.time - movementContext.SpawnTime;
+            Vector2 forwardMovement = Vector2.up * movementContext.Speed;
+            float sinOffset = Mathf.Sin(timeSinceSpawn * frequency) * amplitude;
+            Vector2 lateralMovement = Vector2.right * sinOffset;
+            Vector3 velocity = forwardMovement + lateralMovement;
 
             movementContext.Target.SetVelocity(velocity);
 
         }
 
     }
-
 
 }
