@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Depthcharge.LevelManagement
@@ -7,11 +8,15 @@ namespace Depthcharge.LevelManagement
     public class LevelConfiguration : ScriptableObject
     {
 
-        public enum LevelDifficulty : byte { Easy, Medium, Hard, Random }
+        public enum LevelDifficulty : byte { Easy, Normal, Hard, Random }
 
         [SerializeField]
         private LevelDifficulty _difficulty = LevelDifficulty.Easy;
         public LevelDifficulty Difficulty { get => _difficulty; }
+
+        [SerializeField]
+        private List<BaseWinStrategy> _winStrategies = null;
+        public List<BaseWinStrategy> WinStrategies { get => _winStrategies; }
 
         [SerializeField]
         private float _minEnemySpawnDelay = 1.0f;
@@ -20,14 +25,6 @@ namespace Depthcharge.LevelManagement
         [SerializeField]
         private float _maxEnemySpawnDelay = 1.0f;
         public float MaxEnemySpawnDelay { get => _maxEnemySpawnDelay; }
-
-        [SerializeField]
-        private int _enemyToDefeat = 10;
-        public int EnemyToDefeat { get => _enemyToDefeat; }
-
-        [SerializeField]
-        private int _scoreToReach = 100;
-        public int ScoreToReach { get => _scoreToReach; }
 
     }
 

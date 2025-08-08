@@ -86,7 +86,7 @@ namespace Depthcharge.Actors
                 case LevelConfiguration.LevelDifficulty.Easy:
                     selectedFactory = weakESF;
                     break;
-                case LevelConfiguration.LevelDifficulty.Medium:
+                case LevelConfiguration.LevelDifficulty.Normal:
                     selectedFactory = mediumESF;
                     break;
                 case LevelConfiguration.LevelDifficulty.Hard:

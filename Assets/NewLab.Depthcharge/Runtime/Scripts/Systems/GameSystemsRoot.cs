@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Depthcharge.Actors
+namespace Depthcharge.GameManagement
 {
 
     [DisallowMultipleComponent]
@@ -18,6 +18,7 @@ namespace Depthcharge.Actors
         private void Awake()
         {
             SetSingleton();
+            DontDestroyOnLoad(this.gameObject);
         }
 
         private void SetSingleton()

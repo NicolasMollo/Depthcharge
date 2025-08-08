@@ -9,11 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95fdc55754cae3a4395ee8a86a3eb109, type: 3}
-  m_Name: LC_Medium
+  m_Script: {fileID: 11500000, guid: 0d009d91504066e4886c3f31dc41d2c9, type: 3}
+  m_Name: WS_ScoreAmountNormal
   m_EditorClassIdentifier: 
-  _difficulty: 1
-  _minEnemySpawnDelay: 10
-  _maxEnemySpawnDelay: 25
-  _enemyToDefeat: 20
-  _scoreToReach: 250
+  scoreAmount: 300

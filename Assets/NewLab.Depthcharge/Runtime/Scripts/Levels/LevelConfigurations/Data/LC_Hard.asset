@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95fdc55754cae3a4395ee8a86a3eb109, type: 3}
+  m_Name: LC_Hard
+  m_EditorClassIdentifier: 
+  _difficulty: 2
+  _minEnemySpawnDelay: 5
+  _maxEnemySpawnDelay: 20
+  _enemyToDefeat: 30
+  _scoreToReach: 500
+  _winStrategies:
+  - {fileID: 11400000, guid: 8b0e5b628cf02134785c5bdad076098a, type: 2}
+  - {fileID: 11400000, guid: f0a380c3909ae9b46914533568742fd9, type: 2}

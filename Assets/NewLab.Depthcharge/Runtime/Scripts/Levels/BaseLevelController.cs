@@ -1,5 +1,4 @@
-using Codice.CM.Client.Differences.Graphic;
-using Depthcharge.Actors;
+using Depthcharge.GameManagement;
 using UnityEngine;
 
 namespace Depthcharge.LevelManagement
@@ -10,13 +9,18 @@ namespace Depthcharge.LevelManagement
     {
 
         protected GameSystemsRoot systemsRoot = null;
+        protected GameLogic gameLogic = null;
+        protected LevelStats _stats = null;
+        public LevelStats Stats { get => _stats; }
+
         protected abstract void SetUp();
         protected virtual void CleanUp() { }
-        protected abstract bool WinCondition();
 
         private void Start()
         {
             systemsRoot = GameSystemsRoot.Instance;
+            gameLogic = GameLogic.Instance;
+            _stats = new LevelStats();
             SetUp();
         }
 

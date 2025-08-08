@@ -58,6 +58,7 @@ namespace Depthcharge.Actors
         [SerializeField]
         [Range(1.0f, 100.0f)]
         private float scorePoints = 1.0f;
+        public float ScorePoints { get => scorePoints; }
 
         [Header("_SHOOT SETTINGS")]
 

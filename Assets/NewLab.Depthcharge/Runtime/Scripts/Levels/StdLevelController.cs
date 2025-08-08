@@ -8,27 +8,15 @@ namespace Depthcharge.LevelManagement
 
     public class StdLevelController : BaseLevelController
     {
-
         // Inherited members
+        // --------------------------------------------
         // protected GameSystemsRoot systemsRoot = null;
-
-        [SerializeField]
-        private LevelConfiguration _configuration = null;
-
-        private int levelNumber = 0;
-
-        private int enemiesDefeated = 0;
-        private int enemiesSpawned = 0;
-        private int activeEnemies = 0;
-        private int enemiesMissed = 0;
-
-        [SerializeField]
-        [Range(1, 100)]
-        private int enemiesToDefeat = 1;
-
+        // protected GameLogic gameLogic = null;
+        // protected LevelStats stats = null;
+        // --------------------------------------------
+        private LevelConfiguration configuration = null;
+        private BaseWinStrategy selectedWinStrategy = null;
         private List<EnemySpawner> enemySpawners = null;
-        private List<EnemyProvider> enemyProviders = null;
-        private List<EnemyController> enemies = null;
 
         [SerializeField]
         private EnemySpawnerProvider leftESP = null;
@@ -38,25 +26,35 @@ namespace Depthcharge.LevelManagement
 
         protected override void SetUp()
         {
-            SetUpEnemies();
+            _stats = new LevelStats();
+            int randomIndex = Random.Range(0, configuration.WinStrategies.Count);
+            selectedWinStrategy = configuration.WinStrategies[randomIndex];
+            gameLogic.IncreaseCurrentLevelNumber();
+            configuration = gameLogic.GetLevelConfiguration();
+            SetUpEnemySpawners();
             AddListeners();
         }
-
-        private void SetUpEnemies()
+        protected override void CleanUp()
         {
-            enemiesToDefeat = _configuration.EnemyToDefeat;
+            RemoveListeners();
+            foreach (EnemySpawner spawner in enemySpawners) 
+                spawner.CleanUp();
+        }
+
+        private void SetUpEnemySpawners()
+        {
             enemySpawners = new List<EnemySpawner>();
-            enemyProviders = new List<EnemyProvider>();
-            enemies = new List<EnemyController>();
             bool reversedPositions = ReverseSpawnersPosition();
-            leftESP.SetUp(_configuration, reversedPositions ? MovementDirection.Left : MovementDirection.Right);
-            rightESP.SetUp(_configuration, reversedPositions ? MovementDirection.Right : MovementDirection.Left);
+            leftESP.SetUp(
+                configuration, 
+                reversedPositions ? MovementDirection.Left : MovementDirection.Right
+                );
+            rightESP.SetUp(
+                configuration, 
+                reversedPositions ? MovementDirection.Right : MovementDirection.Left
+                );
             enemySpawners.AddRange(leftESP.Spawners);
             enemySpawners.AddRange(rightESP.Spawners);
-            enemyProviders.AddRange(leftESP.Providers);
-            enemyProviders.AddRange(rightESP.Providers);
-            enemies.AddRange(leftESP.Enemies);
-            enemies.AddRange(rightESP.Enemies);
         }
 
         private bool ReverseSpawnersPosition()
@@ -72,99 +70,60 @@ namespace Depthcharge.LevelManagement
             return false;
         }
 
-        private void SetLevelNumber()
-        {
-
-        }
-
-        private void SetLevelConfiguration()
-        {
-
-        }
-
-        protected override void CleanUp()
-        {
-            RemoveListeners();
-            foreach (EnemySpawner spawner in enemySpawners) 
-                spawner.CleanUp();
-        }
+        #region Events
 
         private void AddListeners()
         {
-
             foreach (EnemySpawner spawner in enemySpawners)
             {
                 spawner.OnSpawnEnemy += OnSpawnEnemy;
+                foreach (EnemyProvider provider in spawner.Providers)
+                    foreach (EnemyController enemy in provider.Enemies)
+                    {
+                        enemy.HealthModule.OnDeath += delegate { OnDefeatEnemy(enemy); };
+                        enemy.OnDeactivation += OnDeactivateEnemy;
+                    }
             }
-            //foreach (EnemyProvider provider in enemyProviders)
-            //{
-            //    foreach (EnemyController enemy in provider.Enemies)
-            //    {
-            //        enemy.HealthModule.OnDeath += OnDefeatEnemy;
-            //        enemy.OnDeactivation += OnDeactivateEnemy;
-            //    }
-            //}
-            foreach (EnemyController enemy in enemies)
-            {
-                enemy.HealthModule.OnDeath += OnDefeatEnemy;
-                enemy.OnDeactivation += OnDeactivateEnemy;
-            }
-
         }
         private void RemoveListeners()
         {
-
             foreach (EnemySpawner spawner in enemySpawners)
             {
                 spawner.OnSpawnEnemy -= OnSpawnEnemy;
+                foreach (EnemyProvider provider in spawner.Providers)
+                    foreach (EnemyController enemy in provider.Enemies)
+                    {
+                        enemy.HealthModule.OnDeath -= delegate { OnDefeatEnemy(enemy); };
+                        enemy.OnDeactivation -= OnDeactivateEnemy;
+                    }
             }
-            //foreach (EnemyProvider provider in enemyProviders)
-            //{
-            //    foreach (EnemyController enemy in provider.Enemies)
-            //    {
-            //        enemy.HealthModule.OnDeath -= OnDefeatEnemy;
-            //        enemy.OnDeactivation -= OnDeactivateEnemy;
-            //    }
-            //}
-            foreach (EnemyController enemy in enemies)
-            {
-                enemy.HealthModule.OnDeath -= OnDefeatEnemy;
-                enemy.OnDeactivation -= OnDeactivateEnemy;
-            }
-        }
-
-
-        private void OnDeactivateEnemy(EnemyController enemy)
-        {
-            activeEnemies--;
         }
 
         private void OnSpawnEnemy()
         {
-            enemiesSpawned++;
-            activeEnemies++;
+            _stats.IncreaseEnemiesSpawned();
+            _stats.IncreaseActiveEnemies();
         }
 
-        private void OnDefeatEnemy()
+        private void OnDeactivateEnemy(EnemyController enemy)
         {
-            enemiesDefeated++;
-            Debug.Log($"Enemies defeated {enemiesDefeated}");
-            if (WinCondition())
+            _stats.DecreaseActiveEnemies();
+        }
+        private void OnDefeatEnemy(EnemyController enemy)
+        {
+            _stats.IncreaseEnemiesDefeated();
+            _stats.IncreaseScore(enemy.ScorePoints);
+            if (selectedWinStrategy.WinLevelCondition(this))
             {
-                activeEnemies--;
-                enemiesMissed = enemiesSpawned - enemiesDefeated - activeEnemies;
-                Debug.Log($"Enemies spawned {enemiesSpawned}");
-                Debug.Log($"Enemies defeated {enemiesDefeated}");
-                Debug.Log($"Active enemies {activeEnemies}");
-                Debug.Log($"Enemies missed {enemiesMissed}");
+                _stats.DecreaseActiveEnemies();
+                Debug.Log($"Enemies missed: {Stats.EnemiesMissed}");
                 Time.timeScale = 0;
+                //activeEnemies--;
+                // enemiesMissed = enemiesSpawned - EnemiesDefeated - activeEnemies;
             }
         }
 
-        protected override bool WinCondition()
-        {
-            return enemiesDefeated == enemiesToDefeat;
-        }
+        #endregion
 
     }
 
