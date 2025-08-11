@@ -1,6 +1,6 @@
+using Depthcharge.Actors.Modules;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Depthcharge.Actors.Modules;
 
 namespace Depthcharge.Actors
 {
@@ -8,6 +8,8 @@ namespace Depthcharge.Actors
     [DisallowMultipleComponent]
     public class PlayerController : MonoBehaviour
     {
+
+        #region Modules
 
         [SerializeField]
         private InputModule _inputModule = null;
@@ -25,38 +27,22 @@ namespace Depthcharge.Actors
         private ShootModule _shootModule = null;
         public ShootModule ShootModule { get => _shootModule; }
 
+        #endregion
 
         private void Start()
         {
-
             _inputModule.SetUpModule();
             _movementModule.SetUpModule();
             _healthModule.SetUpModule();
             _shootModule.SetUpModule();
             _inputModule.SubscribeOnShoot(OnPressShootButton);
-
         }
-
         private void OnDestroy()
         {
-
             _inputModule.UnsubscribeFromShoot(OnPressShootButton);
-
         }
-
-        private void OnPressShootButton(InputAction.CallbackContext context)
-        {
-            _shootModule.Shoot();
-        }
-
-        //[SerializeField]
-        //private BaseBulletFactory bulletFactory = null;
-        //private float counter = 20f;
-        //private bool decreaseCounter = false;
-
         private void Update()
         {
-
             float movementInput = _inputModule.GetMovementInput();
             Vector2 direction = new Vector2(movementInput, 0);
             _movementModule.MoveTarget(direction);
@@ -90,7 +76,11 @@ namespace Depthcharge.Actors
             //}
 
             #endregion
+        }
 
+        private void OnPressShootButton(InputAction.CallbackContext context)
+        {
+            _shootModule.Shoot();
         }
 
     }

@@ -1,3 +1,4 @@
+using Depthcharge.UI;
 using UnityEngine;
 
 namespace Depthcharge.GameManagement
@@ -11,7 +12,9 @@ namespace Depthcharge.GameManagement
 
         #region Systems
 
-
+        [SerializeField]
+        private UISystem _UISystem = null;
+        public UISystem UISystem { get => _UISystem; }
 
         #endregion
 

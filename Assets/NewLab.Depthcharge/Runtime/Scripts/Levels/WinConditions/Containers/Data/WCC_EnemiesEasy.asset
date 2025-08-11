@@ -9,7 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bca5776e36a04304b94959430010a689, type: 3}
-  m_Name: WS_EnemiesDefeatedRandom
+  m_Script: {fileID: 11500000, guid: b6e816a4406087243a9845e48d5d3f87, type: 3}
+  m_Name: WCC_EnemiesEasy
   m_EditorClassIdentifier: 
-  enemiesToDefeat: -1
+  _strategy: {fileID: 11400000, guid: 6a08ac1320ac7474ba8c867765a20f3b, type: 2}
+  _description: enemies
+  _image: {fileID: 21300000, guid: a7d62e91ac45292499f56e9085c014eb, type: 3}

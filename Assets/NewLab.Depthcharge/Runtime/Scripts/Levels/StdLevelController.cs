@@ -15,22 +15,28 @@ namespace Depthcharge.LevelManagement
         // protected LevelStats stats = null;
         // --------------------------------------------
         private LevelConfiguration configuration = null;
-        private BaseWinStrategy selectedWinStrategy = null;
+        private WinConditionContainer selectedWinCondition = null;
         private List<EnemySpawner> enemySpawners = null;
 
+        [SerializeField]
+        private PlayerController player = null;
         [SerializeField]
         private EnemySpawnerProvider leftESP = null;
         [SerializeField]
         private EnemySpawnerProvider rightESP = null;
 
-
         protected override void SetUp()
         {
             _stats = new LevelStats();
-            int randomIndex = Random.Range(0, configuration.WinStrategies.Count);
-            selectedWinStrategy = configuration.WinStrategies[randomIndex];
-            gameLogic.IncreaseCurrentLevelNumber();
+            systemsRoot.UISystem.SetScoreText(_stats.Score.ToString());
             configuration = gameLogic.GetLevelConfiguration();
+            int levelNumber = gameLogic.IncreaseCurrentLevelNumber();
+            systemsRoot.UISystem.SetLevelText(levelNumber.ToString());
+            int randomIndex = Random.Range(0, configuration.WinCondition.Count);
+            selectedWinCondition = configuration.WinCondition[randomIndex];
+            systemsRoot.UISystem.SetWinConditionText(configuration.Difficulty, selectedWinCondition.Description);
+            systemsRoot.UISystem.SetEnemiesText(_stats.EnemiesDefeated.ToString());
+            systemsRoot.UISystem.InitAmmoImages(player.ShootModule.PoolSize);
             SetUpEnemySpawners();
             AddListeners();
         }
@@ -39,6 +45,7 @@ namespace Depthcharge.LevelManagement
             RemoveListeners();
             foreach (EnemySpawner spawner in enemySpawners) 
                 spawner.CleanUp();
+            // player.CleanUp();
         }
 
         private void SetUpEnemySpawners()
@@ -84,6 +91,9 @@ namespace Depthcharge.LevelManagement
                         enemy.OnDeactivation += OnDeactivateEnemy;
                     }
             }
+
+            player.ShootModule.OnShoot += OnPlayerShoot;
+            player.ShootModule.OnReload += OnPlayerReload;
         }
         private void RemoveListeners()
         {
@@ -97,6 +107,19 @@ namespace Depthcharge.LevelManagement
                         enemy.OnDeactivation -= OnDeactivateEnemy;
                     }
             }
+
+            player.ShootModule.OnShoot -= OnPlayerShoot;
+            player.ShootModule.OnReload -= OnPlayerReload;
+        }
+
+        private void OnPlayerShoot()
+        {
+            systemsRoot.UISystem.DisableAmmoImage();
+        }
+
+        private void OnPlayerReload()
+        {
+            systemsRoot.UISystem.EnableAllAmmoImages();
         }
 
         private void OnSpawnEnemy()
@@ -113,7 +136,9 @@ namespace Depthcharge.LevelManagement
         {
             _stats.IncreaseEnemiesDefeated();
             _stats.IncreaseScore(enemy.ScorePoints);
-            if (selectedWinStrategy.WinLevelCondition(this))
+            systemsRoot.UISystem.SetScoreText(_stats.Score.ToString());
+            systemsRoot.UISystem.SetEnemiesText(_stats.EnemiesDefeated.ToString());
+            if (selectedWinCondition.Strategy.WinLevelCondition(this))
             {
                 _stats.DecreaseActiveEnemies();
                 Debug.Log($"Enemies missed: {Stats.EnemiesMissed}");
@@ -122,6 +147,11 @@ namespace Depthcharge.LevelManagement
                 // enemiesMissed = enemiesSpawned - EnemiesDefeated - activeEnemies;
             }
         }
+
+        //private void Update()
+        //{
+        //    player.UpdatePlayer();
+        //}
 
         #endregion
 

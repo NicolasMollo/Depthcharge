@@ -7,13 +7,9 @@ namespace Depthcharge.LevelManagement
     public class WS_EnemiesDefeated : BaseWinStrategy
     {
 
-        [SerializeField]
-        [Range(-1, 50)]
-        private int enemiesToDefeat = 1;
-
         public override bool WinLevelCondition(BaseLevelController levelController)
         {
-            return levelController.Stats.EnemiesDefeated == enemiesToDefeat;
+            return levelController.Stats.EnemiesDefeated == _numberToCompare;
         }
 
     }

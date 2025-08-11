@@ -37,6 +37,7 @@ namespace Depthcharge.Actors.Modules
 
         [SerializeField]
         private int poolSize = 0;
+        public int PoolSize { get => poolSize; }
 
         [SerializeField]
         private bool reloadAutomatically = false;

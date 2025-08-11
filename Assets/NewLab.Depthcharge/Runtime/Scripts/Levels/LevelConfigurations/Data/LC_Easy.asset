@@ -13,10 +13,8 @@ MonoBehaviour:
   m_Name: LC_Easy
   m_EditorClassIdentifier: 
   _difficulty: 0
+  _winCondition:
+  - {fileID: 11400000, guid: 7325dda85b2ee2949a552d1d89e6205f, type: 2}
+  - {fileID: 11400000, guid: 1cbc41f21f0ece6489782fdefc56ba6b, type: 2}
   _minEnemySpawnDelay: 15
   _maxEnemySpawnDelay: 30
-  _enemyToDefeat: 10
-  _scoreToReach: 100
-  _winStrategies:
-  - {fileID: 11400000, guid: 6a08ac1320ac7474ba8c867765a20f3b, type: 2}
-  - {fileID: 11400000, guid: e81357d0277e2864c974282f8091fe78, type: 2}

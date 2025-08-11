@@ -15,8 +15,8 @@ namespace Depthcharge.LevelManagement
         public LevelDifficulty Difficulty { get => _difficulty; }
 
         [SerializeField]
-        private List<BaseWinStrategy> _winStrategies = null;
-        public List<BaseWinStrategy> WinStrategies { get => _winStrategies; }
+        private List<WinConditionContainer> _winCondition = null;
+        public List<WinConditionContainer> WinCondition { get => _winCondition; }
 
         [SerializeField]
         private float _minEnemySpawnDelay = 1.0f;
