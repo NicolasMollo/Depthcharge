@@ -49,7 +49,8 @@ namespace Depthcharge.Actors.Modules
         #endregion
 
         public Action OnShoot = null;
-        public Action OnReload = null;
+        public Action<bool> OnStartReload = null;
+        public Action OnReloaded = null;
         public Action OnChangeBullets = null;
 
 
@@ -87,10 +88,11 @@ namespace Depthcharge.Actors.Modules
         public void Reload()
         {
 
+            OnStartReload?.Invoke(_isReloading);
             _isReloading = true;
             ResetBulletsTransform();
             bulletsShooted = 0;
-            OnReload?.Invoke();
+            OnReloaded?.Invoke();
             _isReloading = !_isReloading;
 
         }
@@ -144,10 +146,11 @@ namespace Depthcharge.Actors.Modules
 
             _isReloading = true;
             yield return new WaitUntil(AreBulletsDisabled);
+            OnStartReload?.Invoke(_isReloading);
             yield return new WaitForSeconds(delay);
             ResetBulletsTransform();
             bulletsShooted = 0;
-            OnReload?.Invoke();
+            OnReloaded?.Invoke();
             _isReloading = !_isReloading;
 
         }

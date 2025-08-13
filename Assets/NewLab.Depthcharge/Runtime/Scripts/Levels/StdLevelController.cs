@@ -37,6 +37,7 @@ namespace Depthcharge.LevelManagement
             systemsRoot.UISystem.SetWinConditionText(configuration.Difficulty, selectedWinCondition.Description);
             systemsRoot.UISystem.SetEnemiesText(_stats.EnemiesDefeated.ToString());
             systemsRoot.UISystem.InitAmmoImages(player.ShootModule.PoolSize);
+            systemsRoot.UISystem.SetReloadBar(player.ShootModule.PoolSize);
             SetUpEnemySpawners();
             AddListeners();
         }
@@ -93,7 +94,8 @@ namespace Depthcharge.LevelManagement
             }
 
             player.ShootModule.OnShoot += OnPlayerShoot;
-            player.ShootModule.OnReload += OnPlayerReload;
+            player.ShootModule.OnStartReload += OnPlayerStartReload;
+            player.ShootModule.OnReloaded += OnPlayerReloaded;
         }
         private void RemoveListeners()
         {
@@ -109,17 +111,24 @@ namespace Depthcharge.LevelManagement
             }
 
             player.ShootModule.OnShoot -= OnPlayerShoot;
-            player.ShootModule.OnReload -= OnPlayerReload;
+            player.ShootModule.OnStartReload -= OnPlayerStartReload;
+            player.ShootModule.OnReloaded -= OnPlayerReloaded;
         }
 
         private void OnPlayerShoot()
         {
-            systemsRoot.UISystem.DisableAmmoImage();
+            // systemsRoot.UISystem.DisableAmmoImage();
+            systemsRoot.UISystem.AddAmmoImageTransparency();
         }
-
-        private void OnPlayerReload()
+        private void OnPlayerStartReload(bool isReloading)
         {
-            systemsRoot.UISystem.EnableAllAmmoImages();
+            systemsRoot.UISystem.DecreaseReloadBar(player.ShootModule.ReloadTime);
+        }
+        private void OnPlayerReloaded()
+        {
+            // systemsRoot.UISystem.EnableAllAmmoImages();
+            systemsRoot.UISystem.RemoveAmmoImagesTransparency();
+            systemsRoot.UISystem.ResetReloadBar();
         }
 
         private void OnSpawnEnemy()
