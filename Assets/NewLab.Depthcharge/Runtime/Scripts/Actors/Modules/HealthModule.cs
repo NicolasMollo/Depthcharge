@@ -18,6 +18,11 @@ namespace Depthcharge.Actors.Modules
             set => _health = value;
         }
 
+        public float HealthPercentage
+        {
+            get => Health / maxHealth;
+        }
+
         public Action<float> OnTakeDamage = null;
         public Action<float> OnTakeHealth = null;
         public Action OnDeath = null;

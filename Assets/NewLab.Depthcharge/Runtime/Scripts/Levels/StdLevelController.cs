@@ -28,6 +28,7 @@ namespace Depthcharge.LevelManagement
         protected override void SetUp()
         {
             _stats = new LevelStats();
+            player.SetUp();
             systemsRoot.UISystem.SetScoreText(_stats.Score.ToString());
             configuration = gameLogic.GetLevelConfiguration();
             int levelNumber = gameLogic.IncreaseCurrentLevelNumber();
@@ -38,6 +39,8 @@ namespace Depthcharge.LevelManagement
             systemsRoot.UISystem.SetEnemiesText(_stats.EnemiesDefeated.ToString());
             systemsRoot.UISystem.InitAmmoImages(player.ShootModule.PoolSize);
             systemsRoot.UISystem.SetReloadBar(player.ShootModule.PoolSize);
+            systemsRoot.UISystem.SetUpHealthBar();
+            systemsRoot.UISystem.SetHealthBarWidth(player.HealthModule.HealthPercentage);
             SetUpEnemySpawners();
             AddListeners();
         }
@@ -46,7 +49,7 @@ namespace Depthcharge.LevelManagement
             RemoveListeners();
             foreach (EnemySpawner spawner in enemySpawners) 
                 spawner.CleanUp();
-            // player.CleanUp();
+            player.CleanUp();
         }
 
         private void SetUpEnemySpawners()
@@ -96,6 +99,8 @@ namespace Depthcharge.LevelManagement
             player.ShootModule.OnShoot += OnPlayerShoot;
             player.ShootModule.OnStartReload += OnPlayerStartReload;
             player.ShootModule.OnReloaded += OnPlayerReloaded;
+            player.HealthModule.OnTakeDamage += OnPlayerTakeDamage;
+            player.HealthModule.OnTakeHealth += OnPlayerTakeHealth;
         }
         private void RemoveListeners()
         {
@@ -113,6 +118,17 @@ namespace Depthcharge.LevelManagement
             player.ShootModule.OnShoot -= OnPlayerShoot;
             player.ShootModule.OnStartReload -= OnPlayerStartReload;
             player.ShootModule.OnReloaded -= OnPlayerReloaded;
+            player.HealthModule.OnTakeDamage -= OnPlayerTakeDamage;
+            player.HealthModule.OnTakeHealth -= OnPlayerTakeHealth;
+        }
+
+        private void OnPlayerTakeDamage(float damage)
+        {
+            systemsRoot.UISystem.SetHealthBarWidth(player.HealthModule.HealthPercentage);
+        }
+        private void OnPlayerTakeHealth(float health)
+        {
+            systemsRoot.UISystem.SetHealthBarWidth(player.HealthModule.HealthPercentage);
         }
 
         private void OnPlayerShoot()

@@ -29,7 +29,7 @@ namespace Depthcharge.Actors
 
         #endregion
 
-        private void Start()
+        public void SetUp()
         {
             _inputModule.SetUpModule();
             _movementModule.SetUpModule();
@@ -37,10 +37,22 @@ namespace Depthcharge.Actors
             _shootModule.SetUpModule();
             _inputModule.SubscribeOnShoot(OnPressShootButton);
         }
-        private void OnDestroy()
+        public void CleanUp()
         {
             _inputModule.UnsubscribeFromShoot(OnPressShootButton);
         }
+        //private void Start()
+        //{
+        //    _inputModule.SetUpModule();
+        //    _movementModule.SetUpModule();
+        //    _healthModule.SetUpModule();
+        //    _shootModule.SetUpModule();
+        //    _inputModule.SubscribeOnShoot(OnPressShootButton);
+        //}
+        //private void OnDestroy()
+        //{
+        //    _inputModule.UnsubscribeFromShoot(OnPressShootButton);
+        //}
         private void Update()
         {
             float movementInput = _inputModule.GetMovementInput();

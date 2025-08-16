@@ -30,6 +30,11 @@ namespace Depthcharge.UI
         [SerializeField]
         private Image reloadBar = null;
         private Vector2 reloadBarStartSize = default;
+        [SerializeField]
+        private Image healthBar = null;
+        [SerializeField]
+        private float healthBarFixedWidth = 10.0f;
+        private float healthBarStartWidth = 1.0f;
 
         [SerializeField]
         [Range(5, 10)]
@@ -39,8 +44,35 @@ namespace Depthcharge.UI
         private string levelTextRoot = string.Empty;
 
 
-
         #region API
+
+        public void SetUpHealthBar()
+        {
+            const float START_HEALTH_PERCENTAGE = 1.0f;
+            healthBarStartWidth = START_HEALTH_PERCENTAGE * healthBarFixedWidth;
+        }
+
+        public void SetHealthBarWidth(float healthPercentage)
+        {
+            float calculatedWidth = healthPercentage * healthBarFixedWidth;
+            healthBar.rectTransform.sizeDelta = new Vector2(calculatedWidth, healthBar.rectTransform.sizeDelta.y);
+            SetHealthBarColor(healthBar.rectTransform.sizeDelta.x);
+        }
+
+        private void SetHealthBarColor(float currentWidth)
+        {
+            const float MID_HEALTH_PERCENTAGE = 50.0f;
+            const float LOW_HEALTH_PERCENTAGE = 15.0f;
+            float yellowLimit = healthBarStartWidth * MID_HEALTH_PERCENTAGE * 0.01f;
+            float redLimit = healthBarStartWidth * LOW_HEALTH_PERCENTAGE * 0.01f;
+
+            if (currentWidth > yellowLimit)
+                healthBar.color = Color.green;
+            else if (currentWidth > redLimit && currentWidth <= yellowLimit)
+                healthBar.color = Color.yellow;
+            else
+                healthBar.color = Color.red;
+        }
 
         public void DecreaseReloadBar(float time)
         {
@@ -55,7 +87,6 @@ namespace Depthcharge.UI
                 timeElapsed += Time.deltaTime;
                 scaleX = Mathf.Lerp(reloadBarStartSize.x, 0, timeElapsed / time);
                 image.rectTransform.sizeDelta = new Vector2(scaleX, image.rectTransform.sizeDelta.y);
-                // image.transform.localScale = new Vector2(scaleX, image.transform.localScale.y);
                 yield return null;
             }
         }
@@ -67,8 +98,8 @@ namespace Depthcharge.UI
         public void SetReloadBar(int ammoNumber)
         {
             HorizontalLayoutGroup layout = ammoContainer.GetComponent<HorizontalLayoutGroup>();
-            RectTransform prefabAmmoRectTransform = prefabAmmoImage.GetComponent<RectTransform>();
-            float offsetX = (prefabAmmoRectTransform.sizeDelta.x * ammoNumber) + (layout.spacing * (ammoNumber - 1));
+            RectTransform rect = prefabAmmoImage.GetComponent<RectTransform>();
+            float offsetX = (rect.sizeDelta.x * ammoNumber) + (layout.spacing * (ammoNumber - 1));
             reloadBar.rectTransform.sizeDelta = new Vector2(offsetX, reloadBar.rectTransform.sizeDelta.y);
             reloadBarStartSize = reloadBar.rectTransform.sizeDelta;
         }
