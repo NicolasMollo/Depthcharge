@@ -16,6 +16,10 @@ namespace Depthcharge.GameManagement
         private UISystem _UISystem = null;
         public UISystem UISystem { get => _UISystem; }
 
+        [SerializeField]
+        private SceneManagementSystem _sceneSystem = null;
+        public SceneManagementSystem SceneSystem { get => _sceneSystem; }
+
         #endregion
 
         private void Awake()
