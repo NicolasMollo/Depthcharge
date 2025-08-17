@@ -614,8 +614,9 @@ GameObject:
   m_Component:
   - component: {fileID: 393133454}
   - component: {fileID: 393133455}
+  - component: {fileID: 393133456}
   m_Layer: 0
-  m_Name: === PlayerAmmoContainer ===
+  m_Name: Ammo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -666,6 +667,21 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 1
+--- !u!114 &393133456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 393133453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9be299c11a64378499cb1661685bf402, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabAmmo: {fileID: 8627509770462349996, guid: d80fd07f0ddfc5946a3eb092885d1f46, type: 3}
+  ammoContainer: {fileID: 393133454}
+  ammoTransparency: 0.25
 --- !u!1 &396258825
 GameObject:
   m_ObjectHideFlags: 0
@@ -1072,6 +1088,7 @@ GameObject:
   - component: {fileID: 644397315}
   - component: {fileID: 644397314}
   - component: {fileID: 644397313}
+  - component: {fileID: 644397316}
   m_Layer: 0
   m_Name: GameSceneCanvas
   m_TagString: Untagged
@@ -1167,6 +1184,29 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &644397316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 644397311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: feeea578e09d9044b9ec8a96b0c297ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthBar: {fileID: 1848553502}
+  ammo: {fileID: 393133456}
+  reloadBar: {fileID: 1036276729}
+  scoreText: {fileID: 1224125508}
+  winConditionText: {fileID: 396258827}
+  enemiesText: {fileID: 1534931783}
+  levelText: {fileID: 1315102962}
+  scoreTextZeros: 6
+  levelTextRoot: Level
+  ammoTransparency: 1
+  healthBarWidth: 0
 --- !u!1 &685497235
 GameObject:
   m_ObjectHideFlags: 0
@@ -1299,6 +1339,7 @@ GameObject:
   - component: {fileID: 1036276726}
   - component: {fileID: 1036276728}
   - component: {fileID: 1036276727}
+  - component: {fileID: 1036276729}
   m_Layer: 0
   m_Name: ReloadBar
   m_TagString: Untagged
@@ -1363,6 +1404,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1036276725}
   m_CullTransparentMesh: 1
+--- !u!114 &1036276729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1036276725}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84c3a01cf841b5646bc39bfa20283d42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  reloadBar: {fileID: 1036276727}
+  ammoContainer: {fileID: 393133454}
+  prefabAmmoImage: {fileID: 8627509770462349996, guid: d80fd07f0ddfc5946a3eb092885d1f46, type: 3}
 --- !u!1 &1064534272
 GameObject:
   m_ObjectHideFlags: 0
@@ -2658,6 +2714,7 @@ GameObject:
   - component: {fileID: 1848553499}
   - component: {fileID: 1848553501}
   - component: {fileID: 1848553500}
+  - component: {fileID: 1848553502}
   m_Layer: 0
   m_Name: HealthBar
   m_TagString: Untagged
@@ -2722,6 +2779,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1848553498}
   m_CullTransparentMesh: 1
+--- !u!114 &1848553502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1848553498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1b7b03cf2d549c4e95a304efe2eb825, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthBar: {fileID: 1848553500}
+  fixedWidth: 50
 --- !u!1 &1865808740
 GameObject:
   m_ObjectHideFlags: 0
@@ -2768,18 +2839,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f64169bdc9fd534488c40ccc9547fa2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoreText: {fileID: 1224125508}
-  winConditionText: {fileID: 396258827}
-  enemiesText: {fileID: 1534931783}
-  levelText: {fileID: 1315102962}
-  ammoContainer: {fileID: 393133454}
-  prefabAmmoImage: {fileID: 8627509770462349996, guid: d80fd07f0ddfc5946a3eb092885d1f46, type: 3}
-  imagesAlphaValue: 0.25
-  reloadBar: {fileID: 1036276727}
-  healthBar: {fileID: 1848553500}
-  healthBarFixedWidth: 50
-  scoreTextZeros: 6
-  levelTextRoot: level
+  _gameUI: {fileID: 644397316}
 --- !u!1 &1871618588
 GameObject:
   m_ObjectHideFlags: 0

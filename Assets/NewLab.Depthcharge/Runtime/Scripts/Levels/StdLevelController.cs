@@ -29,18 +29,15 @@ namespace Depthcharge.LevelManagement
         {
             _stats = new LevelStats();
             player.SetUp();
-            systemsRoot.UISystem.SetScoreText(_stats.Score.ToString());
+            systemsRoot.UISystem.GameUI.SetUp(player.HealthModule.HealthPercentage, player.ShootModule.PoolSize);
+            systemsRoot.UISystem.GameUI.SetScoreText(_stats.Score.ToString());
             configuration = gameLogic.GetLevelConfiguration();
             int levelNumber = gameLogic.IncreaseCurrentLevelNumber();
-            systemsRoot.UISystem.SetLevelText(levelNumber.ToString());
+            systemsRoot.UISystem.GameUI.SetLevelText(levelNumber.ToString());
             int randomIndex = Random.Range(0, configuration.WinCondition.Count);
             selectedWinCondition = configuration.WinCondition[randomIndex];
-            systemsRoot.UISystem.SetWinConditionText(configuration.Difficulty, selectedWinCondition.Description);
-            systemsRoot.UISystem.SetEnemiesText(_stats.EnemiesDefeated.ToString());
-            systemsRoot.UISystem.InitAmmoImages(player.ShootModule.PoolSize);
-            systemsRoot.UISystem.SetReloadBar(player.ShootModule.PoolSize);
-            systemsRoot.UISystem.SetUpHealthBar();
-            systemsRoot.UISystem.SetHealthBarWidth(player.HealthModule.HealthPercentage);
+            systemsRoot.UISystem.GameUI.SetWinConditionText(configuration.Difficulty, selectedWinCondition.Description);
+            systemsRoot.UISystem.GameUI.SetEnemiesText(_stats.EnemiesDefeated.ToString());
             SetUpEnemySpawners();
             AddListeners();
         }
@@ -124,27 +121,25 @@ namespace Depthcharge.LevelManagement
 
         private void OnPlayerTakeDamage(float damage)
         {
-            systemsRoot.UISystem.SetHealthBarWidth(player.HealthModule.HealthPercentage);
+            systemsRoot.UISystem.GameUI.UpdateHealthBar(player.HealthModule.HealthPercentage);
         }
         private void OnPlayerTakeHealth(float health)
         {
-            systemsRoot.UISystem.SetHealthBarWidth(player.HealthModule.HealthPercentage);
+            systemsRoot.UISystem.GameUI.UpdateHealthBar(player.HealthModule.HealthPercentage);
         }
 
         private void OnPlayerShoot()
         {
-            // systemsRoot.UISystem.DisableAmmoImage();
-            systemsRoot.UISystem.AddAmmoImageTransparency();
+            systemsRoot.UISystem.GameUI.AddAmmoTransparency();
         }
         private void OnPlayerStartReload(bool isReloading)
         {
-            systemsRoot.UISystem.DecreaseReloadBar(player.ShootModule.ReloadTime);
+            systemsRoot.UISystem.GameUI.DecreaseReloadBar(player.ShootModule.ReloadTime);
         }
         private void OnPlayerReloaded()
         {
-            // systemsRoot.UISystem.EnableAllAmmoImages();
-            systemsRoot.UISystem.RemoveAmmoImagesTransparency();
-            systemsRoot.UISystem.ResetReloadBar();
+            systemsRoot.UISystem.GameUI.RemoveAmmoTransparency();
+            systemsRoot.UISystem.GameUI.ResetReloadBar();
         }
 
         private void OnSpawnEnemy()
@@ -161,22 +156,15 @@ namespace Depthcharge.LevelManagement
         {
             _stats.IncreaseEnemiesDefeated();
             _stats.IncreaseScore(enemy.ScorePoints);
-            systemsRoot.UISystem.SetScoreText(_stats.Score.ToString());
-            systemsRoot.UISystem.SetEnemiesText(_stats.EnemiesDefeated.ToString());
+            systemsRoot.UISystem.GameUI.SetScoreText(_stats.Score.ToString());
+            systemsRoot.UISystem.GameUI.SetEnemiesText(_stats.EnemiesDefeated.ToString());
             if (selectedWinCondition.Strategy.WinLevelCondition(this))
             {
                 _stats.DecreaseActiveEnemies();
                 Debug.Log($"Enemies missed: {Stats.EnemiesMissed}");
                 Time.timeScale = 0;
-                //activeEnemies--;
-                // enemiesMissed = enemiesSpawned - EnemiesDefeated - activeEnemies;
             }
         }
-
-        //private void Update()
-        //{
-        //    player.UpdatePlayer();
-        //}
 
         #endregion
 
