@@ -31,8 +31,8 @@ namespace Depthcharge.LevelManagement
             player.SetUp();
             systemsRoot.UISystem.GameUI.SetUp(player.HealthModule.HealthPercentage, player.ShootModule.PoolSize);
             systemsRoot.UISystem.GameUI.SetScoreText(_stats.Score.ToString());
-            configuration = gameLogic.GetLevelConfiguration();
             int levelNumber = gameLogic.IncreaseCurrentLevelNumber();
+            configuration = gameLogic.GetLevelConfiguration();
             systemsRoot.UISystem.GameUI.SetLevelText(levelNumber.ToString());
             int randomIndex = Random.Range(0, configuration.WinCondition.Count);
             selectedWinCondition = configuration.WinCondition[randomIndex];

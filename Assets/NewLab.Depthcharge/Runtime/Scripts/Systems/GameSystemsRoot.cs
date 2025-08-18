@@ -1,3 +1,4 @@
+using Depthcharge.SceneManagement;
 using Depthcharge.UI;
 using UnityEngine;
 
@@ -26,6 +27,7 @@ namespace Depthcharge.GameManagement
         {
             SetSingleton();
             DontDestroyOnLoad(this.gameObject);
+            SetUp();
         }
 
         private void SetSingleton()
@@ -34,6 +36,11 @@ namespace Depthcharge.GameManagement
                 Instance = this;
             else
                 Destroy(this.gameObject);
+        }
+
+        private void SetUp()
+        {
+            _sceneSystem.SetUp();
         }
 
     }
