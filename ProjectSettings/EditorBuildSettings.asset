@@ -6,10 +6,16 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/NewLab.Depthcharge/!Scenes/Depthcharge_TestScene.unity
+    path: Assets/NewLab.Depthcharge/!Scenes/StartScene.unity
+    guid: 676ee2dd4395cf94a81695a7d365e35d
+  - enabled: 1
+    path: Assets/NewLab.Depthcharge/!Scenes/CampaignGameScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
-    path: Assets/NewLab.Depthcharge/!Scenes/Depthcharge_StartScene.unity
-    guid: 676ee2dd4395cf94a81695a7d365e35d
+    path: Assets/NewLab.Depthcharge/!Scenes/SurvivalGameScene.unity
+    guid: 753a4e9e7e76fdd4fa625f001f573c48
+  - enabled: 1
+    path: Assets/NewLab.Depthcharge/!Scenes/BossGameScene.unity
+    guid: 10800491cb162394688cafba15070b0f
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 47d7ba6a6b57c1544ae5715c8d135270, type: 3}

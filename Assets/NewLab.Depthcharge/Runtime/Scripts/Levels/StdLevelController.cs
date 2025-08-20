@@ -27,7 +27,7 @@ namespace Depthcharge.LevelManagement
 
         protected override void SetUp()
         {
-            _stats = new LevelStats();
+            base.SetUp();
             player.SetUp();
             systemsRoot.UISystem.GameUI.SetUp(player.HealthModule.HealthPercentage, player.ShootModule.PoolSize);
             systemsRoot.UISystem.GameUI.SetScoreText(_stats.Score.ToString());

@@ -53,6 +53,10 @@ namespace Depthcharge.UI
             ammo.SetUp(ammoCount, ammoTransparency);
             reloadBar.SetUp(ammoCount);
         }
+        public void CleanUp()
+        {
+
+        }
 
         public void UpdateHealthBar(float healthPercentage)
         {
