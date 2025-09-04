@@ -13,9 +13,6 @@ MonoBehaviour:
   m_Name: LC_Random
   m_EditorClassIdentifier: 
   _difficulty: 3
+  winConditions: []
   _minEnemySpawnDelay: 5
   _maxEnemySpawnDelay: 30
-  _enemyToDefeat: 0
-  _scoreToReach: 0
-  _winStrategies:
-  - {fileID: 11400000, guid: 1df2f9dd6c877be4787c5785538dc4fa, type: 2}

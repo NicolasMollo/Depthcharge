@@ -79,6 +79,11 @@ namespace Depthcharge.GameManagement
             else return randomConfiguration;
         }
 
+        public LevelConfiguration GetSurvivalConfiguration()
+        {
+            return randomConfiguration;
+        }
+
         #endregion
 
     }

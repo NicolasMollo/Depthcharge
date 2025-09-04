@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: LC_Normal
   m_EditorClassIdentifier: 
   _difficulty: 1
-  _winCondition:
+  winConditions:
   - {fileID: 11400000, guid: 1ac9d5726ad33b742aab237dbed6411b, type: 2}
   - {fileID: 11400000, guid: 21269d9395bc675418d7aa80310428a7, type: 2}
   _minEnemySpawnDelay: 10

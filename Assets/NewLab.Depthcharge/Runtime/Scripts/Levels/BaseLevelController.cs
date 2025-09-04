@@ -1,3 +1,4 @@
+using Depthcharge.Actors;
 using Depthcharge.GameManagement;
 using Depthcharge.UI;
 using UnityEngine;
@@ -10,30 +11,94 @@ namespace Depthcharge.LevelManagement
     {
 
         protected GameSystemsRoot systemsRoot = null;
-        protected GameUIController UI = null;
+        protected BaseGameUIController UI = null;
         protected GameLogic gameLogic = null;
+        protected GameUIContext UIContext = default;
+        protected WinConditionContainer _winCondition = null;
+        public WinConditionContainer WinCondition { get => _winCondition; }
+        protected LevelConfiguration _configuration = null;
+        public LevelConfiguration Configuration { get => _configuration; }
         protected LevelStats _stats = null;
         public LevelStats Stats { get => _stats; }
 
-        protected virtual void SetUp()
-        {
-            _stats = new LevelStats();
-            systemsRoot.UISystem.SetStartUIActiveness(false);
-            systemsRoot.UISystem.SetGameUIActiveness(true);
-            UI = systemsRoot.UISystem.GameUI;
-        }
-        protected virtual void CleanUp() { }
+        [SerializeField]
+        protected PlayerController player = null;
 
         private void Start()
         {
             systemsRoot = GameSystemsRoot.Instance;
             gameLogic = GameLogic.Instance;
             SetUp();
+            AddListeners();
         }
-
         private void OnDestroy()
         {
+            RemoveListeners();
             CleanUp();
+        }
+
+        protected virtual void SetUp()
+        {
+            _stats = new LevelStats();
+            _configuration = gameLogic.GetLevelConfiguration();
+            int randomIndex = Random.Range(0, _configuration.WinConditions.Count);
+            _winCondition = _configuration.WinConditions[randomIndex];
+            player.SetUp();
+            systemsRoot.UISystem.SetStartUIActiveness(false);
+            ConfigureUI(ref UI);
+            SetGameUIContext(ref UIContext);
+            UI.SetUp(UIContext);
+        }
+
+        protected abstract void ConfigureUI(ref BaseGameUIController UI);
+        protected virtual void SetGameUIContext(ref GameUIContext context)
+        {
+            context.player = player;
+            context.levelController = this;
+        }
+
+        protected virtual void CleanUp()
+        {
+            player.CleanUp();
+        }
+
+        protected virtual void AddListeners()
+        {
+            player.ShootModule.OnShoot += OnPlayerShoot;
+            player.ShootModule.OnStartReload += OnPlayerStartReload;
+            player.ShootModule.OnReloaded += OnPlayerReloaded;
+            player.HealthModule.OnTakeDamage += OnPlayerTakeDamage;
+            player.HealthModule.OnTakeHealth += OnPlayerTakeHealth;
+        }
+        protected virtual void RemoveListeners()
+        {
+            player.ShootModule.OnShoot -= OnPlayerShoot;
+            player.ShootModule.OnStartReload -= OnPlayerStartReload;
+            player.ShootModule.OnReloaded -= OnPlayerReloaded;
+            player.HealthModule.OnTakeDamage -= OnPlayerTakeDamage;
+            player.HealthModule.OnTakeHealth -= OnPlayerTakeHealth;
+        }
+
+        private void OnPlayerTakeDamage(float damage)
+        {
+            UI.UpdateHealthBar(player.HealthModule.HealthPercentage);
+        }
+        private void OnPlayerTakeHealth(float health)
+        {
+            UI.UpdateHealthBar(player.HealthModule.HealthPercentage);
+        }
+        private void OnPlayerShoot()
+        {
+            UI.AddAmmoTransparency();
+        }
+        private void OnPlayerStartReload(bool isReloading)
+        {
+            UI.DecreaseReloadBar(player.ShootModule.ReloadTime);
+        }
+        private void OnPlayerReloaded()
+        {
+            UI.RemoveAmmoTransparency();
+            UI.ResetReloadBar();
         }
 
     }

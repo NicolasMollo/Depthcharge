@@ -16,7 +16,7 @@ namespace Depthcharge.GameManagement
         private void Start()
         {
             systemsRoot = GameSystemsRoot.Instance;
-            systemsRoot.UISystem.SetGameUIActiveness(false);
+            systemsRoot.UISystem.SetCampaignUIActiveness(false);
             systemsRoot.UISystem.SetStartUIActiveness(true);
             UI = systemsRoot.UISystem.StartUI;
             sceneSystem = systemsRoot.SceneSystem;

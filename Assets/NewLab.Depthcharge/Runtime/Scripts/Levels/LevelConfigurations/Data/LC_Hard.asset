@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: LC_Hard
   m_EditorClassIdentifier: 
   _difficulty: 2
-  _winCondition:
+  winConditions:
   - {fileID: 11400000, guid: 946a52272d82436418d729bbea56c542, type: 2}
   - {fileID: 11400000, guid: 8e61aa7db551f0c49bbc8ab7086dea1c, type: 2}
   _minEnemySpawnDelay: 5

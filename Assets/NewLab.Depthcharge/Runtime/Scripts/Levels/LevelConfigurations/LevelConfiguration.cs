@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 namespace Depthcharge.LevelManagement
@@ -15,8 +16,8 @@ namespace Depthcharge.LevelManagement
         public LevelDifficulty Difficulty { get => _difficulty; }
 
         [SerializeField]
-        private List<WinConditionContainer> _winCondition = null;
-        public List<WinConditionContainer> WinCondition { get => _winCondition; }
+        private List<WinConditionContainer> winConditions = null;
+        public List<WinConditionContainer> WinConditions { get => winConditions; }
 
         [SerializeField]
         private float _minEnemySpawnDelay = 1.0f;
