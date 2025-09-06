@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace Depthcharge.UI
@@ -7,13 +8,12 @@ namespace Depthcharge.UI
 
     [DisallowMultipleComponent]
     [RequireComponent(typeof(Button))]
-    public abstract class BaseButtonAdapter<T> : MonoBehaviour
+    public abstract class BaseButtonAdapter : MonoBehaviour, IPointerEnterHandler
     {
 
         protected Button button = null;
-        public Action<T> OnClick = null;
-        [SerializeField]
-        protected T onClickArg = default;
+        public Image Image { get => button.image; }
+        public Action<BaseButtonAdapter> OnHover = null;
 
         public virtual void SetUp()
         {
@@ -25,9 +25,10 @@ namespace Depthcharge.UI
             button.onClick.RemoveListener(OnButtonClick);
         }
 
-        public virtual void OnButtonClick()
+        public abstract void OnButtonClick();
+        public void OnPointerEnter(PointerEventData eventData)
         {
-            OnClick?.Invoke(onClickArg);
+            OnHover?.Invoke(this);
         }
 
     }

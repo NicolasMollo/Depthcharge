@@ -41,18 +41,7 @@ namespace Depthcharge.Actors
         {
             _inputModule.UnsubscribeFromShoot(OnPressShootButton);
         }
-        //private void Start()
-        //{
-        //    _inputModule.SetUpModule();
-        //    _movementModule.SetUpModule();
-        //    _healthModule.SetUpModule();
-        //    _shootModule.SetUpModule();
-        //    _inputModule.SubscribeOnShoot(OnPressShootButton);
-        //}
-        //private void OnDestroy()
-        //{
-        //    _inputModule.UnsubscribeFromShoot(OnPressShootButton);
-        //}
+
         private void Update()
         {
             float movementInput = _inputModule.GetMovementInput();

@@ -18,4 +18,4 @@ EditorBuildSettings:
     path: Assets/NewLab.Depthcharge/!Scenes/BossGameScene.unity
     guid: 10800491cb162394688cafba15070b0f
   m_configObjects:
-    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 47d7ba6a6b57c1544ae5715c8d135270, type: 3}
+    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 3b809e73c47a75448ace325f6a911b75, type: 3}

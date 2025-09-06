@@ -1,6 +1,6 @@
 namespace Depthcharge.UI
 {
-    public class UI_StdButtonAdapter : BaseButtonAdapter<int>
+    public class UI_StdButtonAdapter : GenericButtonAdapter<int>
     {
     }
 }
