@@ -14,6 +14,15 @@ namespace Depthcharge.Actors.Modules
         public virtual void UpdateModule() { }
         public virtual void CleanUpModule(GameObject owner = null) { }
 
+        public virtual void EnableModule()
+        {
+            enabled = true;
+        }
+        public virtual void DisableModule()
+        {
+            enabled = false;
+        }
+
     }
 
 }

@@ -10,12 +10,15 @@ namespace Depthcharge.GameManagement
     {
 
         private GameSystemsRoot systemsRoot = null;
+        private GameStateManager stateManager = null;
         private StartUIController UI = null;
         private SceneManagementSystem sceneSystem = null;
 
         private void Start()
         {
             systemsRoot = GameSystemsRoot.Instance;
+            stateManager = GameStateManager.Instance;
+
             systemsRoot.UISystem.SetCampaignUIActiveness(false);
             systemsRoot.UISystem.SetStartUIActiveness(true);
             UI = systemsRoot.UISystem.StartUI;

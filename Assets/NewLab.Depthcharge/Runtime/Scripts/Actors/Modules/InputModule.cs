@@ -16,6 +16,16 @@ namespace Depthcharge.Actors.Modules
             playerInput = new PlayerInputActions();
             playerInput.Std_ActionMap.Enable();
         }
+        public override void EnableModule()
+        {
+            base.EnableModule();
+            playerInput.Std_ActionMap.Enable();
+        }
+        public override void DisableModule()
+        {
+            base.DisableModule();
+            playerInput.Std_ActionMap.Disable();
+        }
 
         public float GetMovementInput()
         {

@@ -11,8 +11,11 @@ namespace Depthcharge.LevelManagement
     {
 
         protected GameSystemsRoot systemsRoot = null;
+        public GameSystemsRoot SystemsRoot { get => systemsRoot; }
         protected BaseGameUIController UI = null;
+        public BaseGameUIController UIController { get => UI; }
         protected GameLogic gameLogic = null;
+        protected GameStateManager gameStateManager = null;
         protected GameUIContext UIContext = default;
         protected WinConditionContainer _winCondition = null;
         public WinConditionContainer WinCondition { get => _winCondition; }
@@ -23,11 +26,13 @@ namespace Depthcharge.LevelManagement
 
         [SerializeField]
         protected PlayerController player = null;
+        public PlayerController Player { get => player; }
 
         private void Start()
         {
             systemsRoot = GameSystemsRoot.Instance;
             gameLogic = GameLogic.Instance;
+            gameStateManager = GameStateManager.Instance;
             SetUp();
             AddListeners();
         }
@@ -44,10 +49,11 @@ namespace Depthcharge.LevelManagement
             int randomIndex = Random.Range(0, _configuration.WinConditions.Count);
             _winCondition = _configuration.WinConditions[randomIndex];
             player.SetUp();
-            systemsRoot.UISystem.SetStartUIActiveness(false);
+            // systemsRoot.UISystem.SetStartUIActiveness(false);
             ConfigureUI(ref UI);
             SetGameUIContext(ref UIContext);
             UI.SetUp(UIContext);
+            gameStateManager.SetStateOnPreGame(this);
         }
 
         protected abstract void ConfigureUI(ref BaseGameUIController UI);
