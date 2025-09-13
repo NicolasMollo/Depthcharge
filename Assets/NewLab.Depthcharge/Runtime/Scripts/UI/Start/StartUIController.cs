@@ -104,6 +104,15 @@ namespace Depthcharge.UI
             settingsButton.OnClick -= method;
         }
 
+        public void EnableInput()
+        {
+            input.EnableInput();
+        }
+        public void DisableInput()
+        {
+            input.DisableInput();
+        }
+
     }
 
 }

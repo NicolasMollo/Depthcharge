@@ -13,17 +13,23 @@ namespace Depthcharge.GameManagement.AI
         private BaseLevelController level = null;
         private BaseMovementAdapter movementAdapter = null;
         private GameStateManager stateManager = null;
+        private Transform cameraTransform = null;
         private bool isOwnerGot = false;
 
         [Header("SETTINGS")]
         [SerializeField]
-        private float targetPositionX = 0f;
+        private float playerTargetX = 0f;
         [SerializeField]
-        private float movementSpeed = 0f;
+        private float playerSpeed = 0f;
+        [SerializeField]
+        private float cameraTargetY = 0f;
+        [SerializeField]
+        private float cameraSpeed = 0f;
 
         public void SetUp(BaseLevelController level)
         {
             this.level = level;
+            cameraTransform = Camera.main.transform;
             // Camera.main.backgroundColor = Vector4.zero;
         }
 
@@ -31,24 +37,55 @@ namespace Depthcharge.GameManagement.AI
         {
             if (!isOwnerGot)
                 stateManager = fsm.Owner.GetComponent<GameStateManager>();
+            level.SystemsRoot.UISystem.StartUI.DisableInput();
             level.SystemsRoot.UISystem.SetStartUIActiveness(false);
             level.UIController.gameObject.SetActive(false);
             level.Player.DisableModules();
             movementAdapter = level.Player.GetComponentInChildren<BaseMovementAdapter>();
-            StartCoroutine(MovePlayerToPosition());
+            StartCoroutine(MoveCameraToTarget());
         }
-
-        private IEnumerator MovePlayerToPosition()
+        private IEnumerator MoveCameraToTarget()
         {
-            Vector2 direction = movementAdapter.GetPosition().x < targetPositionX ? Vector2.right : Vector2.left;
-            float offset = 0.1f;
-            float positivePositionX = targetPositionX + offset;
-            float negativePositionX = targetPositionX - offset;
-            // Implement a method with single while cycle and single condition.
-            while (movementAdapter.GetPosition().x < negativePositionX || movementAdapter.GetPosition().x > positivePositionX)
+            Vector2 direction = Vector2.up;
+            float calculatedSpeed = 0.0f;
+            Vector2 translation = Vector2.zero;
+            while (cameraTransform.position.y < cameraTargetY)
             {
-                float calculatedSpeed = movementSpeed * Time.deltaTime;
-                Vector2 translation = direction * calculatedSpeed;
+                calculatedSpeed = cameraSpeed * Time.deltaTime;
+                translation = direction * calculatedSpeed;
+                cameraTransform.Translate(translation);
+                yield return null;
+            }
+            MovePlayerToTarget();
+        }
+        private void MovePlayerToTarget()
+        {
+            if (movementAdapter.GetPosition().x > playerTargetX)
+                StartCoroutine(MovePlayerLeft());
+            else
+                StartCoroutine(MovePlayerRight());
+        }
+        private IEnumerator MovePlayerLeft()
+        {
+            float calculatedSpeed = 0.0f;
+            Vector2 translation = Vector2.zero;
+            while (movementAdapter.GetPosition().x > playerTargetX)
+            {
+                calculatedSpeed = playerSpeed * Time.deltaTime;
+                translation = Vector2.left * calculatedSpeed;
+                movementAdapter.Translate(translation);
+                yield return null;
+            }
+            stateManager.SetStateOnGame(level);
+        }
+        private IEnumerator MovePlayerRight()
+        {
+            float calculatedSpeed = 0.0f;
+            Vector2 translation = Vector2.zero;
+            while (movementAdapter.GetPosition().x < playerTargetX)
+            {
+                calculatedSpeed = playerSpeed * Time.deltaTime;
+                translation = Vector2.right * calculatedSpeed;
                 movementAdapter.Translate(translation);
                 yield return null;
             }
@@ -56,9 +93,14 @@ namespace Depthcharge.GameManagement.AI
         }
 
         // To subscribed on SettingsController which will be in UISystem.
+        private void SetCameraToTargetPosition()
+        {
+            Vector2 targetPosition = new Vector2(cameraTransform.position.x, cameraTargetY);
+            cameraTransform.position = targetPosition;
+        }
         private void SetPlayerToTargetPosition()
         {
-            Vector2 targetPosition = new Vector2(targetPositionX, movementAdapter.GetPosition().y);
+            Vector2 targetPosition = new Vector2(playerTargetX, movementAdapter.GetPosition().y);
             movementAdapter.MoveTo(targetPosition);
         }
 

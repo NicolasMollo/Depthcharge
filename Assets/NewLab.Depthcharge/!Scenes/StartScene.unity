@@ -1106,8 +1106,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fsm: {fileID: 338015360}
   nextState: {fileID: 1250657336}
-  targetPositionX: 0
-  movementSpeed: 100
+  playerTargetX: 0
+  playerSpeed: 3
+  cameraTargetY: 0
+  cameraSpeed: 2.5
 --- !u!1 &672149739
 GameObject:
   m_ObjectHideFlags: 0

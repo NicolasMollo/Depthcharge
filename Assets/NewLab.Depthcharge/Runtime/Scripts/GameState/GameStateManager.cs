@@ -1,8 +1,6 @@
-using Depthcharge.Actors;
 using Depthcharge.Actors.AI;
 using Depthcharge.GameManagement.AI;
 using Depthcharge.LevelManagement;
-using Depthcharge.UI;
 using UnityEngine;
 
 namespace Depthcharge.GameManagement

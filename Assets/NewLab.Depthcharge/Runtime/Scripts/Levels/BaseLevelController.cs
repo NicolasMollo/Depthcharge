@@ -1,6 +1,7 @@
 using Depthcharge.Actors;
 using Depthcharge.GameManagement;
 using Depthcharge.UI;
+using System;
 using UnityEngine;
 
 namespace Depthcharge.LevelManagement
@@ -28,6 +29,8 @@ namespace Depthcharge.LevelManagement
         protected PlayerController player = null;
         public PlayerController Player { get => player; }
 
+        public Action OnWin = null;
+
         private void Start()
         {
             systemsRoot = GameSystemsRoot.Instance;
@@ -46,7 +49,7 @@ namespace Depthcharge.LevelManagement
         {
             _stats = new LevelStats();
             _configuration = gameLogic.GetLevelConfiguration();
-            int randomIndex = Random.Range(0, _configuration.WinConditions.Count);
+            int randomIndex = UnityEngine.Random.Range(0, _configuration.WinConditions.Count);
             _winCondition = _configuration.WinConditions[randomIndex];
             player.SetUp();
             // systemsRoot.UISystem.SetStartUIActiveness(false);

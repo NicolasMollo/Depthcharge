@@ -22,11 +22,21 @@ namespace Depthcharge.GameManagement.AI
                 stateManager = fsm.Owner.GetComponent<GameStateManager>();
             level.UIController.gameObject.SetActive(true);
             level.Player.HealthModule.OnDeath += OnPlayerDeath;
+            level.OnWin += OnLevelWin;
             level.Player.EnableModules();
+        }
+        public override void OnStateExit()
+        {
+            level.OnWin -= OnLevelWin;
+            level.Player.HealthModule.OnDeath -= OnPlayerDeath;
         }
         private void OnPlayerDeath()
         {
             stateManager.SetStateOnPostGame();
+        }
+        private void OnLevelWin()
+        {
+
         }
 
     }

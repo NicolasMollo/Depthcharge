@@ -72,6 +72,7 @@ namespace Depthcharge.LevelManagement
             if (_winCondition.Strategy.WinLevelCondition(this))
             {
                 _stats.DecreaseActiveEnemies();
+                OnWin?.Invoke();
                 Debug.Log($"Enemies missed: {Stats.EnemiesMissed}");
                 Time.timeScale = 0;
             }

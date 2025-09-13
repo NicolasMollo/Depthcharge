@@ -17,6 +17,15 @@ namespace Depthcharge.UI
             UIInput.Std_ActionMap.Enable();
         }
 
+        public void EnableInput()
+        {
+            UIInput.Std_ActionMap.Enable();
+        }
+        public void DisableInput()
+        {
+            UIInput.Std_ActionMap.Disable();
+        }
+
         public void SubscribeOnUp(Action<InputAction.CallbackContext> method)
         {
             UIInput.Std_ActionMap.Up.performed += method;
