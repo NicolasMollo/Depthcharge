@@ -25,6 +25,7 @@ namespace Depthcharge.GameManagement
             UI.SetUp();
             UI.SubscribeToSceneButtons(OnClickButton);
             systemsRoot.UISystem.LoseUI.AddListeners(UI);
+            // systemsRoot.UISystem.LoseUI.SetUp();
         }
 
         private void OnDestroy()

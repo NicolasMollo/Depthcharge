@@ -1,5 +1,6 @@
 using Depthcharge.SceneManagement;
 using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -10,6 +11,8 @@ namespace Depthcharge.UI
     public class UI_PostGameMenu : MonoBehaviour
     {
 
+        private List<BaseButtonAdapter> _buttons = null;
+        public List<BaseButtonAdapter> Buttons { get => _buttons; }
         [Header("BUTTONS")]
         [SerializeField]
         private UI_SceneButtonAdapter reloadButton = null;
@@ -36,6 +39,12 @@ namespace Depthcharge.UI
         [Header("BLOCK OBJECTS")]
         private GameObject timeBlock = null;
 
+        public void SetUp()
+        {
+            _buttons = new List<BaseButtonAdapter>();
+            _buttons.Add(reloadButton);
+            _buttons.Add(quitButton);
+        }
         public void SetDefeatedText(string text)
         {
             defeatedTextStrategy.SetText(defeatedText, text);

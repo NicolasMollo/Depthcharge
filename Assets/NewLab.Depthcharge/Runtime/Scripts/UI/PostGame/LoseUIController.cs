@@ -1,4 +1,5 @@
 using Depthcharge.SceneManagement;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Depthcharge.UI
@@ -14,6 +15,21 @@ namespace Depthcharge.UI
         private SceneConfiguration campaignSceneConfig = null;
         [SerializeField]
         private SceneConfiguration survivalSceneConfig = null;
+        private SelectionContext selectionContext = default;
+        [SerializeField]
+        private UI_InputController input = null;
+        [SerializeField]
+        private UI_SelectionController selection = null;
+        [SerializeField]
+        private UI_Selector selector = null;
+
+        public void SetUp()
+        {
+            menu.SetUp();
+            input.SetUp();
+            selectionContext = new SelectionContext(menu.Buttons, input, selector);
+            selection.SetUp(selectionContext);
+        }
 
         public void AddListeners(StartUIController startUI)
         {

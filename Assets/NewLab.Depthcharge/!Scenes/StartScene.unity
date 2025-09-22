@@ -948,7 +948,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &256734329
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1045,6 +1045,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   input: {fileID: 103659200}
+  selection: {fileID: 1844646057}
   selector: {fileID: 1998555086}
   settingsButton: {fileID: 1340495140}
   sceneButtons:
@@ -6092,6 +6093,54 @@ RectTransform:
   m_AnchoredPosition: {x: -1.25, y: 9.999992}
   m_SizeDelta: {x: 232.5, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1844646055
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1844646056}
+  - component: {fileID: 1844646057}
+  m_Layer: 0
+  m_Name: SelectionController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1844646056
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1844646055}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.07625, y: 1.07625, z: 1.07625}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1376757672191016041}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 430.5, y: 242.25}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1844646057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1844646055}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 449f1e617fef7714fbe59e7c38165fe1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1878163922
 GameObject:
   m_ObjectHideFlags: 0
@@ -6505,6 +6554,9 @@ MonoBehaviour:
   menu: {fileID: 919411119}
   campaignSceneConfig: {fileID: 11400000, guid: 4c6572ebc3fd6f14e9bdb56d753c9292, type: 2}
   survivalSceneConfig: {fileID: 11400000, guid: 9bfcd2ec9834d8140a09758bb3b17771, type: 2}
+  input: {fileID: 103659200}
+  selection: {fileID: 1844646057}
+  selector: {fileID: 2031058372}
 --- !u!1 &1992490918
 GameObject:
   m_ObjectHideFlags: 0
@@ -6830,6 +6882,7 @@ GameObject:
   - component: {fileID: 2031058369}
   - component: {fileID: 2031058371}
   - component: {fileID: 2031058370}
+  - component: {fileID: 2031058372}
   m_Layer: 0
   m_Name: Selector
   m_TagString: Untagged
@@ -6894,6 +6947,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2031058368}
   m_CullTransparentMesh: 1
+--- !u!114 &2031058372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2031058368}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5176b0eff7c20a41b3025eb494cf4c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selector: {fileID: 2031058370}
 --- !u!1 &2036827954
 GameObject:
   m_ObjectHideFlags: 0
@@ -7651,6 +7717,7 @@ Transform:
   - {fileID: 256734329}
   - {fileID: 1983346929}
   - {fileID: 1878163923}
+  - {fileID: 1844646056}
   - {fileID: 103659199}
   - {fileID: 6830056894503860573}
   m_Father: {fileID: 2175387586556981361}
