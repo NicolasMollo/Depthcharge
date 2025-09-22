@@ -66,18 +66,28 @@ namespace Depthcharge.GameManagement
             fsm.ChangeState(gameState);
             Debug.Log($"=== {this.name} === Game on {gameState.name}");
         }
-        public void SetStateOnPostGame()
+        public void SetStateOnWinGame()
         {
-            PostGameState postGameState = fsm.GetState<PostGameState>();
-            if (postGameState == null)
+            WinGameState winGameState = fsm.GetState<WinGameState>();
+            if (winGameState == null)
             {
-                Debug.LogError($"=== {this.name} === \"PostGameState\" doesn't exist!");
+                Debug.LogError($"=== {this.name} === \"WinGameState\" doesn't exist!");
                 return;
             }
-            fsm.ChangeState(postGameState);
-            Debug.Log($"=== {this.name} === Game on {postGameState.name}");
+            fsm.ChangeState(winGameState);
+            Debug.Log($"=== {this.name} === Game on {winGameState.name}");
         }
-
+        public void SetStateOnLoseGame()
+        {
+            LoseGameState loseGameState = fsm.GetState<LoseGameState>();
+            if (loseGameState == null)
+            {
+                Debug.LogError($"=== {this.name} === \"LoseGameState\" doesn't exist!");
+                return;
+            }
+            fsm.ChangeState(loseGameState);
+            Debug.Log($"=== {this.name} === Game on {loseGameState.name}");
+        }
         public void SetStateOnPause()
         {
             PauseState pauseState = fsm.GetState<PauseState>();

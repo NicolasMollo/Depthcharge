@@ -19,7 +19,10 @@ namespace Depthcharge.GameManagement.AI
         public override void OnStateEnter()
         {
             if (!isOwnerGot)
+            {
                 stateManager = fsm.Owner.GetComponent<GameStateManager>();
+                isOwnerGot = !isOwnerGot;
+            }
             level.UIController.gameObject.SetActive(true);
             level.Player.HealthModule.OnDeath += OnPlayerDeath;
             level.OnWin += OnLevelWin;
@@ -32,11 +35,11 @@ namespace Depthcharge.GameManagement.AI
         }
         private void OnPlayerDeath()
         {
-            stateManager.SetStateOnPostGame();
+            stateManager.SetStateOnLoseGame();
         }
         private void OnLevelWin()
         {
-
+            stateManager.SetStateOnWinGame();
         }
 
     }

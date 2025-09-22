@@ -36,7 +36,10 @@ namespace Depthcharge.GameManagement.AI
         public override void OnStateEnter()
         {
             if (!isOwnerGot)
+            {
                 stateManager = fsm.Owner.GetComponent<GameStateManager>();
+                isOwnerGot = !isOwnerGot;
+            }
             level.SystemsRoot.UISystem.StartUI.DisableInput();
             level.SystemsRoot.UISystem.SetStartUIActiveness(false);
             level.UIController.gameObject.SetActive(false);
