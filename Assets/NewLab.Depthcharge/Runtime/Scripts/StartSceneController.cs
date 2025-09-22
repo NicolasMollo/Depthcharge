@@ -18,18 +18,19 @@ namespace Depthcharge.GameManagement
         {
             systemsRoot = GameSystemsRoot.Instance;
             stateManager = GameStateManager.Instance;
-
             systemsRoot.UISystem.SetCampaignUIActiveness(false);
             systemsRoot.UISystem.SetStartUIActiveness(true);
             UI = systemsRoot.UISystem.StartUI;
             sceneSystem = systemsRoot.SceneSystem;
             UI.SetUp();
             UI.SubscribeToSceneButtons(OnClickButton);
+            systemsRoot.UISystem.LoseUI.AddListeners(UI);
         }
 
         private void OnDestroy()
         {
-            UI.UnsubscribeToSceneButtons(OnClickButton);
+            systemsRoot.UISystem.LoseUI.RemoveListeners(UI);
+            UI.UnsubscribeFromSceneButtons(OnClickButton);
         }
 
         private void OnClickButton(SceneConfiguration sceneConfiguration)

@@ -10,6 +10,10 @@ namespace Depthcharge.UI
         [SerializeField]
         protected T onClickArg = default;
 
+        public void SetOnClickArg(T arg)
+        {
+            onClickArg = arg;
+        }
         public override void OnButtonClick()
         {
             OnClick?.Invoke(onClickArg);

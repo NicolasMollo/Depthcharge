@@ -90,7 +90,7 @@ namespace Depthcharge.UI
             foreach (UI_SceneButtonAdapter button in sceneButtons)
                 button.OnClick += method;
         }
-        public void UnsubscribeToSceneButtons(Action<SceneConfiguration> method)
+        public void UnsubscribeFromSceneButtons(Action<SceneConfiguration> method)
         {
             foreach (UI_SceneButtonAdapter button in sceneButtons)
                 button.OnClick -= method;
@@ -99,7 +99,7 @@ namespace Depthcharge.UI
         {
             settingsButton.OnClick += method;
         }
-        public void UnsubscribeToSettingsButton(Action<int> method)
+        public void UnsubscribeFromSettingsButton(Action<int> method)
         {
             settingsButton.OnClick -= method;
         }

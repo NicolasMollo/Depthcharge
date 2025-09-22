@@ -19,6 +19,14 @@ namespace Depthcharge.UI
         private SurvivalUIController _survivalUI = null;
         public SurvivalUIController SurvivalUI { get => _survivalUI; }
 
+        [SerializeField]
+        private WinUIController _winUI = null;
+        public WinUIController WinUI { get => _winUI; }
+
+        [SerializeField]
+        private LoseUIController _loseUI = null;
+        public LoseUIController LoseUI { get => _loseUI; }
+
         public void SetUp()
         {
 
@@ -36,6 +44,16 @@ namespace Depthcharge.UI
         public void SetSurvivalUIActiveness(bool activeness)
         {
             _survivalUI.gameObject.SetActive(activeness);
+        }
+
+        public void SetWinUIActiveness(bool activeness)
+        {
+            _winUI.gameObject.SetActive(activeness);
+        }
+
+        public void SetLoseUIActiveness(bool activeness)
+        {
+            _loseUI.gameObject.SetActive(activeness);
         }
 
     }
