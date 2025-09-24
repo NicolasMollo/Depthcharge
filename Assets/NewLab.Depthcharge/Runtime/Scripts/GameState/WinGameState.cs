@@ -1,5 +1,7 @@
 using Depthcharge.Actors.AI;
-using Depthcharge.UI;
+using Depthcharge.LevelManagement;
+using System.Collections;
+using UnityEngine;
 
 namespace Depthcharge.GameManagement.AI
 {
@@ -7,9 +9,14 @@ namespace Depthcharge.GameManagement.AI
     public class WinGameState : BaseState
     {
 
-        private UISystem UI = null;
+        private BaseLevelController level = null;
         private GameStateManager stateManager = null;
         private bool isOwnerGot = false;
+
+        public void SetUp(BaseLevelController level)
+        {
+            this.level = level;
+        }
 
         public override void OnStateEnter()
         {
@@ -18,12 +25,25 @@ namespace Depthcharge.GameManagement.AI
                 stateManager = fsm.Owner.GetComponent<GameStateManager>();
                 isOwnerGot = !isOwnerGot;
             }
-            UI.SetWinUIActiveness(true);
+            level.Player.InputModule.DisableModule();
+            level.SystemsRoot.UISystem.SetCampaignUIActiveness(false);
+            StartCoroutine(ActivateWinUI());
         }
 
         public override void OnStateExit()
         {
-            UI.SetWinUIActiveness(false);
+            level.SystemsRoot.UISystem.SetWinUIActiveness(false);
+            level.SystemsRoot.UISystem.WinUI.CleanUp();
+        }
+
+        private IEnumerator ActivateWinUI()
+        {
+            level.SystemsRoot.UISystem.SetWinUIActiveness(true);
+            level.SystemsRoot.UISystem.WinUI.DeactivateMenu();
+            level.SystemsRoot.UISystem.WinUI.FadeInPanel();
+            yield return new WaitUntil(() => level.SystemsRoot.UISystem.WinUI.isPanelFadedIn);
+            level.SystemsRoot.UISystem.WinUI.ActivateMenu();
+            level.SystemsRoot.UISystem.WinUI.SetUp();
         }
 
     }

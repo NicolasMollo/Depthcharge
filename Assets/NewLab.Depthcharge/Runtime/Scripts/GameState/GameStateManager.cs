@@ -66,7 +66,7 @@ namespace Depthcharge.GameManagement
             fsm.ChangeState(gameState);
             Debug.Log($"=== {this.name} === Game on {gameState.name}");
         }
-        public void SetStateOnWinGame()
+        public void SetStateOnWinGame(BaseLevelController level)
         {
             WinGameState winGameState = fsm.GetState<WinGameState>();
             if (winGameState == null)
@@ -74,10 +74,11 @@ namespace Depthcharge.GameManagement
                 Debug.LogError($"=== {this.name} === \"WinGameState\" doesn't exist!");
                 return;
             }
+            winGameState.SetUp(level);
             fsm.ChangeState(winGameState);
             Debug.Log($"=== {this.name} === Game on {winGameState.name}");
         }
-        public void SetStateOnLoseGame()
+        public void SetStateOnLoseGame(BaseLevelController level)
         {
             LoseGameState loseGameState = fsm.GetState<LoseGameState>();
             if (loseGameState == null)
@@ -85,6 +86,7 @@ namespace Depthcharge.GameManagement
                 Debug.LogError($"=== {this.name} === \"LoseGameState\" doesn't exist!");
                 return;
             }
+            loseGameState.SetUp(level);
             fsm.ChangeState(loseGameState);
             Debug.Log($"=== {this.name} === Game on {loseGameState.name}");
         }

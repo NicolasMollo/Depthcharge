@@ -32,6 +32,7 @@ namespace Depthcharge.GameManagement
         {
             systemsRoot.UISystem.LoseUI.RemoveListeners(UI);
             UI.UnsubscribeFromSceneButtons(OnClickButton);
+            UI.CleanUp();
         }
 
         private void OnClickButton(SceneConfiguration sceneConfiguration)

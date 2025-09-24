@@ -20,7 +20,7 @@ namespace Depthcharge.LevelManagement
             levelNumber = gameLogic.IncreaseCurrentLevelNumber();
             base.SetUp();
             spawners = LevelControllerConfigurator.SetEnemySpawners(Configuration, ref spawnerProviders);
-            listeners = new EnemyListenersContainer(OnSpawnEnemy, OnDeactivateEnemy, OnDefeatEnemy);
+            listeners = new EnemyListenersContainer(OnSpawnEnemy, OnDefeatEnemy, OnDeactivateEnemy);
         }
         protected override void ConfigureUI(ref BaseGameUIController UI)
         {
@@ -74,7 +74,6 @@ namespace Depthcharge.LevelManagement
                 _stats.DecreaseActiveEnemies();
                 OnWin?.Invoke();
                 Debug.Log($"Enemies missed: {Stats.EnemiesMissed}");
-                Time.timeScale = 0;
             }
         }
 

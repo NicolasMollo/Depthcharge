@@ -35,11 +35,11 @@ namespace Depthcharge.GameManagement.AI
         }
         private void OnPlayerDeath()
         {
-            stateManager.SetStateOnLoseGame();
+            stateManager.SetStateOnLoseGame(level);
         }
         private void OnLevelWin()
         {
-            stateManager.SetStateOnWinGame();
+            stateManager.SetStateOnWinGame(level);
         }
 
     }

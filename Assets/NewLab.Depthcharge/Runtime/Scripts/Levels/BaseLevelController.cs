@@ -52,7 +52,6 @@ namespace Depthcharge.LevelManagement
             int randomIndex = UnityEngine.Random.Range(0, _configuration.WinConditions.Count);
             _winCondition = _configuration.WinConditions[randomIndex];
             player.SetUp();
-            // systemsRoot.UISystem.SetStartUIActiveness(false);
             ConfigureUI(ref UI);
             SetGameUIContext(ref UIContext);
             UI.SetUp(UIContext);

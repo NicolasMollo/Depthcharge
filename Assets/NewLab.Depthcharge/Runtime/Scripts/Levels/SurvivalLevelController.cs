@@ -30,7 +30,7 @@ namespace Depthcharge.LevelManagement
                 return;
             }
             spawners = LevelControllerConfigurator.SetEnemySpawners(Configuration, ref spawnerProviders);
-            listeners = new EnemyListenersContainer(OnSpawnEnemy, OnDeactivateEnemy, OnDefeatEnemy);
+            listeners = new EnemyListenersContainer(OnSpawnEnemy, OnDefeatEnemy, OnDeactivateEnemy);
         }
         protected override void ConfigureUI(ref BaseGameUIController UI)
         {

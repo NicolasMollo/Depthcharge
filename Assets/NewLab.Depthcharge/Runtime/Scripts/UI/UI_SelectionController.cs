@@ -39,6 +39,7 @@ namespace Depthcharge.UI
                 button.OnHover -= OnButtonHover;
                 button.CleanUp();
             }
+            buttons.Clear();
         }
 
         private void OnButtonHover(BaseButtonAdapter button)

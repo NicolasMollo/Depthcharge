@@ -37,6 +37,7 @@ namespace Depthcharge.UI
         [SerializeField]
         private BaseTextStrategy scoreTextStrategy = null;
         [Header("BLOCK OBJECTS")]
+        [SerializeField]
         private GameObject timeBlock = null;
 
         public void SetUp()
