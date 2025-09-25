@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bca5776e36a04304b94959430010a689, type: 3}
-  m_Name: WS_EnemiesDefeatedEasy
+  m_Script: {fileID: 11500000, guid: 117623dd27708c94a992e7a9e0de37db, type: 3}
+  m_Name: TS_UpdatedTextFastly
   m_EditorClassIdentifier: 
-  _numberToCompare: 2
+  delay: 0.05

@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d009d91504066e4886c3f31dc41d2c9, type: 3}
   m_Name: WS_ScoreAmountEasy
   m_EditorClassIdentifier: 
-  _numberToCompare: 20
+  _numberToCompare: 50

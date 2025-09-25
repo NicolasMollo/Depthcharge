@@ -1,7 +1,6 @@
 using Depthcharge.SceneManagement;
 using System;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 namespace Depthcharge.UI
@@ -20,13 +19,17 @@ namespace Depthcharge.UI
         private UI_SceneButtonAdapter quitButton = null;
         [Header("TEXTS")]
         [SerializeField]
-        private TextMeshProUGUI defeatedText = null;
+        private UI_FlaggedTMPText defeatedText = null;
+        public bool defeatedSetState { get => defeatedText.IsSet; }
         [SerializeField]
-        private TextMeshProUGUI missedText = null;
+        private UI_FlaggedTMPText missedText = null;
+        public bool MissedTextSetState { get => missedText.IsSet; }
         [SerializeField]
-        private TextMeshProUGUI scoreText = null;
+        private UI_FlaggedTMPText scoreText = null;
+        public bool ScoreTextSetState { get => scoreText.IsSet; }
         [SerializeField]
-        private TextMeshProUGUI timeText = null;
+        private UI_FlaggedTMPText timeText = null;
+        public bool TimeTextSetState { get => timeText.IsSet; }
         [Header("TEXT STRATEGIES")]
         [SerializeField]
         private BaseTextStrategy timeTextStrategy = null;
@@ -39,6 +42,12 @@ namespace Depthcharge.UI
         [Header("BLOCK OBJECTS")]
         [SerializeField]
         private GameObject timeBlock = null;
+        [SerializeField]
+        private GameObject defeatedBlock = null;
+        [SerializeField]
+        private GameObject missedBlock = null;
+        [SerializeField]
+        private GameObject scoreBlock = null;
 
         public void SetUp()
         {
@@ -46,32 +55,57 @@ namespace Depthcharge.UI
             _buttons.Add(reloadButton);
             _buttons.Add(quitButton);
         }
+
         public void SetDefeatedText(string text)
         {
-            defeatedTextStrategy.SetText(defeatedText, text);
+            defeatedTextStrategy.SetText(defeatedText.Text, text);
         }
         public void SetMissedText(string text)
         {
-            missedTextStrategy.SetText(missedText, text);
+            missedTextStrategy.SetText(missedText.Text, text);
         }
         public void SetScoreText(string text)
         {
-            scoreTextStrategy.SetText(scoreText, text);
+            scoreTextStrategy.SetText(scoreText.Text, text);
         }
         public void SetTimeText(string text)
         {
-            timeTextStrategy.SetText(timeText, text);
+            timeTextStrategy.SetText(timeText.Text, text);
         }
 
-        public void ActivateTimeBlock()
+        public void SetAllFlaggedTextState(bool enablingState)
         {
-            timeBlock.SetActive(true);
-        }
-        public void DeactivateTimeBlock()
-        {
-            timeBlock.SetActive(false);
+            defeatedText.IsSet = enablingState;
+            missedText.IsSet = enablingState;
+            scoreText.IsSet = enablingState;
+            if (timeText != null) timeText.IsSet = enablingState;
         }
 
+        public void SetTimeBlockActiveness(bool activeness)
+        {
+            timeBlock.SetActive(activeness);
+        }
+        public void SetDefeatedBlockActiveness(bool activeness)
+        {
+            defeatedBlock.SetActive(activeness);
+        }
+        public void SetMissedBlockActiveness(bool activeness)
+        {
+            missedBlock.SetActive(activeness);
+        }
+        public void SetScoreBlockActiveness(bool activeness)
+        {
+            scoreBlock.SetActive(activeness);
+        }
+
+        public void SetReloadButtonActiveness(bool activeness)
+        {
+            reloadButton.gameObject.SetActive(activeness);
+        }
+        public void SetQuitButtonActiveness(bool activeness)
+        {
+            quitButton.gameObject.SetActive(activeness);
+        }
         public void SubscribeToReloadButton(Action<SceneConfiguration> method)
         {
             reloadButton.OnClick += method;
@@ -80,7 +114,6 @@ namespace Depthcharge.UI
         {
             reloadButton.OnClick -= method;
         }
-
         public void SubscribeToQuitButton(Action<SceneConfiguration> method)
         {
             quitButton.OnClick += method;

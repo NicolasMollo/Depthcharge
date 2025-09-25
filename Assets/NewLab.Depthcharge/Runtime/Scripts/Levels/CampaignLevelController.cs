@@ -71,7 +71,7 @@ namespace Depthcharge.LevelManagement
             UI.SetEnemiesText(_stats.EnemiesDefeated.ToString());
             if (_winCondition.Strategy.WinLevelCondition(this))
             {
-                _stats.DecreaseActiveEnemies();
+                // _stats.DecreaseActiveEnemies();
                 OnWin?.Invoke();
                 Debug.Log($"Enemies missed: {Stats.EnemiesMissed}");
             }

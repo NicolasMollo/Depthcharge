@@ -1,3 +1,5 @@
+using System;
+
 namespace Depthcharge.LevelManagement
 {
 
@@ -12,6 +14,7 @@ namespace Depthcharge.LevelManagement
         {
             get => EnemiesSpawned - EnemiesDefeated - ActiveEnemies;
         }
+        public TimeSpan Time { get; private set; }
 
         public LevelStats()
         {
@@ -47,6 +50,12 @@ namespace Depthcharge.LevelManagement
         {
             ActiveEnemies--;
             return ActiveEnemies;
+        }
+
+        public TimeSpan IncreaseTime(float elapsedTime)
+        {
+            Time = TimeSpan.FromSeconds(elapsedTime);
+            return Time;
         }
 
     }

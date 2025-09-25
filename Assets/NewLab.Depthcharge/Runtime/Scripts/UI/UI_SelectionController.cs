@@ -16,20 +16,23 @@ namespace Depthcharge.UI
 
         public void SetUp(SelectionContext context)
         {
-            buttons = context.buttons;
+            buttons = new List<BaseButtonAdapter>();
+            buttons.AddRange(context.buttons);
             foreach (BaseButtonAdapter button in buttons)
-            {
                 button.SetUp();
-                button.OnHover += OnButtonHover;
-            }
             selector = context.selector;
             SetSelectedButton(buttons[0]);
             input = context.input;
+        }
+        public void SubscribeToInput()
+        {
+            foreach (BaseButtonAdapter button in buttons)
+                button.OnHover += OnButtonHover;
             input.SubscribeOnUp(OnInputUp);
             input.SubscribeOnDown(OnInputDown);
             input.SubscribeOnConfirm(OnInputConfirm);
         }
-        public void CleanUp()
+        public void UnsubscribeFromInput()
         {
             input.UnsubscribeFromConfirm(OnInputConfirm);
             input.UnsubscribeFromDown(OnInputDown);
@@ -39,7 +42,11 @@ namespace Depthcharge.UI
                 button.OnHover -= OnButtonHover;
                 button.CleanUp();
             }
-            buttons.Clear();
+        }
+
+        public void ResetSelection()
+        {
+            SetSelectedButton(buttons[0]);
         }
 
         private void OnButtonHover(BaseButtonAdapter button)

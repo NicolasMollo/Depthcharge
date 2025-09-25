@@ -21,8 +21,12 @@ namespace Depthcharge.GameManagement
             systemsRoot.UISystem.SetCampaignUIActiveness(false);
             systemsRoot.UISystem.SetStartUIActiveness(true);
             UI = systemsRoot.UISystem.StartUI;
+            // UI.EnableInput();
+            //UI.SetSelection();
+            UI.EnableInput();
+            UI.ResetSelection();
             sceneSystem = systemsRoot.SceneSystem;
-            UI.SetUp();
+            // UI.SetUp();
             UI.SubscribeToSceneButtons(OnClickButton);
             systemsRoot.UISystem.LoseUI.AddListeners(UI);
             // systemsRoot.UISystem.LoseUI.SetUp();
@@ -32,7 +36,8 @@ namespace Depthcharge.GameManagement
         {
             systemsRoot.UISystem.LoseUI.RemoveListeners(UI);
             UI.UnsubscribeFromSceneButtons(OnClickButton);
-            UI.CleanUp();
+            //UI.ClearSelection();
+            //UI.CleanUp();
         }
 
         private void OnClickButton(SceneConfiguration sceneConfiguration)

@@ -9,6 +9,7 @@ namespace Depthcharge.UI
 
         [SerializeField]
         private UI_PostGameMenu menu;
+        public UI_PostGameMenu Menu { get => menu; }
         private SelectionContext selectionContext = default;
         [SerializeField]
         private UI_InputController input = null;
@@ -27,35 +28,87 @@ namespace Depthcharge.UI
         private float fadeOutDelay = 0.0f;
         public bool isPanelFadedIn { get => fadeablePanel.IsFadedIn; }
 
-        public void SetUp()
+        private void Start()
         {
-            menu.SetUp();
             input.SetUp();
+            menu.SetUp();
             selectionContext = new SelectionContext(menu.Buttons, input, selector);
             selection.SetUp(selectionContext);
         }
-        public void CleanUp()
+        //public void SetUp()
+        //{
+        //    menu.SetUp();
+        //    input.SetUp();
+        //    selectionContext = new SelectionContext(menu.Buttons, input, selector);
+        //    selection.SetUp(selectionContext);
+        //}
+        //private void OnDisable()
+        //{
+        //    selection.CleanUp();
+        //}
+
+        public void ResetSelection()
         {
-            selection.CleanUp();
+            selection.ResetSelection();
+        }
+        //public void CleanUp()
+        //{
+        //    selection.CleanUp();
+        //}
+
+        public void SetSelectorActiveness(bool activeness)
+        {
+            selector.gameObject.SetActive(activeness);
         }
 
-        public void ActivateMenu()
+        public void SetDefeatedText(string text)
         {
-            menu.gameObject.SetActive(true);
+            menu.SetDefeatedText(text);
         }
-        public void DeactivateMenu()
+        public void SetMissedText(string text)
         {
-            menu.gameObject.SetActive(false);
+            menu.SetMissedText(text);
+        }
+        public void SetScoreText(string text)
+        {
+            menu.SetScoreText(text);
+        }
+
+        public void SetMenuActiveness(bool activeness)
+        {
+            menu.gameObject.SetActive(activeness);
+        }
+        public void SetDefeatedBlockActiveness(bool activeness)
+        {
+            menu.SetDefeatedBlockActiveness(activeness);
+        }
+        public void SetMissedBlockActiveness(bool activeness)
+        {
+            menu.SetMissedBlockActiveness(activeness);
+        }
+        public void SetScoreBlockActiveness(bool activeness)
+        {
+            menu.SetScoreBlockActiveness(activeness);
         }
 
         public void FadeInPanel()
         {
             fadeablePanel.FadeIn(fadeInDelay, fadeInTreshold);
         }
-
         public void FadeOutPanel()
         {
             fadeablePanel.FadeOut(fadeOutDelay);
+        }
+
+        public void EnableInput()
+        {
+            input.EnableInput();
+            selection.SubscribeToInput();
+        }
+        public void DisableInput()
+        {
+            selection.UnsubscribeFromInput();
+            input.DisableInput();
         }
 
     }

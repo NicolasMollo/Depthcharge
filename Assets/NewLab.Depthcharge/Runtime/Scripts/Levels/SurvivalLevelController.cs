@@ -12,7 +12,6 @@ namespace Depthcharge.LevelManagement
     {
 
         private float elapsedTime = 0;
-        private TimeSpan timeSpan = TimeSpan.Zero;
         private SurvivalUIController survivalUI;
         private EnemyListenersContainer listeners = null;
 
@@ -48,8 +47,8 @@ namespace Depthcharge.LevelManagement
         private void Update()
         {
             elapsedTime += Time.deltaTime;
-            timeSpan = TimeSpan.FromSeconds(elapsedTime);
-            survivalUI.SetElapsedTimeText(timeSpan);
+            _stats.IncreaseTime(elapsedTime);
+            survivalUI.SetElapsedTimeText(_stats.Time);
         }
 
         protected override void AddListeners()

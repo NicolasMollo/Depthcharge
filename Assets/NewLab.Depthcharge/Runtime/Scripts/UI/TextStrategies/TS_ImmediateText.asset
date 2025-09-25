@@ -9,7 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bca5776e36a04304b94959430010a689, type: 3}
-  m_Name: WS_EnemiesDefeatedEasy
+  m_Script: {fileID: 11500000, guid: a1098227f4d82934b99e96f1a5dd8196, type: 3}
+  m_Name: TS_ImmediateText
   m_EditorClassIdentifier: 
-  _numberToCompare: 2

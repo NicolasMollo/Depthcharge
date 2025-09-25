@@ -25,11 +25,14 @@ namespace Depthcharge.UI
 
         private IEnumerator UpdateText(TextMeshProUGUI textToSet, int castedText)
         {
-            for (int i = 0; i < castedText; i++)
+            for (int i = 0; i <= castedText; i++)
             {
                 textToSet.text = i.ToString();
                 yield return new WaitForSeconds(delay);
             }
+            UI_FlaggedTMPText flaggedText = textToSet.GetComponent<UI_FlaggedTMPText>();
+            if (flaggedText != null)
+                flaggedText.IsSet = true;
         }
 
     }

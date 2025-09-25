@@ -11,6 +11,7 @@ namespace Depthcharge.UI
 
         [SerializeField]
         private UI_PostGameMenu menu = null;
+        public UI_PostGameMenu Menu { get => menu; }
         [SerializeField]
         private SceneConfiguration campaignSceneConfig = null;
         [SerializeField]
@@ -34,17 +35,33 @@ namespace Depthcharge.UI
         private float fadeOutDelay = 0.0f;
         public bool isPanelFadedIn { get => fadeablePanel.IsFadedIn; }
 
-        public void SetUp()
+        private void Start()
         {
-            menu.SetUp();
             input.SetUp();
+            menu.SetUp();
             selectionContext = new SelectionContext(menu.Buttons, input, selector);
             selection.SetUp(selectionContext);
         }
-        public void CleanUp()
+        //public void SetUp()
+        //{
+        //    menu.SetUp();
+        //    input.SetUp();
+        //    selectionContext = new SelectionContext(menu.Buttons, input, selector);
+        //    selection.SetUp(selectionContext);
+        //}
+        //private void OnDisable()
+        //{
+        //    selection.CleanUp();
+        //}
+
+        public void ResetSelection()
         {
-            selection.CleanUp();
+            selection.ResetSelection();
         }
+        //public void CleanUp()
+        //{
+        //    selection.CleanUp();
+        //}
 
         public void AddListeners(StartUIController startUI)
         {
@@ -54,7 +71,6 @@ namespace Depthcharge.UI
         {
             startUI.UnsubscribeFromSceneButtons(OnClickSceneButtons);
         }
-
         private void OnClickSceneButtons(SceneConfiguration configuration)
         {
             if (configuration.SceneName == survivalSceneConfig.SceneName)
@@ -64,27 +80,73 @@ namespace Depthcharge.UI
             selectedSceneConfig = configuration;
         }
 
-        public void ActivateMenu()
+        public void SetDefeatedText(string text)
         {
-            if (selectedSceneConfig.name == survivalSceneConfig.name)
-                menu.ActivateTimeBlock();
-            else
-                menu.DeactivateTimeBlock();
-            menu.gameObject.SetActive(true);
+            menu.SetDefeatedText(text);
         }
-        public void DeactivateMenu()
+        public void SetMissedText(string text)
         {
-            menu.gameObject.SetActive(false);
+            menu.SetMissedText(text);
+        }
+        public void SetScoreText(string text)
+        {
+            menu.SetScoreText(text);
+        }
+        public void SetTimeText(string text)
+        {
+            if (selectedSceneConfig.name != survivalSceneConfig.name)
+                return;
+            menu.SetTimeText(text);
+        }
+
+        public void SetSelectorActiveness(bool activeness)
+        {
+            selector.gameObject.SetActive(activeness);
+        }
+        public void SetMenuActiveness(bool activeness)
+        {
+            menu.gameObject.SetActive(activeness);
+        }
+        public void SetDefeatedBlockActiveness(bool activeness)
+        {
+            menu.SetDefeatedBlockActiveness(activeness);
+        }
+        public void SetMissedBlockActiveness(bool activeness)
+        {
+            menu.SetMissedBlockActiveness(activeness);
+        }
+        public void SetScoreBlockActiveness(bool activeness)
+        {
+            menu.SetScoreBlockActiveness(activeness);
+        }
+        public void SetTimeBlockActiveness(bool activeness)
+        {
+            if (selectedSceneConfig.name != survivalSceneConfig.name)
+            {
+                menu.SetTimeBlockActiveness(false);
+                return;
+            }
+            menu.SetTimeBlockActiveness(activeness);
         }
 
         public void FadeInPanel()
         {
             fadeablePanel.FadeIn(fadeInDelay, fadeInTreshold);
         }
-
         public void FadeOutPanel()
         {
             fadeablePanel.FadeOut(fadeOutDelay);
+        }
+
+        public void EnableInput()
+        {
+            input.EnableInput();
+            selection.SubscribeToInput();
+        }
+        public void DisableInput()
+        {
+            selection.UnsubscribeFromInput();
+            input.DisableInput();
         }
 
     }

@@ -27,10 +27,7 @@ namespace Depthcharge.UI
         private LoseUIController _loseUI = null;
         public LoseUIController LoseUI { get => _loseUI; }
 
-        public void SetUp()
-        {
 
-        }
         public void SetStartUIActiveness(bool activeness)
         {
             _startUI.gameObject.SetActive(activeness);

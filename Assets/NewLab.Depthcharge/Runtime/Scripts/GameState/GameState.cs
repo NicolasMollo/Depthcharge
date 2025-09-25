@@ -15,6 +15,7 @@ namespace Depthcharge.GameManagement.AI
         public void SetUp(BaseLevelController level)
         {
             this.level = level;
+            
         }
         public override void OnStateEnter()
         {
@@ -41,6 +42,14 @@ namespace Depthcharge.GameManagement.AI
         {
             stateManager.SetStateOnWinGame(level);
         }
+        //private void OnClickReloadButton(SceneConfiguration configuration)
+        //{
+        //    level.SystemsRoot.SceneSystem.ChangeScene(configuration);
+        //}
+        //private void OnClickQuitButton(SceneConfiguration configuration)
+        //{
+        //    level.SystemsRoot.SceneSystem.ChangeScene(configuration);
+        //}
 
     }
 }

@@ -40,7 +40,6 @@ namespace Depthcharge.GameManagement
 
         private void SetUp()
         {
-            _UISystem.SetUp();
             _sceneSystem.SetUp();
         }
 

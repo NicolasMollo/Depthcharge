@@ -23,7 +23,7 @@ namespace Depthcharge.UI
         [SerializeField]
         private List<UI_SceneButtonAdapter> sceneButtons = null;
 
-        public void SetUp()
+        private void Start()
         {
             buttons = new List<BaseButtonAdapter>();
             buttons.AddRange(sceneButtons);
@@ -32,10 +32,28 @@ namespace Depthcharge.UI
             selectionContext = new SelectionContext(buttons, input, selector);
             selection.SetUp(selectionContext);
         }
-        public void CleanUp()
+        //public void SetUp()
+        //{
+        //    buttons = new List<BaseButtonAdapter>();
+        //    buttons.AddRange(sceneButtons);
+        //    buttons.Add(settingsButton);
+        //    input.SetUp();
+        //    selectionContext = new SelectionContext(buttons, input, selector);
+        //    selection.SetUp(selectionContext);
+        //}
+        //private void OnDisable()
+        //{
+        //    selection.CleanUp();
+        //}
+
+        public void ResetSelection()
         {
-            selection.CleanUp();
+            selection.ResetSelection();
         }
+        //public void CleanUp()
+        //{
+        //    selection.CleanUp();
+        //}
         public void SubscribeToSceneButtons(Action<SceneConfiguration> method)
         {
             foreach (UI_SceneButtonAdapter button in sceneButtons)
@@ -54,13 +72,23 @@ namespace Depthcharge.UI
         {
             settingsButton.OnClick -= method;
         }
-
+        //public void SetSelection()
+        //{
+        //    selectionContext = new SelectionContext(buttons, input, selector);
+        //    selection.SetUp(selectionContext);
+        //}
+        //public void ClearSelection()
+        //{
+        //    selection.CleanUp();
+        //}
         public void EnableInput()
         {
             input.EnableInput();
+            selection.SubscribeToInput();
         }
         public void DisableInput()
         {
+            selection.UnsubscribeFromInput();
             input.DisableInput();
         }
 

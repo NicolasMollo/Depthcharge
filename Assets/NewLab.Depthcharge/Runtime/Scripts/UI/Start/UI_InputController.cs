@@ -11,10 +11,24 @@ namespace Depthcharge.UI
 
         private UIInputActions UIInput  = null;
 
+        //private void Start()
+        //{
+        //    UIInput = new UIInputActions();
+        //}
+        //public void SetUp()
+        //{
+            
+        //    UIInput.Std_ActionMap.Enable();
+        //}
+
+        //public void CleanUp()
+        //{
+        //    UIInput.Std_ActionMap.Disable();
+        //}
+
         public void SetUp()
         {
             UIInput = new UIInputActions();
-            UIInput.Std_ActionMap.Enable();
         }
 
         public void EnableInput()
