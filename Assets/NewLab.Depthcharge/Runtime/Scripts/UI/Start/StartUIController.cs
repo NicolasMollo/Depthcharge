@@ -28,7 +28,6 @@ namespace Depthcharge.UI
             buttons = new List<BaseButtonAdapter>();
             buttons.AddRange(sceneButtons);
             buttons.Add(settingsButton);
-            input.SetUp();
             selectionContext = new SelectionContext(buttons, input, selector);
             selection.SetUp(selectionContext);
         }

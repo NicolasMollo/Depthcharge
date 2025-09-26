@@ -10,7 +10,6 @@ namespace Depthcharge.UI
         [SerializeField]
         private UI_PostGameMenu menu;
         public UI_PostGameMenu Menu { get => menu; }
-        private SelectionContext selectionContext = default;
         [SerializeField]
         private UI_InputController input = null;
         [SerializeField]
@@ -30,32 +29,14 @@ namespace Depthcharge.UI
 
         private void Start()
         {
-            input.SetUp();
-            menu.SetUp();
-            selectionContext = new SelectionContext(menu.Buttons, input, selector);
+            SelectionContext selectionContext = new SelectionContext(menu.Buttons, input, selector);
             selection.SetUp(selectionContext);
         }
-        //public void SetUp()
-        //{
-        //    menu.SetUp();
-        //    input.SetUp();
-        //    selectionContext = new SelectionContext(menu.Buttons, input, selector);
-        //    selection.SetUp(selectionContext);
-        //}
-        //private void OnDisable()
-        //{
-        //    selection.CleanUp();
-        //}
 
         public void ResetSelection()
         {
             selection.ResetSelection();
         }
-        //public void CleanUp()
-        //{
-        //    selection.CleanUp();
-        //}
-
         public void SetSelectorActiveness(bool activeness)
         {
             selector.gameObject.SetActive(activeness);

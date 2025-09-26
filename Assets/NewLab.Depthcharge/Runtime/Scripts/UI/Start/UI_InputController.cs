@@ -11,22 +11,7 @@ namespace Depthcharge.UI
 
         private UIInputActions UIInput  = null;
 
-        //private void Start()
-        //{
-        //    UIInput = new UIInputActions();
-        //}
-        //public void SetUp()
-        //{
-            
-        //    UIInput.Std_ActionMap.Enable();
-        //}
-
-        //public void CleanUp()
-        //{
-        //    UIInput.Std_ActionMap.Disable();
-        //}
-
-        public void SetUp()
+        private void Awake()
         {
             UIInput = new UIInputActions();
         }
@@ -52,7 +37,6 @@ namespace Depthcharge.UI
         public void SubscribeOnDown(Action<InputAction.CallbackContext> method)
         {
             UIInput.Std_ActionMap.Down.performed += method;
-
         }
         public void UnsubscribeFromDown(Action<InputAction.CallbackContext> method)
         {

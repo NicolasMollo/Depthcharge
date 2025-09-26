@@ -37,8 +37,7 @@ namespace Depthcharge.UI
 
         private void Start()
         {
-            input.SetUp();
-            menu.SetUp();
+            // menu.SetUp();
             selectionContext = new SelectionContext(menu.Buttons, input, selector);
             selection.SetUp(selectionContext);
         }

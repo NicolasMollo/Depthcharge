@@ -15,12 +15,15 @@ namespace Depthcharge.UI
         public Image Image { get => button.image; }
         public Action<BaseButtonAdapter> OnHover = null;
 
-        public virtual void SetUp()
+        private void Awake()
         {
             button = GetComponent<Button>();
+        }
+        private void OnEnable()
+        {
             button.onClick.AddListener(OnButtonClick);
         }
-        public virtual void CleanUp()
+        private void OnDisable()
         {
             button.onClick.RemoveListener(OnButtonClick);
         }

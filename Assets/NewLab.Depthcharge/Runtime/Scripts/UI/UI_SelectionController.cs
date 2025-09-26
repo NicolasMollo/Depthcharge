@@ -18,8 +18,6 @@ namespace Depthcharge.UI
         {
             buttons = new List<BaseButtonAdapter>();
             buttons.AddRange(context.buttons);
-            foreach (BaseButtonAdapter button in buttons)
-                button.SetUp();
             selector = context.selector;
             SetSelectedButton(buttons[0]);
             input = context.input;
@@ -38,12 +36,8 @@ namespace Depthcharge.UI
             input.UnsubscribeFromDown(OnInputDown);
             input.UnsubscribeFromUp(OnInputUp);
             foreach (BaseButtonAdapter button in buttons)
-            {
                 button.OnHover -= OnButtonHover;
-                button.CleanUp();
-            }
         }
-
         public void ResetSelection()
         {
             SetSelectedButton(buttons[0]);

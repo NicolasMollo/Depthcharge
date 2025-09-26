@@ -27,6 +27,9 @@ namespace Depthcharge.GameManagement
         {
             SetSingleton();
             DontDestroyOnLoad(this.gameObject);
+        }
+        private void Start()
+        {
             SetUp();
         }
 
@@ -41,6 +44,7 @@ namespace Depthcharge.GameManagement
         private void SetUp()
         {
             _sceneSystem.SetUp();
+            _UISystem.SetUp();
         }
 
     }

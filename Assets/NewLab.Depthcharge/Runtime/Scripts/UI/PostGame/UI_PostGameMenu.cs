@@ -49,7 +49,7 @@ namespace Depthcharge.UI
         [SerializeField]
         private GameObject scoreBlock = null;
 
-        public void SetUp()
+        private void Awake()
         {
             _buttons = new List<BaseButtonAdapter>();
             _buttons.Add(reloadButton);
