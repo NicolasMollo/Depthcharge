@@ -1,3 +1,4 @@
+using Depthcharge.UI.EndGame;
 using TMPro;
 using UnityEngine;
 
@@ -9,10 +10,10 @@ namespace Depthcharge.UI
         public override void SetText(TextMeshProUGUI textToSet, string text)
         {
             textToSet.text = text;
-            UI_FlaggedTMPText flaggedText = textToSet.GetComponent<UI_FlaggedTMPText>();
-            if (flaggedText != null)
+            UI_EndGameText endGameText = textToSet.GetComponent<UI_EndGameText>();
+            if (endGameText != null)
             {
-                flaggedText.IsSet = true;
+                endGameText.IsSet = true;
             }
         }
 

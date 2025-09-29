@@ -28,12 +28,11 @@ namespace Depthcharge.UI
             SetEnemiesText(context.levelController.Stats.EnemiesDefeated.ToString());
         }
 
-        public void SetLevelText(string text)
+        private void SetLevelText(string text)
         {
             levelText.text = $"{levelTextRoot} {text}";
         }
-
-        public void SetWinConditionText(LevelConfiguration.LevelDifficulty difficulty, string text)
+        private void SetWinConditionText(LevelConfiguration.LevelDifficulty difficulty, string text)
         {
             switch (difficulty)
             {

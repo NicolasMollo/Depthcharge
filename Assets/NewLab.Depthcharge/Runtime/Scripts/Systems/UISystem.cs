@@ -1,3 +1,4 @@
+using Depthcharge.UI.EndGame;
 using UnityEngine;
 
 namespace Depthcharge.UI
@@ -8,8 +9,8 @@ namespace Depthcharge.UI
     {
 
         [SerializeField]
-        private StartUIController _startUI = null;
-        public StartUIController StartUI { get => _startUI; }
+        private UI_StartController _startUI = null;
+        public UI_StartController StartUI { get => _startUI; }
 
         [SerializeField]
         private CampaignUIController _campaignUI = null;
@@ -20,12 +21,12 @@ namespace Depthcharge.UI
         public SurvivalUIController SurvivalUI { get => _survivalUI; }
 
         [SerializeField]
-        private WinUIController _winUI = null;
-        public WinUIController WinUI { get => _winUI; }
+        private UI_EndGameController _winUI = null;
+        public UI_EndGameController WinUI { get => _winUI; }
 
         [SerializeField]
-        private LoseUIController _loseUI = null;
-        public LoseUIController LoseUI { get => _loseUI; }
+        private UI_EndGameController _loseUI = null;
+        public UI_EndGameController LoseUI { get => _loseUI; }
 
 
         public void SetUp()

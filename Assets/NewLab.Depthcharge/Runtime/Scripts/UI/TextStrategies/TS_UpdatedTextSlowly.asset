@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 117623dd27708c94a992e7a9e0de37db, type: 3}
   m_Name: TS_UpdatedTextSlowly
   m_EditorClassIdentifier: 
-  delay: 2
+  delay: 0.25

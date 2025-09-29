@@ -11,8 +11,7 @@ namespace Depthcharge.GameManagement
 
         private GameSystemsRoot systemsRoot = null;
         private GameStateManager stateManager = null;
-        private StartUIController UI = null;
-        private SceneManagementSystem sceneSystem = null;
+        private UI_StartController UI = null;
 
         private void Start()
         {
@@ -21,28 +20,22 @@ namespace Depthcharge.GameManagement
             systemsRoot.UISystem.SetCampaignUIActiveness(false);
             systemsRoot.UISystem.SetStartUIActiveness(true);
             UI = systemsRoot.UISystem.StartUI;
-            // UI.EnableInput();
-            //UI.SetSelection();
             UI.EnableInput();
             UI.ResetSelection();
-            sceneSystem = systemsRoot.SceneSystem;
-            // UI.SetUp();
             UI.SubscribeToSceneButtons(OnClickButton);
-            systemsRoot.UISystem.LoseUI.AddListeners(UI);
-            // systemsRoot.UISystem.LoseUI.SetUp();
         }
 
         private void OnDestroy()
         {
-            systemsRoot.UISystem.LoseUI.RemoveListeners(UI);
             UI.UnsubscribeFromSceneButtons(OnClickButton);
-            //UI.ClearSelection();
-            //UI.CleanUp();
         }
 
-        private void OnClickButton(SceneConfiguration sceneConfiguration)
+        private void OnClickButton(SceneConfiguration configuration)
         {
-            sceneSystem.ChangeScene(sceneConfiguration);
+            systemsRoot.UISystem.LoseUI.SetButtonArg(
+                Depthcharge.UI.EndGame.EndGameButtonType.Reload, 
+                configuration);
+            systemsRoot.SceneSystem.ChangeScene(configuration);
         }
 
     }

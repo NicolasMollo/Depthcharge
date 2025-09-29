@@ -30,7 +30,7 @@ namespace Depthcharge.GameManagement
         }
         private void Start()
         {
-            SetUp();
+            InternalSetUp();
         }
 
         private void SetSingleton()
@@ -41,7 +41,7 @@ namespace Depthcharge.GameManagement
                 Destroy(this.gameObject);
         }
 
-        private void SetUp()
+        private void InternalSetUp()
         {
             _sceneSystem.SetUp();
             _UISystem.SetUp();

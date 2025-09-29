@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Depthcharge.UI.EndGame;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -30,9 +31,9 @@ namespace Depthcharge.UI
                 textToSet.text = i.ToString();
                 yield return new WaitForSeconds(delay);
             }
-            UI_FlaggedTMPText flaggedText = textToSet.GetComponent<UI_FlaggedTMPText>();
-            if (flaggedText != null)
-                flaggedText.IsSet = true;
+            UI_EndGameText endGameText = textToSet.GetComponent<UI_EndGameText>();
+            if (endGameText != null)
+                endGameText.IsSet = true;
         }
 
     }
