@@ -15,7 +15,7 @@ namespace Depthcharge.GameManagement.AI
 
         //private bool TurnOffPanel()
         //{
-            
+
         //}
 
     }

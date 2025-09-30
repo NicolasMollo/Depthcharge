@@ -30,8 +30,7 @@ namespace Depthcharge.GameManagement.AI
             }
             UI.SubscribeToButtons(OnClickButton);
             level.Player.InputModule.DisableModule();
-            level.SystemsRoot.UISystem.SetCampaignUIActiveness(false);
-            level.SystemsRoot.UISystem.SetSurvivalUIActiveness(false);
+            level.SystemsRoot.UISystem.CurrentGameUI.gameObject.SetActive(false);
             StartCoroutine(ActivateLoseUI());
         }
         public override void OnStateExit()

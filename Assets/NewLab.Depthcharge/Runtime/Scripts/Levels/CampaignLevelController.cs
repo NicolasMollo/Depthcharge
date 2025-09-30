@@ -25,6 +25,7 @@ namespace Depthcharge.LevelManagement
         protected override void ConfigureUI(ref BaseGameUIController UI)
         {
             UI = systemsRoot.UISystem.CampaignUI;
+            systemsRoot.UISystem.SetCurrentGameUI(UI);
         }
         protected override void SetGameUIContext(ref GameUIContext context)
         {
