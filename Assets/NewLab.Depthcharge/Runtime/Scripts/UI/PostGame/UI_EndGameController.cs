@@ -64,15 +64,20 @@ namespace Depthcharge.UI.EndGame
         {
             menu.SetAllButtonsActiveness(activeness);
         }
-        public void ConfigureTexts(EndGameMenuTexts texts)
+        public void ConfigureTexts(EndGameMenuTexts texts, bool configureTimeText = true)
         {
-            StartCoroutine(ConfigureMenuTexts(texts));
+            StartCoroutine(ConfigureMenuTexts(texts, configureTimeText));
         }
-        private IEnumerator ConfigureMenuTexts(EndGameMenuTexts texts)
+        private IEnumerator ConfigureMenuTexts(EndGameMenuTexts texts, bool configureTimeText = true)
         {
             bool blocksActiveness = true;
             foreach (UI_EndGameText text in menu.Texts)
             {
+                if (!configureTimeText && text.Type == EndGameTextType.Time)
+                {
+                    text.IsSet = true;
+                    continue;
+                }
                 menu.SetBlockActiveness(text.Type, blocksActiveness);
                 menu.SetText(text.Type, GetTextFromEndGameTexts(text.Type, texts));
                 yield return new WaitUntil(() => text.IsSet);

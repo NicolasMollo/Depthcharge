@@ -22,6 +22,8 @@ namespace Depthcharge.UI
         private SurvivalUIController _survivalUI = null;
         public SurvivalUIController SurvivalUI { get => _survivalUI; }
 
+        private UI_EndGameController _currentEndGameUI = null;
+        public UI_EndGameController CurrentEndGameUI { get => _currentEndGameUI; }
         [SerializeField]
         private UI_EndGameController _winUI = null;
         public UI_EndGameController WinUI { get => _winUI; }
@@ -51,29 +53,34 @@ namespace Depthcharge.UI
         {
             _currentGameUI = UI;
         }
-
         public void SetCampaignUIActiveness(bool activeness)
         {
             _campaignUI.gameObject.SetActive(activeness);
-            if (activeness)
-                _currentGameUI = _campaignUI;
+            //if (activeness)
+            //    _currentGameUI = _campaignUI;
         }
-
         public void SetSurvivalUIActiveness(bool activeness)
         {
             _survivalUI.gameObject.SetActive(activeness);
-            if (activeness)
-                _currentGameUI = _survivalUI;
+            //if (activeness)
+            //    _currentGameUI = _survivalUI;
         }
 
+        public void SetCurrentEndGameUI(UI_EndGameController UI)
+        {
+            _currentEndGameUI = UI;
+        }
         public void SetWinUIActiveness(bool activeness)
         {
             _winUI.gameObject.SetActive(activeness);
+            if (activeness)
+                _currentEndGameUI = _winUI;
         }
-
         public void SetLoseUIActiveness(bool activeness)
         {
             _loseUI.gameObject.SetActive(activeness);
+            if (activeness)
+                _currentEndGameUI = _loseUI;
         }
 
     }

@@ -1455,6 +1455,7 @@ MonoBehaviour:
   _owner: {fileID: 431043652}
   states:
   - {fileID: 244102851}
+  - {fileID: 1114324137}
   - {fileID: 607110079}
   - {fileID: 1250657336}
   - {fileID: 1083481145}
@@ -1999,8 +2000,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1028606020}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &479028732
@@ -3762,72 +3762,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _type: 2
---- !u!1001 &1028606019
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 479028731}
-    m_Modifications:
-    - target: {fileID: 2974282156872924243, guid: 1a24cca906a7b4d4d9337cb3117636cb, type: 3}
-      propertyPath: m_Name
-      value: EnvironmentRootController
-      objectReference: {fileID: 0}
-    - target: {fileID: 6690931488717589137, guid: 1a24cca906a7b4d4d9337cb3117636cb, type: 3}
-      propertyPath: enableTimeBasedColor
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7854764233625285425, guid: 1a24cca906a7b4d4d9337cb3117636cb, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7854764233625285425, guid: 1a24cca906a7b4d4d9337cb3117636cb, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7854764233625285425, guid: 1a24cca906a7b4d4d9337cb3117636cb, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7854764233625285425, guid: 1a24cca906a7b4d4d9337cb3117636cb, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7854764233625285425, guid: 1a24cca906a7b4d4d9337cb3117636cb, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7854764233625285425, guid: 1a24cca906a7b4d4d9337cb3117636cb, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7854764233625285425, guid: 1a24cca906a7b4d4d9337cb3117636cb, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7854764233625285425, guid: 1a24cca906a7b4d4d9337cb3117636cb, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7854764233625285425, guid: 1a24cca906a7b4d4d9337cb3117636cb, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7854764233625285425, guid: 1a24cca906a7b4d4d9337cb3117636cb, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 1a24cca906a7b4d4d9337cb3117636cb, type: 3}
---- !u!4 &1028606020 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7854764233625285425, guid: 1a24cca906a7b4d4d9337cb3117636cb, type: 3}
-  m_PrefabInstance: {fileID: 1028606019}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1059357041
 GameObject:
   m_ObjectHideFlags: 0
@@ -4017,6 +3951,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1114324136}
+  - component: {fileID: 1114324137}
   m_Layer: 0
   m_Name: PreIdleState
   m_TagString: Untagged
@@ -4039,6 +3974,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 338015359}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1114324137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1114324135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9727743ff1252fc49805272bc0cf2c6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fsm: {fileID: 338015360}
+  nextState: {fileID: 244102851}
+  idleSceneConfig: {fileID: 11400000, guid: d3f372ecba6d26b40a39137f783cc2ba, type: 2}
+  cameraSpeed: 3.5
+  cameraTargetY: -10
 --- !u!1 &1160589461
 GameObject:
   m_ObjectHideFlags: 0
@@ -5368,7 +5320,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0

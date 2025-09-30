@@ -37,7 +37,6 @@ namespace Depthcharge.GameManagement.AI
         {
             UI.SetAllTextsState(false);
             UI.UnsubscribeFromButtons(OnClickButton);
-            level.SystemsRoot.UISystem.SetLoseUIActiveness(false);
         }
 
         private void OnClickButton(SceneConfiguration configuration)
@@ -48,6 +47,12 @@ namespace Depthcharge.GameManagement.AI
 
         private IEnumerator GoToTheNextState(SceneConfiguration configuration)
         {
+            if (configuration.SceneName != level.SystemsRoot.SceneSystem.CurrentScene.Configuration.SceneName)
+            {
+                stateManager.SetStateOnPreIdle();
+                yield break;
+            }
+            UI.SetMenuActiveness(false);
             UI.FadeOutPanel();
             yield return new WaitUntil(() => UI.IsPanelFadedIn == false);
             level.SystemsRoot.UISystem.SetLoseUIActiveness(false);
@@ -70,7 +75,8 @@ namespace Depthcharge.GameManagement.AI
                 level.Stats.EnemiesMissed.ToString(), 
                 level.Stats.Score.ToString(), 
                 level.Stats.Time.ToString(@"hh\:mm\:ss"));
-            UI.ConfigureTexts(endGameTexts);
+            SurvivalLevelController survivalLevel = level as SurvivalLevelController;
+            UI.ConfigureTexts(endGameTexts, survivalLevel ? true : false);
             yield return new WaitUntil(() => UI.AreMenuTextsConfigured);
             UI.EnableInput();
             UI.ResetSelection();

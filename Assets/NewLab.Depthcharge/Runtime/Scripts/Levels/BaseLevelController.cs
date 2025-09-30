@@ -54,6 +54,8 @@ namespace Depthcharge.LevelManagement
             player.SetUp();
             ConfigureUI(ref UI);
             SetGameUIContext(ref UIContext);
+            //UIContext.player = player;
+            //UIContext.levelController = this;
             UI.SetUp(UIContext);
             gameStateManager.SetStateOnPreGame(this);
         }

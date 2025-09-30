@@ -42,6 +42,18 @@ namespace Depthcharge.GameManagement
             Debug.Log($"=== {this.name} === Game on {idleState.name}");
         }
 
+        public void SetStateOnPreIdle()
+        {
+            PreIdleState preIdleState = fsm.GetState<PreIdleState>();
+            if (preIdleState == null)
+            {
+                Debug.LogError($"=== {this.name} === \"PreIdleState\" doesn't exist!");
+                return;
+            }
+            fsm.ChangeState(preIdleState);
+            Debug.Log($"=== {this.name} === Game on {preIdleState.name}");
+        }
+
         public void SetStateOnPreGame(BaseLevelController level)
         {
             PreGameState preGameState = fsm.GetState<PreGameState>();

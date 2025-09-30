@@ -18,6 +18,7 @@ namespace Depthcharge.LevelManagement
         protected override void SetUp()
         {
             levelNumber = gameLogic.IncreaseCurrentLevelNumber();
+            //UIContext.levelNumber = levelNumber;
             base.SetUp();
             spawners = LevelControllerConfigurator.SetEnemySpawners(Configuration, ref spawnerProviders);
             listeners = new EnemyListenersContainer(OnSpawnEnemy, OnDefeatEnemy, OnDeactivateEnemy);
