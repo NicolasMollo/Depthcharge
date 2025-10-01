@@ -44,6 +44,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: DummyUI
+    uniqueID: 1796711437
+    locked: 0
   - name: Environment
     uniqueID: 2297527729
     locked: 0
