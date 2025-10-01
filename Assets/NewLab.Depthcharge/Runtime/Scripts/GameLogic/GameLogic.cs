@@ -29,11 +29,14 @@ namespace Depthcharge.GameManagement
         [SerializeField]
         private int _currentLevelNumber = 0;
         public int CurrentLevelNumber { get => _currentLevelNumber; }
+        public bool LoadGameTransitionsState { get; set; }
 
         private void Awake()
         {
             SetSingleton();
             DontDestroyOnLoad(this.gameObject);
+            LoadGameTransitionsState = true;
+            IncreaseCurrentLevelNumber();
         }
         private void SetSingleton()
         {
@@ -61,7 +64,7 @@ namespace Depthcharge.GameManagement
 
         public void ResetCurrentLevelNumber()
         {
-            _currentLevelNumber = 0;
+            _currentLevelNumber = 1;
         }
 
         public LevelConfiguration GetLevelConfiguration()

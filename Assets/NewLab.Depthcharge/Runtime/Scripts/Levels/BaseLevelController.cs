@@ -16,6 +16,7 @@ namespace Depthcharge.LevelManagement
         protected BaseGameUIController UI = null;
         public BaseGameUIController UIController { get => UI; }
         protected GameLogic gameLogic = null;
+        public GameLogic GameLogic { get => gameLogic; }
         protected GameStateManager gameStateManager = null;
         protected GameUIContext UIContext = default;
         protected WinConditionContainer _winCondition = null;

@@ -13,6 +13,7 @@ namespace Depthcharge.GameManagement.AI
 
         private BaseLevelController level = null;
         private GameStateManager stateManager = null;
+        private GameLogic gameLogic = null;
         private UI_EndGameController UI = null;
         private bool isOwnerGot = false;
 
@@ -20,6 +21,7 @@ namespace Depthcharge.GameManagement.AI
         {
             this.level = level;
             UI = level.SystemsRoot.UISystem.LoseUI;
+            gameLogic = GameLogic.Instance;
         }
         public override void OnStateEnter()
         {
@@ -29,6 +31,8 @@ namespace Depthcharge.GameManagement.AI
                 isOwnerGot = !isOwnerGot;
             }
             UI.SubscribeToButtons(OnClickButton);
+            UI.SubscribeToButton(EndGameButtonType.Reload, OnClickReloadButton);
+            UI.SubscribeToButton(EndGameButtonType.Quit, OnClickQuitButton);
             level.Player.InputModule.DisableModule();
             level.SystemsRoot.UISystem.CurrentGameUI.gameObject.SetActive(false);
             StartCoroutine(ActivateLoseUI());
@@ -36,6 +40,8 @@ namespace Depthcharge.GameManagement.AI
         public override void OnStateExit()
         {
             UI.SetAllTextsState(false);
+            UI.UnsubscribeFromButton(EndGameButtonType.Quit, OnClickQuitButton);
+            UI.UnsubscribeFromButton(EndGameButtonType.Reload, OnClickReloadButton);
             UI.UnsubscribeFromButtons(OnClickButton);
         }
 
@@ -43,6 +49,15 @@ namespace Depthcharge.GameManagement.AI
         {
             UI.DisableInput();
             StartCoroutine(GoToTheNextState(configuration));
+        }
+        private void OnClickReloadButton(SceneConfiguration configuration)
+        {
+            gameLogic.LoadGameTransitionsState = false;
+        }
+        private void OnClickQuitButton(SceneConfiguration configuration)
+        {
+            gameLogic.LoadGameTransitionsState = true;
+            gameLogic.ResetCurrentLevelNumber();
         }
 
         private IEnumerator GoToTheNextState(SceneConfiguration configuration)
@@ -58,7 +73,6 @@ namespace Depthcharge.GameManagement.AI
             level.SystemsRoot.UISystem.SetLoseUIActiveness(false);
             level.SystemsRoot.SceneSystem.ChangeScene(configuration);
         }
-
 
         private IEnumerator ActivateLoseUI()
         {

@@ -15,7 +15,6 @@ namespace Depthcharge.GameManagement.AI
         public void SetUp(BaseLevelController level)
         {
             this.level = level;
-            
         }
         public override void OnStateEnter()
         {

@@ -45,8 +45,11 @@ namespace Depthcharge.GameManagement.AI
             level.UIController.gameObject.SetActive(false);
             level.Player.DisableModules();
             movementAdapter = level.Player.GetComponentInChildren<BaseMovementAdapter>();
+            if (!level.GameLogic.LoadGameTransitionsState)
+                LoadWithoutTransitions();
             StartCoroutine(MoveCameraToTarget());
         }
+
         private IEnumerator MoveCameraToTarget()
         {
             Vector2 direction = Vector2.up;
@@ -95,10 +98,18 @@ namespace Depthcharge.GameManagement.AI
             stateManager.SetStateOnGame(level);
         }
 
-        // To subscribed on SettingsController which will be in UISystem.
+        private void LoadWithoutTransitions()
+        {
+            SetCameraToTargetPosition();
+            SetPlayerToTargetPosition();
+        }
         private void SetCameraToTargetPosition()
         {
-            Vector2 targetPosition = new Vector2(cameraTransform.position.x, cameraTargetY);
+            Vector3 targetPosition = new Vector3(
+                cameraTransform.position.x, 
+                cameraTargetY, 
+                cameraTransform.position.z
+                );
             cameraTransform.position = targetPosition;
         }
         private void SetPlayerToTargetPosition()

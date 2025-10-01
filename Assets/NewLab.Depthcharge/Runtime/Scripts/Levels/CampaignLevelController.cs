@@ -9,7 +9,7 @@ namespace Depthcharge.LevelManagement
     public class CampaignLevelController : BaseLevelController
     {
 
-        private int levelNumber = 0;
+        // private int levelNumber = 0;
         private List<EnemySpawner> spawners = null;
         private EnemyListenersContainer listeners = null;
         [SerializeField]
@@ -17,7 +17,7 @@ namespace Depthcharge.LevelManagement
 
         protected override void SetUp()
         {
-            levelNumber = gameLogic.IncreaseCurrentLevelNumber();
+            // levelNumber = gameLogic.IncreaseCurrentLevelNumber();
             //UIContext.levelNumber = levelNumber;
             base.SetUp();
             spawners = LevelControllerConfigurator.SetEnemySpawners(Configuration, ref spawnerProviders);
@@ -31,7 +31,7 @@ namespace Depthcharge.LevelManagement
         protected override void SetGameUIContext(ref GameUIContext context)
         {
             base.SetGameUIContext(ref context);
-            context.levelNumber = levelNumber;
+            context.levelNumber = gameLogic.CurrentLevelNumber/*levelNumber*/;
         }
 
         protected override void CleanUp()

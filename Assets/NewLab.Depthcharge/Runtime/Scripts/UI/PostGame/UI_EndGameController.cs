@@ -109,6 +109,14 @@ namespace Depthcharge.UI.EndGame
             menu.SetAllTextsState(enablingState);
         }
 
+        public void SubscribeToButton(EndGameButtonType type, Action<SceneConfiguration> method)
+        {
+            menu.SubscribeToButton(type, method);
+        }
+        public void UnsubscribeFromButton(EndGameButtonType type, Action<SceneConfiguration> method)
+        {
+            menu.UnsubscribeFromButton(type, method);
+        }
         public void SubscribeToButtons(Action<SceneConfiguration> method)
         {
             foreach (UI_EndGameButton endGameButton in menu.Buttons)

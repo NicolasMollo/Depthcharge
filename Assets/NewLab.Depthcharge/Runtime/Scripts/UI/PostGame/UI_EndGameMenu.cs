@@ -86,7 +86,7 @@ namespace Depthcharge.UI.EndGame
             UI_EndGameButton endGameButton = GetEndGameButton(type);
             endGameButton.Button.OnClick += method;
         }
-        public void UnsubscribeToButton(EndGameButtonType type, Action<SceneConfiguration> method)
+        public void UnsubscribeFromButton(EndGameButtonType type, Action<SceneConfiguration> method)
         {
             UI_EndGameButton endGameButton = GetEndGameButton(type);
             endGameButton.Button.OnClick -= method;
