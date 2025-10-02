@@ -11,11 +11,13 @@ namespace Depthcharge.Actors.Modules
         private PlayerInputActions playerInput = null;
         private float movementInput = 0.0f;
 
-        public override void SetUpModule(GameObject owner = null)
+        private void Awake()
         {
             playerInput = new PlayerInputActions();
             playerInput.Std_ActionMap.Enable();
+            IsModuleSetUp = true;
         }
+
         public override void EnableModule()
         {
             base.EnableModule();
@@ -32,7 +34,6 @@ namespace Depthcharge.Actors.Modules
             movementInput = playerInput.Std_ActionMap.HorizontalMovement.ReadValue<float>();
             return movementInput;
         }
-
         public void SubscribeOnShoot(Action<InputAction.CallbackContext> method)
         {
             playerInput.Std_ActionMap.Shoot.performed += method;

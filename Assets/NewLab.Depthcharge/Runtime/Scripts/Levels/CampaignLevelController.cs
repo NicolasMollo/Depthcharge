@@ -15,11 +15,11 @@ namespace Depthcharge.LevelManagement
         [SerializeField]
         private EnemySpawnerProvider[] spawnerProviders = null;
 
-        protected override void SetUp()
+        protected override void InternalSetUp()
         {
             // levelNumber = gameLogic.IncreaseCurrentLevelNumber();
             //UIContext.levelNumber = levelNumber;
-            base.SetUp();
+            //base.SetUp();
             spawners = LevelControllerConfigurator.SetEnemySpawners(Configuration, ref spawnerProviders);
             listeners = new EnemyListenersContainer(OnSpawnEnemy, OnDefeatEnemy, OnDeactivateEnemy);
         }
@@ -34,9 +34,9 @@ namespace Depthcharge.LevelManagement
             context.levelNumber = gameLogic.CurrentLevelNumber/*levelNumber*/;
         }
 
-        protected override void CleanUp()
+        protected override void InternalCleanUp()
         {
-            base.CleanUp();
+            base.InternalCleanUp();
             foreach (EnemySpawner spawner in spawners) 
                 spawner.CleanUp();
             systemsRoot.UISystem.SetCampaignUIActiveness(false);
@@ -44,14 +44,14 @@ namespace Depthcharge.LevelManagement
 
         #region Events
 
-        protected override void AddListeners()
+        protected override void AddListenersToActors()
         {
-            base.AddListeners();
+            base.AddListenersToActors();
             LevelControllerConfigurator.AddEnemiesListeners(spawners, listeners);
         }
-        protected override void RemoveListeners()
+        protected override void RemoveListenersFromActors()
         {
-            base.RemoveListeners();
+            base.RemoveListenersFromActors();
             LevelControllerConfigurator.RemoveEnemiesListeners(spawners, listeners);
         }
 
@@ -73,7 +73,7 @@ namespace Depthcharge.LevelManagement
             UI.SetEnemiesText(_stats.EnemiesDefeated.ToString());
             if (_winCondition.Strategy.WinLevelCondition(this))
             {
-                // _stats.DecreaseActiveEnemies();
+                _stats.DecreaseActiveEnemies();
                 OnWin?.Invoke();
                 Debug.Log($"Enemies missed: {Stats.EnemiesMissed}");
             }

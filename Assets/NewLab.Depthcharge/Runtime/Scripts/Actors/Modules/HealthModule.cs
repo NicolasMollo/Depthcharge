@@ -17,7 +17,6 @@ namespace Depthcharge.Actors.Modules
             get => _health < 0 ? _health = 0 : _health > maxHealth ? maxHealth : _health;
             set => _health = value;
         }
-
         public float HealthPercentage
         {
             get => Health / maxHealth;
@@ -27,43 +26,30 @@ namespace Depthcharge.Actors.Modules
         public Action<float> OnTakeHealth = null;
         public Action OnDeath = null;
 
-        #region API
-
-        public override void SetUpModule(GameObject owner = null)
+        private void Awake()
         {
-
             Health = maxHealth;
-
+            IsModuleSetUp = true;
         }
 
         public void TakeDamage(float damage)
         {
-
             Health -= damage;
             OnTakeDamage?.Invoke(Health);
             if (Health == 0)
             {
                 OnDeath?.Invoke();
             }
-
         }
-
         public void TakeHealth(float health)
         {
-
             Health += health;
             OnTakeHealth?.Invoke(Health);
-
         }
-
         public void SetMaxHealth(float maxHealth)
         {
-
             this.maxHealth = maxHealth;
-
         }
-
-        #endregion
 
     }
 

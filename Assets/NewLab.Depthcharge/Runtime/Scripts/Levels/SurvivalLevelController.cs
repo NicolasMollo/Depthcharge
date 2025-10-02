@@ -19,9 +19,9 @@ namespace Depthcharge.LevelManagement
         [SerializeField]
         private EnemySpawnerProvider[] spawnerProviders = null;
 
-        protected override void SetUp()
+        protected override void InternalSetUp()
         {
-            base.SetUp();
+            base.InternalSetUp();
             survivalUI = this.UI as SurvivalUIController;
             if (survivalUI == null)
             {
@@ -37,9 +37,9 @@ namespace Depthcharge.LevelManagement
             systemsRoot.UISystem.SetCurrentGameUI(UI);
         }
 
-        protected override void CleanUp()
+        protected override void InternalCleanUp()
         {
-            base.CleanUp();
+            base.InternalCleanUp();
             foreach (EnemySpawner spawner in spawners)
                 spawner.CleanUp();
             systemsRoot.UISystem.SetSurvivalUIActiveness(false);
@@ -52,14 +52,14 @@ namespace Depthcharge.LevelManagement
             survivalUI.SetElapsedTimeText(_stats.Time);
         }
 
-        protected override void AddListeners()
+        protected override void AddListenersToActors()
         {
-            base.AddListeners();
+            base.AddListenersToActors();
             LevelControllerConfigurator.AddEnemiesListeners(spawners, listeners);
         }
-        protected override void RemoveListeners()
+        protected override void RemoveListenersFromActors()
         {
-            base.RemoveListeners();
+            base.RemoveListenersFromActors();
             LevelControllerConfigurator.RemoveEnemiesListeners(spawners, listeners);
         }
 

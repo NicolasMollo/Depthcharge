@@ -101,7 +101,7 @@ namespace Depthcharge.GameManagement.AI
         private void LoadWithoutTransitions()
         {
             SetCameraToTargetPosition();
-            SetPlayerToTargetPosition();
+            // SetPlayerToTargetPosition();
         }
         private void SetCameraToTargetPosition()
         {

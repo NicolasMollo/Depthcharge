@@ -25,7 +25,6 @@ namespace Depthcharge.UI
             reloadBar.rectTransform.sizeDelta = new Vector2(offsetX, reloadBar.rectTransform.sizeDelta.y);
             startSize = reloadBar.rectTransform.sizeDelta;
         }
-
         public void DecreaseReloadBar(float reloadTime)
         {
             StartCoroutine(DecreaseScaleXTimed(reloadBar, reloadTime));

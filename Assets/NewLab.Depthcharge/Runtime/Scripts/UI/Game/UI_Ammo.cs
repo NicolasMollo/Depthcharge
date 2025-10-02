@@ -17,10 +17,15 @@ namespace Depthcharge.UI
         [SerializeField]
         private float ammoTransparency = 1.0f;
 
+        private void Awake()
+        {
+            ammo = new List<Image>();
+        }
+
         public void SetUp(int ammoCount, float ammoTransparency = 1.0f)
         {
+            ClearAmmo();
             this.ammoTransparency = ammoTransparency != 1.0f ? ammoTransparency : this.ammoTransparency;
-            ammo = new List<Image>();
             Image temporary = null;
             for (int i = 0; i < ammoCount; i++)
             {
@@ -28,7 +33,6 @@ namespace Depthcharge.UI
                 ammo.Add(temporary);
             }
         }
-
         public void AddTransparency()
         {
             float alpha = ammoTransparency;
@@ -61,6 +65,12 @@ namespace Depthcharge.UI
             GameObject ammoObj = Instantiate(prefabAmmo, ammoContainer);
             Image ammoImage = ammoObj.GetComponent<Image>();
             return ammoImage;
+        }
+        private void ClearAmmo()
+        {
+            foreach (Image ammo in this.ammo)
+                Destroy(ammo.gameObject);
+            ammo.Clear();
         }
 
     }

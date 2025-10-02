@@ -11,7 +11,6 @@ namespace Depthcharge.Actors.Modules
     {
 
         private List<BulletController> bullets = null;
-        private List<BulletController> deadBullets = null;
         private BaseBulletFactory originalBulletFactory = null;
         private int bulletsShooted = 0;
         private bool _isReloading = false;
@@ -22,11 +21,9 @@ namespace Depthcharge.Actors.Modules
         [SerializeField]
         private Transform shootPoint = null;
         public Transform ShootPoint { get => shootPoint; }
-
         [SerializeField]
         private Transform bulletsParent = null;
         public Transform BulletsParent { get => bulletsParent; }
-
         [SerializeField]
         private BaseBulletFactory bulletFactory = null;
 
@@ -38,10 +35,8 @@ namespace Depthcharge.Actors.Modules
         [SerializeField]
         private int poolSize = 0;
         public int PoolSize { get => poolSize; }
-
         [SerializeField]
         private bool reloadAutomatically = false;
-
         [SerializeField]
         private float reloadTime = 5.0f;
         public float ReloadTime { get => reloadTime; }
@@ -53,20 +48,17 @@ namespace Depthcharge.Actors.Modules
         public Action OnReloaded = null;
         public Action OnChangeBullets = null;
 
-
-        #region API
-
-        public override void SetUpModule(GameObject owner = null)
+        private void Awake()
         {
             originalBulletFactory = bulletFactory;
             bullets = bulletFactory.CreateBulletPool(this, poolSize);
-            deadBullets = new List<BulletController>();
-            base.SetUpModule(owner); // IsModuleSetUp = true;
+            IsModuleSetUp = true;
         }
+
+        #region API
 
         public void Shoot()
         {
-
             foreach (BulletController bullet in bullets)
             {
                 if (bullet.transform.parent == bulletsParent && !bullet.gameObject.activeSelf)
@@ -79,58 +71,45 @@ namespace Depthcharge.Actors.Modules
                         return;
                 }
             }
-
             if (reloadAutomatically)
                 ReloadAutomatically();
-
         }
-
         public void Reload()
         {
-
             OnStartReload?.Invoke(_isReloading);
             _isReloading = true;
             ResetBulletsTransform();
             bulletsShooted = 0;
             OnReloaded?.Invoke();
             _isReloading = !_isReloading;
-
         }
-
         public void ChangeBulletsType(BaseBulletFactory bulletFactory)
         {
-
             this.bulletFactory = bulletFactory;
             foreach (BulletController bullet in bullets)
             {
-                //if (bullet.IsShooted)
-                //    deadBullets.Add(bullet);
-                //else
-                //    Destroy(bullet.gameObject);
                 if (!bullet.IsShooted)
                     Destroy(bullet.gameObject);
-
             }
             bullets.Clear();
             bullets = this.bulletFactory.CreateBulletPool(this, poolSize);
             OnChangeBullets?.Invoke();
-
         }
-
-        private void ClearDeadBullets()
-        {
-            foreach (BulletController bullet in deadBullets)
-            {
-                if (!bullet.gameObject.activeSelf)
-                    Destroy(bullet.gameObject);
-            }
-            deadBullets.Clear();
-        }
-
         public void ResetBulletsType()
         {
             this.bulletFactory = originalBulletFactory;
             ChangeBulletsType(this.bulletFactory);
+        }
+        public void ResetBullets()
+        {
+            foreach (BulletController bullet in bullets)
+            {
+                if (bullet.transform.parent == null && !bullet.gameObject.activeSelf)
+                {
+                    bullet.transform.SetParent(bulletsParent);
+                    bullet.transform.position = shootPoint.position;
+                }
+            }
         }
 
         #endregion
@@ -143,7 +122,6 @@ namespace Depthcharge.Actors.Modules
         }
         private IEnumerator ReloadAutomatically(float delay)
         {
-
             _isReloading = true;
             yield return new WaitUntil(AreBulletsDisabled);
             OnStartReload?.Invoke(_isReloading);
@@ -152,12 +130,9 @@ namespace Depthcharge.Actors.Modules
             bulletsShooted = 0;
             OnReloaded?.Invoke();
             _isReloading = !_isReloading;
-
         }
-
         private void ResetBulletsTransform()
         {
-
             foreach (BulletController bullet in bullets)
             {
                 if (!bullet.IsShooted)
@@ -166,12 +141,9 @@ namespace Depthcharge.Actors.Modules
                     bullet.transform.position = shootPoint.position;
                 }
             }
-
         }
-
         private bool AreBulletsDisabled()
         {
-
             int deactivatedBullets = 0;
             foreach (BulletController bullet in bullets)
             {
@@ -182,19 +154,6 @@ namespace Depthcharge.Actors.Modules
             if (deactivatedBullets == bullets.Count)
                 return true;
             return false;
-
-        }
-
-        public void ResetBullets()
-        {
-            foreach (BulletController bullet in bullets)
-            {
-                if (bullet.transform.parent == null && !bullet.gameObject.activeSelf)
-                {
-                    bullet.transform.SetParent(bulletsParent);
-                    bullet.transform.position = shootPoint.position;
-                }
-            }
         }
 
         #endregion

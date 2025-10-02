@@ -29,15 +29,11 @@ namespace Depthcharge.Actors
 
         #endregion
 
-        public void SetUp()
+        private void OnEnable()
         {
-            _inputModule.SetUpModule();
-            _movementModule.SetUpModule();
-            _healthModule.SetUpModule();
-            _shootModule.SetUpModule();
             _inputModule.SubscribeOnShoot(OnPressShootButton);
         }
-        public void CleanUp()
+        private void OnDisable()
         {
             _inputModule.UnsubscribeFromShoot(OnPressShootButton);
         }

@@ -1,4 +1,5 @@
 using Depthcharge.Actors.AI;
+using Depthcharge.Events;
 using Depthcharge.LevelManagement;
 using UnityEngine;
 
@@ -10,28 +11,29 @@ namespace Depthcharge.GameManagement.AI
 
         private BaseLevelController level = null;
         private GameStateManager stateManager = null;
-        private bool isOwnerGot = false;
 
+        private void Awake()
+        {
+            stateManager = fsm.Owner.GetComponent<GameStateManager>();
+        }
         public void SetUp(BaseLevelController level)
         {
             this.level = level;
         }
         public override void OnStateEnter()
         {
-            if (!isOwnerGot)
-            {
-                stateManager = fsm.Owner.GetComponent<GameStateManager>();
-                isOwnerGot = !isOwnerGot;
-            }
             level.UIController.gameObject.SetActive(true);
+            level.Player.EnableModules();
             level.Player.HealthModule.OnDeath += OnPlayerDeath;
             level.OnWin += OnLevelWin;
-            level.Player.EnableModules();
         }
         public override void OnStateExit()
         {
             level.OnWin -= OnLevelWin;
             level.Player.HealthModule.OnDeath -= OnPlayerDeath;
+            GameEventBus.CallOnGameOver();
+            level.Player.InputModule.DisableModule();
+            level.SystemsRoot.UISystem.CurrentGameUI.gameObject.SetActive(false);
         }
         private void OnPlayerDeath()
         {

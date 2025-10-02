@@ -1,4 +1,5 @@
 using Depthcharge.Actors;
+using Depthcharge.Events;
 using Depthcharge.GameManagement;
 using Depthcharge.UI;
 using System;
@@ -32,34 +33,39 @@ namespace Depthcharge.LevelManagement
 
         public Action OnWin = null;
 
+        private void Awake()
+        {
+            _stats = new LevelStats();
+        }
+        private void OnEnable()
+        {
+            GameEventBus.OnGameOver += OnGameOver;
+        }
+        private void OnDisable()
+        {
+            GameEventBus.OnGameOver -= OnGameOver;
+        }
         private void Start()
         {
             systemsRoot = GameSystemsRoot.Instance;
             gameLogic = GameLogic.Instance;
             gameStateManager = GameStateManager.Instance;
-            SetUp();
-            AddListeners();
-        }
-        private void OnDestroy()
-        {
-            RemoveListeners();
-            CleanUp();
-        }
-
-        protected virtual void SetUp()
-        {
-            _stats = new LevelStats();
             _configuration = gameLogic.GetLevelConfiguration();
             int randomIndex = UnityEngine.Random.Range(0, _configuration.WinConditions.Count);
             _winCondition = _configuration.WinConditions[randomIndex];
-            player.SetUp();
             ConfigureUI(ref UI);
             SetGameUIContext(ref UIContext);
-            //UIContext.player = player;
-            //UIContext.levelController = this;
             UI.SetUp(UIContext);
             gameStateManager.SetStateOnPreGame(this);
+            InternalSetUp();
+            AddListenersToActors();
         }
+        private void OnDestroy()
+        {
+            InternalCleanUp();
+        }
+        protected virtual void InternalSetUp() { }
+        protected virtual void InternalCleanUp() { }
 
         protected abstract void ConfigureUI(ref BaseGameUIController UI);
         protected virtual void SetGameUIContext(ref GameUIContext context)
@@ -68,12 +74,11 @@ namespace Depthcharge.LevelManagement
             context.levelController = this;
         }
 
-        protected virtual void CleanUp()
+        private void OnGameOver()
         {
-            player.CleanUp();
+            RemoveListenersFromActors();
         }
-
-        protected virtual void AddListeners()
+        protected virtual void AddListenersToActors()
         {
             player.ShootModule.OnShoot += OnPlayerShoot;
             player.ShootModule.OnStartReload += OnPlayerStartReload;
@@ -81,7 +86,7 @@ namespace Depthcharge.LevelManagement
             player.HealthModule.OnTakeDamage += OnPlayerTakeDamage;
             player.HealthModule.OnTakeHealth += OnPlayerTakeHealth;
         }
-        protected virtual void RemoveListeners()
+        protected virtual void RemoveListenersFromActors()
         {
             player.ShootModule.OnShoot -= OnPlayerShoot;
             player.ShootModule.OnStartReload -= OnPlayerStartReload;

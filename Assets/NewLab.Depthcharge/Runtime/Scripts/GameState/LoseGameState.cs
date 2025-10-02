@@ -33,8 +33,8 @@ namespace Depthcharge.GameManagement.AI
             UI.SubscribeToButtons(OnClickButton);
             UI.SubscribeToButton(EndGameButtonType.Reload, OnClickReloadButton);
             UI.SubscribeToButton(EndGameButtonType.Quit, OnClickQuitButton);
-            level.Player.InputModule.DisableModule();
-            level.SystemsRoot.UISystem.CurrentGameUI.gameObject.SetActive(false);
+            //level.Player.InputModule.DisableModule();
+            //level.SystemsRoot.UISystem.CurrentGameUI.gameObject.SetActive(false);
             StartCoroutine(ActivateLoseUI());
         }
         public override void OnStateExit()
