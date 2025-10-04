@@ -27,6 +27,10 @@ namespace Depthcharge.GameManagement.AI
             level.Player.HealthModule.OnDeath += OnPlayerDeath;
             level.OnWin += OnLevelWin;
         }
+        public override void OnStateUpdate()
+        {
+            GameEventBus.CallOnGameUpdate();
+        }
         public override void OnStateExit()
         {
             level.OnWin -= OnLevelWin;

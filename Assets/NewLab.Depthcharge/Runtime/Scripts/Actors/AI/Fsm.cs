@@ -24,7 +24,10 @@ namespace Depthcharge.Actors.AI
             currentState = startState;
             currentState.OnStateEnter();
         }
-
+        public void UpdateCurrentState()
+        {
+            currentState.OnStateUpdate();
+        }
         public void ChangeState(BaseState state)
         {
             currentState.OnStateExit();
@@ -35,8 +38,12 @@ namespace Depthcharge.Actors.AI
         public T GetState<T>() where T : BaseState
         {
             foreach (BaseState state in states)
+            {
                 if (state is T typedState)
+                {
                     return typedState;
+                }
+            }
             return null;
         }
 

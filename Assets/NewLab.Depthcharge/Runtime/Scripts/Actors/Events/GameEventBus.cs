@@ -12,6 +12,12 @@ namespace Depthcharge.Events
             OnGameStart?.Invoke();
         }
 
+        public static Action OnGameUpdate = null;
+        public static void CallOnGameUpdate()
+        {
+            OnGameUpdate?.Invoke();
+        }
+
         public static Action OnGameOver = null;
         public static void CallOnGameOver()
         {

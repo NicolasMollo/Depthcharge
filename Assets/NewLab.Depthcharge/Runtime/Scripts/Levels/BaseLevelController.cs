@@ -39,9 +39,17 @@ namespace Depthcharge.LevelManagement
         }
         private void OnEnable()
         {
-            GameEventBus.OnGameOver += OnGameOver;
+            AddListeners();
         }
         private void OnDisable()
+        {
+            RemoveListeners();
+        }
+        protected virtual void AddListeners()
+        {
+            GameEventBus.OnGameOver += OnGameOver;
+        }
+        protected virtual void RemoveListeners()
         {
             GameEventBus.OnGameOver -= OnGameOver;
         }

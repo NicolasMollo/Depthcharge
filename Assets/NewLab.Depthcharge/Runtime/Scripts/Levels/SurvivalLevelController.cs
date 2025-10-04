@@ -1,6 +1,6 @@
 using Depthcharge.Actors;
+using Depthcharge.Events;
 using Depthcharge.UI;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -36,7 +36,6 @@ namespace Depthcharge.LevelManagement
             UI = systemsRoot.UISystem.SurvivalUI;
             systemsRoot.UISystem.SetCurrentGameUI(UI);
         }
-
         protected override void InternalCleanUp()
         {
             base.InternalCleanUp();
@@ -45,7 +44,17 @@ namespace Depthcharge.LevelManagement
             systemsRoot.UISystem.SetSurvivalUIActiveness(false);
         }
 
-        private void Update()
+        protected override void AddListeners()
+        {
+            base.AddListeners(); // GameEventBus.OnGameOver += OnGameOver;
+            GameEventBus.OnGameUpdate += OnGameUpdate;
+        }
+        protected override void RemoveListeners()
+        {
+            GameEventBus.OnGameUpdate -= OnGameUpdate;
+            base.RemoveListeners(); // GameEventBus.OnGameOver -= OnGameOver;
+        }
+        private void OnGameUpdate()
         {
             elapsedTime += Time.deltaTime;
             _stats.IncreaseTime(elapsedTime);
@@ -62,7 +71,6 @@ namespace Depthcharge.LevelManagement
             base.RemoveListenersFromActors();
             LevelControllerConfigurator.RemoveEnemiesListeners(spawners, listeners);
         }
-
         private void OnSpawnEnemy()
         {
             _stats.IncreaseEnemiesSpawned();

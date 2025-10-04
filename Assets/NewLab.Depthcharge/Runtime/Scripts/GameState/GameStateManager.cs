@@ -30,6 +30,11 @@ namespace Depthcharge.GameManagement
             }
         }
 
+        private void Update()
+        {
+            fsm.UpdateCurrentState();
+        }
+
         public void SetStateOnIdle()
         {
             IdleState idleState = fsm.GetState<IdleState>();

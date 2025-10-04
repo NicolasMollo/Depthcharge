@@ -13,6 +13,7 @@ namespace Depthcharge.Actors.AI
         protected BaseState nextState = null;
 
         public virtual void OnStateEnter() { }
+        public virtual void OnStateUpdate() { }
         public virtual void OnStateExit() { }
 
     }
