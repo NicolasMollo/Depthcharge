@@ -28,7 +28,7 @@ namespace Depthcharge.LevelManagement
                 Debug.LogError($"=== {this.gameObject.name} === UI type is wrong!");
                 return;
             }
-            spawners = LevelControllerConfigurator.SetEnemySpawners(Configuration, ref spawnerProviders);
+            spawners = LevelControllerConfigurator.SetEnemySpawners(_configuration, ref spawnerProviders);
             listeners = new EnemyListenersContainer(OnSpawnEnemy, OnDefeatEnemy, OnDeactivateEnemy);
         }
         protected override void ConfigureUI(ref BaseGameUIController UI)

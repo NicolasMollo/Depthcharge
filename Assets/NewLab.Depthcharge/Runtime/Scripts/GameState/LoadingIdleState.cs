@@ -1,19 +1,19 @@
 using Depthcharge.Actors.AI;
 using Depthcharge.SceneManagement;
-using Depthcharge.UI.EndGame;
+using Depthcharge.UI;
 using System.Collections;
 using UnityEngine;
 
 namespace Depthcharge.GameManagement.AI
 {
-    public class PreIdleState : BaseState
+    public class LoadingIdleState : BaseState
     {
 
-        private bool isCameraOnTarget = false;
-        private Camera mainCamera = null;
-        private UI_EndGameController UI = null;
-        private GameStateManager stateManager = null;
+        private UISystem UISystem = null;
         private SceneManagementSystem sceneSystem = null;
+        private bool isCameraOnTarget = false;
+
+        [Header("SETTINGS")]
         [SerializeField]
         private SceneConfiguration idleSceneConfig = null;
         [SerializeField]
@@ -21,12 +21,13 @@ namespace Depthcharge.GameManagement.AI
         [SerializeField]
         private float cameraTargetY = -10.0f;
 
+        public override void SetUp()
+        {
+            sceneSystem = GameSystemsRoot.Instance.SceneSystem;
+        }
         public override void OnStateEnter()
         {
-            mainCamera = Camera.main;
-            UI = GameSystemsRoot.Instance.UISystem.CurrentEndGameUI;
-            sceneSystem = GameSystemsRoot.Instance.SceneSystem;
-            stateManager = GameStateManager.Instance;
+            UISystem = GameSystemsRoot.Instance.UISystem;
             StartCoroutine(GoToIdleState());
         }
         public override void OnStateExit()
@@ -36,25 +37,25 @@ namespace Depthcharge.GameManagement.AI
 
         private IEnumerator GoToIdleState()
         {
-            UI.SetMenuActiveness(false);
-            UI.FadeOutPanel();
-            yield return new WaitUntil(() => !UI.IsPanelFadedIn);
+            UISystem.CurrentEndGameUI.SetMenuActiveness(false);
+            UISystem.CurrentEndGameUI.FadeOutPanel();
+            yield return new WaitUntil(() => !UISystem.CurrentEndGameUI.IsPanelFadedIn);
             StartCoroutine(MoveCameraToTarget());
             yield return new WaitUntil(() => isCameraOnTarget);
             sceneSystem.ChangeScene(idleSceneConfig);
-            stateManager.SetStateOnIdle();
+            yield return new WaitUntil(() => sceneSystem.CurrentScene.IsLoaded);
+            fsm.GoToTheNextState();
         }
-
         private IEnumerator MoveCameraToTarget()
         {
             Vector2 direction = Vector2.down;
             float calculatedSpeed = 0.0f;
             Vector2 traslation = Vector2.zero;
-            while (mainCamera.transform.position.y >= cameraTargetY)
+            while (Camera.main.transform.position.y >= cameraTargetY)
             {
                 calculatedSpeed = cameraSpeed * Time.deltaTime;
                 traslation = direction * calculatedSpeed;
-                mainCamera.transform.transform.Translate(traslation);
+                Camera.main.transform.transform.Translate(traslation);
                 yield return null;
             }
             isCameraOnTarget = true;

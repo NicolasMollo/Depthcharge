@@ -1,4 +1,3 @@
-using UnityEngine;
 using Depthcharge.Actors.Modules;
 
 namespace Depthcharge.Actors.AI
@@ -8,18 +7,16 @@ namespace Depthcharge.Actors.AI
     {
 
         private ShootModule shootModule = null;
-        private bool isShootModuleGot = false;
+
+        private void Awake()
+        {
+            shootModule = fsm.Owner.GetComponentInChildren<ShootModule>();
+        }
 
         public override void OnStateEnter()
         {
-            // Debug.Log($"I'm in {this.name}");
-            if (!isShootModuleGot)
-            {
-                shootModule = fsm.Owner.GetComponentInChildren<ShootModule>();
-                isShootModuleGot = true;
-            }
             shootModule.Shoot();
-            fsm.ChangeState(nextState);
+            fsm.GoToTheNextState();
         }
 
     }

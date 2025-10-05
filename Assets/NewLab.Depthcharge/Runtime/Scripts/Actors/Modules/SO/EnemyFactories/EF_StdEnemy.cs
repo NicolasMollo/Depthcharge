@@ -17,7 +17,6 @@ namespace Depthcharge.Actors
 
         public override List<EnemyController> CreateEnemyPool(EnemyFactoryContext context, int poolSize)
         {
-
             List<EnemyController> enemies = new List<EnemyController>();
             EnemyController temporary = null;
             for (int i = 0; i < poolSize; i++)
@@ -26,14 +25,11 @@ namespace Depthcharge.Actors
                 temporary.gameObject.SetActive(false);
                 enemies.Add(temporary);
             }
-
             return enemies;
-
         }
 
         protected override EnemyController CreateEnemy(EnemyFactoryContext context)
         {
-
             GameObject enemyObj = Instantiate(
                 prefabStdEnemy,
                 context.SpawnPoint.position,
@@ -43,14 +39,11 @@ namespace Depthcharge.Actors
             EnemyController enemyController = enemyObj.GetComponent<EnemyController>();
             Vector2 movementDirection = MovementDirectionToVector(context.MovementDirection);
             enemyController.SetUpEnemy(configuration, movementDirection);
-
             return enemyController;
-
         }
 
         private Vector2 MovementDirectionToVector(MovementDirection movementDirection)
         {
-
             Vector2 direction = Vector2.zero;
             switch (movementDirection)
             {
@@ -70,11 +63,8 @@ namespace Depthcharge.Actors
                     direction = Vector2.zero;
                     break;
             }
-
             return direction;
-
         }
-
 
     }
 

@@ -1,3 +1,5 @@
+using Depthcharge.UI.EndGame;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -20,19 +22,18 @@ namespace Depthcharge.SceneManagement
             _currentScene = GetSceneByName(startSceneName);
             _currentScene.IsLoaded = true;
         }
-
         public void ChangeScene(SceneConfiguration configuration)
         {
             SceneContainer sceneToLoad = GetSceneByName(configuration.SceneName);
             if (sceneToLoad == null)
             {
-                Debug.LogError($"=== {this.gameObject.name} === Scene to load is null!");
+                Debug.LogError($"=== SceneManagementSystem.ChangeScene() === Scene to load is null!");
                 return;
             }
             _currentScene.IsLoaded = false;
             SceneManager.LoadScene(sceneToLoad.Configuration.SceneName, LoadSceneMode.Single);
             _currentScene = sceneToLoad;
-            _currentScene.IsLoaded = true;
+            StartCoroutine(AttendUntilSceneIsLoaded(_currentScene));
         }
 
         private SceneContainer GetSceneByName(string name)
@@ -47,6 +48,17 @@ namespace Depthcharge.SceneManagement
                 }
             }
             return selectedScene;
+        }
+        private IEnumerator AttendUntilSceneIsLoaded(SceneContainer scene)
+        {
+            Scene sceneToLoad = SceneManager.GetSceneByName(scene.Configuration.SceneName);
+            if (sceneToLoad == null)
+            {
+                Debug.LogError($"=== SceneManagementSystem.AttendUntilSceneIsLoaded() === Scene is null!");
+                yield break;
+            }
+            yield return new WaitUntil(() => sceneToLoad.isLoaded);
+            scene.IsLoaded = true;
         }
 
     }

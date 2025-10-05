@@ -19,6 +19,21 @@ namespace Depthcharge.Actors.AI
         private BaseState startState = null;
         private BaseState currentState = null;
 
+        public void SetUpStates()
+        {
+            foreach (BaseState state in states)
+            {
+                state.SetUp();
+            }
+        }
+        public void CleanUpStates()
+        {
+            foreach(BaseState state in states)
+            {
+                state.CleanUp();
+            }
+        }
+
         public void SetStartState()
         {
             currentState = startState;
@@ -28,14 +43,31 @@ namespace Depthcharge.Actors.AI
         {
             currentState.OnStateUpdate();
         }
-        public void ChangeState(BaseState state)
+
+        public void GoToTheNextState()
         {
             currentState.OnStateExit();
-            currentState = state;
+            currentState = currentState.NextState;
+            if (currentState == null)
+            {
+                Debug.LogError($"=== {this.transform.parent.name}.FSM.GoToTheNextState() === Current state hasn't a next state!");
+                return;
+            }
+            currentState.OnStateEnter();
+        }
+        public void ChangeState<T>() where T : BaseState
+        {
+            currentState.OnStateExit();
+            currentState = GetState<T>();
+            if (currentState == null)
+            {
+                Debug.LogError($"=== {this.transform.parent.name}.FSM === There isn't state of this type in the fsm!");
+                return;
+            }
             currentState.OnStateEnter();
         }
 
-        public T GetState<T>() where T : BaseState
+        private T GetState<T>() where T : BaseState
         {
             foreach (BaseState state in states)
             {

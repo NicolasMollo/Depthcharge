@@ -33,7 +33,9 @@ namespace Depthcharge.Actors
             context.MovementDirection = movementDirection;
             _enemies = enemyFactory.CreateEnemyPool(context, poolSize);
             foreach (EnemyController enemy in _enemies)
+            {
                 enemy.OnDeactivation += ResetEnemyPosition;
+            }
             if (context.MovementDirection != MovementDirection.Left)
             {
                 FlipEnemies();
@@ -43,7 +45,9 @@ namespace Depthcharge.Actors
         public void CleanUp()
         {
             foreach (EnemyController enemy in _enemies)
+            {
                 enemy.OnDeactivation -= ResetEnemyPosition;
+            }
         }
 
         private void FlipEnemies()

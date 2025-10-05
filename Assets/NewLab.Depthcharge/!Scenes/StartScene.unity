@@ -705,7 +705,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fsm: {fileID: 338015360}
-  nextState: {fileID: 0}
+  nextState: {fileID: 607110079}
 --- !u!1 &248153763
 GameObject:
   m_ObjectHideFlags: 0
@@ -1300,9 +1300,9 @@ Transform:
   - {fileID: 244102850}
   - {fileID: 607110078}
   - {fileID: 1250657335}
-  - {fileID: 466701075}
   - {fileID: 1083481144}
   - {fileID: 1233762675}
+  - {fileID: 466701075}
   m_Father: {fileID: 431043654}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &338015360
@@ -1702,50 +1702,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fsm: {fileID: 338015360}
   nextState: {fileID: 0}
---- !u!1 &479028730
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 479028731}
-  - component: {fileID: 479028732}
-  m_Layer: 0
-  m_Name: StartSceneController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &479028731
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 479028730}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &479028732
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 479028730}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b01e9f452d905ec45a2d4988cf13be2d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &508706119
 GameObject:
   m_ObjectHideFlags: 0
@@ -2118,7 +2074,7 @@ GameObject:
   - component: {fileID: 607110078}
   - component: {fileID: 607110079}
   m_Layer: 0
-  m_Name: PreGameState
+  m_Name: LoadingGameState
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3365,7 +3321,7 @@ GameObject:
   - component: {fileID: 1114324136}
   - component: {fileID: 1114324137}
   m_Layer: 0
-  m_Name: PreIdleState
+  m_Name: LoadingIdleState
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9841,7 +9797,6 @@ CanvasRenderer:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 479028731}
   - {fileID: 1410640240}
   - {fileID: 2175387586556981361}
   - {fileID: 296599682}

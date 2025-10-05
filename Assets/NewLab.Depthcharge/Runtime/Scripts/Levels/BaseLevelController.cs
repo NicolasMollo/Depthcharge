@@ -1,6 +1,7 @@
 using Depthcharge.Actors;
 using Depthcharge.Events;
 using Depthcharge.GameManagement;
+using Depthcharge.GameManagement.AI;
 using Depthcharge.UI;
 using System;
 using UnityEngine;
@@ -13,13 +14,10 @@ namespace Depthcharge.LevelManagement
     {
 
         protected GameSystemsRoot systemsRoot = null;
-        public GameSystemsRoot SystemsRoot { get => systemsRoot; }
         protected BaseGameUIController UI = null;
-        public BaseGameUIController UIController { get => UI; }
         protected GameLogic gameLogic = null;
-        public GameLogic GameLogic { get => gameLogic; }
-        protected GameStateManager gameStateManager = null;
         protected GameUIContext UIContext = default;
+
         protected WinConditionContainer _winCondition = null;
         public WinConditionContainer WinCondition { get => _winCondition; }
         protected LevelConfiguration _configuration = null;
@@ -57,14 +55,12 @@ namespace Depthcharge.LevelManagement
         {
             systemsRoot = GameSystemsRoot.Instance;
             gameLogic = GameLogic.Instance;
-            gameStateManager = GameStateManager.Instance;
             _configuration = gameLogic.GetLevelConfiguration();
             int randomIndex = UnityEngine.Random.Range(0, _configuration.WinConditions.Count);
             _winCondition = _configuration.WinConditions[randomIndex];
             ConfigureUI(ref UI);
             SetGameUIContext(ref UIContext);
             UI.SetUp(UIContext);
-            gameStateManager.SetStateOnPreGame(this);
             InternalSetUp();
             AddListenersToActors();
         }

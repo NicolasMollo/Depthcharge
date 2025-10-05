@@ -124,7 +124,9 @@ namespace Depthcharge.Actors
         private void OnEnable()
         {
             if (_shootModule.IsModuleSetUp)
+            {
                 _shootModule.ResetBullets();
+            }
             _healthModule.SetUpModule();
             fsm.SetStartState();
         }

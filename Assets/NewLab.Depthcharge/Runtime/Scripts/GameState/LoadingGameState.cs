@@ -1,20 +1,21 @@
 using Depthcharge.Actors.AI;
 using Depthcharge.Actors.Modules;
 using Depthcharge.LevelManagement;
+using Depthcharge.UI;
 using System.Collections;
 using UnityEngine;
 
 namespace Depthcharge.GameManagement.AI
 {
     [DisallowMultipleComponent]
-    public class PreGameState : BaseState
+    public class LoadingGameState : BaseState
     {
 
         private BaseLevelController level = null;
-        private BaseMovementAdapter movementAdapter = null;
-        private GameStateManager stateManager = null;
+        private BaseMovementAdapter playerMovement = null;
         private Transform cameraTransform = null;
-        private bool isOwnerGot = false;
+        private UISystem UISystem = null;
+        private GameLogic gameLogic = null;
 
         [Header("SETTINGS")]
         [SerializeField]
@@ -26,29 +27,28 @@ namespace Depthcharge.GameManagement.AI
         [SerializeField]
         private float cameraSpeed = 0f;
 
-        public void SetUp(BaseLevelController level)
+        public override void SetUp()
         {
-            this.level = level;
-            cameraTransform = Camera.main.transform;
-            // Camera.main.backgroundColor = Vector4.zero;
+            UISystem = GameSystemsRoot.Instance.UISystem;
+            gameLogic = GameLogic.Instance;
         }
-
         public override void OnStateEnter()
         {
-            if (!isOwnerGot)
-            {
-                stateManager = fsm.Owner.GetComponent<GameStateManager>();
-                isOwnerGot = !isOwnerGot;
-            }
-            level.SystemsRoot.UISystem.StartUI.DisableInput();
-            level.SystemsRoot.UISystem.SetStartUIActiveness(false);
-            level.UIController.gameObject.SetActive(false);
+            level = FindFirstObjectByType<BaseLevelController>();
+            cameraTransform = Camera.main.transform;
+            playerMovement = level.Player.GetComponentInChildren<BaseMovementAdapter>();
+            UISystem.StartUI.DisableInput();
+            UISystem.SetStartUIActiveness(false);
+            UISystem.CurrentGameUI.gameObject.SetActive(false);
             level.Player.DisableModules();
-            movementAdapter = level.Player.GetComponentInChildren<BaseMovementAdapter>();
-            if (!level.GameLogic.LoadGameTransitionsState)
-                LoadWithoutTransitions();
+            if (!gameLogic.LoadGameTransitionsState)
+            {
+                SetCameraToTargetPosition();
+            }
             StartCoroutine(MoveCameraToTarget());
         }
+
+        #region Camera
 
         private IEnumerator MoveCameraToTarget()
         {
@@ -64,59 +64,58 @@ namespace Depthcharge.GameManagement.AI
             }
             MovePlayerToTarget();
         }
+        private void SetCameraToTargetPosition()
+        {
+            Vector3 targetPosition = new Vector3(
+                cameraTransform.position.x,
+                cameraTargetY,
+                cameraTransform.position.z
+                );
+            cameraTransform.position = targetPosition;
+        }
+
+        #endregion
+        #region Player
+
         private void MovePlayerToTarget()
         {
-            if (movementAdapter.GetPosition().x > playerTargetX)
+            if (playerMovement.GetPosition().x > playerTargetX)
+            {
                 StartCoroutine(MovePlayerLeft());
+            }
             else
+            {
                 StartCoroutine(MovePlayerRight());
+            }
         }
         private IEnumerator MovePlayerLeft()
         {
             float calculatedSpeed = 0.0f;
             Vector2 translation = Vector2.zero;
-            while (movementAdapter.GetPosition().x > playerTargetX)
+            while (playerMovement.GetPosition().x > playerTargetX)
             {
                 calculatedSpeed = playerSpeed * Time.deltaTime;
                 translation = Vector2.left * calculatedSpeed;
-                movementAdapter.Translate(translation);
+                playerMovement.Translate(translation);
                 yield return null;
             }
-            stateManager.SetStateOnGame(level);
+            fsm.GoToTheNextState();
         }
         private IEnumerator MovePlayerRight()
         {
             float calculatedSpeed = 0.0f;
             Vector2 translation = Vector2.zero;
-            while (movementAdapter.GetPosition().x < playerTargetX)
+            while (playerMovement.GetPosition().x < playerTargetX)
             {
                 calculatedSpeed = playerSpeed * Time.deltaTime;
                 translation = Vector2.right * calculatedSpeed;
-                movementAdapter.Translate(translation);
+                playerMovement.Translate(translation);
                 yield return null;
             }
-            stateManager.SetStateOnGame(level);
+            fsm.GoToTheNextState();
         }
 
-        private void LoadWithoutTransitions()
-        {
-            SetCameraToTargetPosition();
-            // SetPlayerToTargetPosition();
-        }
-        private void SetCameraToTargetPosition()
-        {
-            Vector3 targetPosition = new Vector3(
-                cameraTransform.position.x, 
-                cameraTargetY, 
-                cameraTransform.position.z
-                );
-            cameraTransform.position = targetPosition;
-        }
-        private void SetPlayerToTargetPosition()
-        {
-            Vector2 targetPosition = new Vector2(playerTargetX, movementAdapter.GetPosition().y);
-            movementAdapter.MoveTo(targetPosition);
-        }
+        #endregion
 
     }
 }

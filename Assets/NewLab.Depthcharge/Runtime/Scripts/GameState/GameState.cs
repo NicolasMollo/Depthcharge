@@ -1,6 +1,7 @@
 using Depthcharge.Actors.AI;
 using Depthcharge.Events;
 using Depthcharge.LevelManagement;
+using Depthcharge.UI;
 using UnityEngine;
 
 namespace Depthcharge.GameManagement.AI
@@ -10,22 +11,19 @@ namespace Depthcharge.GameManagement.AI
     {
 
         private BaseLevelController level = null;
-        private GameStateManager stateManager = null;
+        private UISystem UISystem = null;
 
-        private void Awake()
+        public override void SetUp()
         {
-            stateManager = fsm.Owner.GetComponent<GameStateManager>();
-        }
-        public void SetUp(BaseLevelController level)
-        {
-            this.level = level;
+            UISystem = GameSystemsRoot.Instance.UISystem;
         }
         public override void OnStateEnter()
         {
-            level.UIController.gameObject.SetActive(true);
+            GameEventBus.CallOnGameStart();
+            level = FindFirstObjectByType<BaseLevelController>();
             level.Player.EnableModules();
-            level.Player.HealthModule.OnDeath += OnPlayerDeath;
-            level.OnWin += OnLevelWin;
+            UISystem.CurrentGameUI.gameObject.SetActive(true);
+            AddListeners();
         }
         public override void OnStateUpdate()
         {
@@ -33,19 +31,29 @@ namespace Depthcharge.GameManagement.AI
         }
         public override void OnStateExit()
         {
+            RemoveListeners();
+            UISystem.CurrentGameUI.gameObject.SetActive(false);
+            level.Player.InputModule.DisableModule();
+            GameEventBus.CallOnGameOver();
+        }
+
+        private void AddListeners()
+        {
+            level.Player.HealthModule.OnDeath += OnPlayerDeath;
+            level.OnWin += OnLevelWin;
+        }
+        private void RemoveListeners()
+        {
             level.OnWin -= OnLevelWin;
             level.Player.HealthModule.OnDeath -= OnPlayerDeath;
-            GameEventBus.CallOnGameOver();
-            level.Player.InputModule.DisableModule();
-            level.SystemsRoot.UISystem.CurrentGameUI.gameObject.SetActive(false);
         }
         private void OnPlayerDeath()
         {
-            stateManager.SetStateOnLoseGame(level);
+            fsm.ChangeState<LoseGameState>();
         }
         private void OnLevelWin()
         {
-            stateManager.SetStateOnWinGame(level);
+            fsm.ChangeState<WinGameState>();
         }
 
     }

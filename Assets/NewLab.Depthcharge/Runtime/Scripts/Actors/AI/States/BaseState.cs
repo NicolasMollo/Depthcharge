@@ -11,7 +11,10 @@ namespace Depthcharge.Actors.AI
 
         [SerializeField]
         protected BaseState nextState = null;
+        public BaseState NextState { get => nextState; }
 
+        public virtual void SetUp() { }
+        public virtual void CleanUp() { }
         public virtual void OnStateEnter() { }
         public virtual void OnStateUpdate() { }
         public virtual void OnStateExit() { }
