@@ -50,6 +50,10 @@ namespace Depthcharge.Actors.Modules
         {
             this.maxHealth = maxHealth;
         }
+        public void ResetHealth()
+        {
+            Health = maxHealth;
+        }
 
     }
 

@@ -55,7 +55,9 @@ namespace Depthcharge.UI.EndGame
         public void SetAllTextsState(bool enablingState)
         {
             foreach (UI_EndGameText text in texts)
+            {
                 text.IsSet = enablingState;
+            }
         }
         private UI_EndGameText GetEndGameText(EndGameTextType type)
         {
@@ -74,7 +76,9 @@ namespace Depthcharge.UI.EndGame
         public void SetAllButtonsActiveness(bool activeness)
         {
             foreach (UI_EndGameButton button in buttons)
+            {
                 button.gameObject.SetActive(activeness);
+            }
         }
         public void SetButtonActiveness(EndGameButtonType type, bool activeness)
         {
@@ -113,7 +117,9 @@ namespace Depthcharge.UI.EndGame
         public void SetAllBlocksActiveness(bool activeness)
         {
             foreach (UI_EndGameBlock block in blocks)
+            {
                 block.gameObject.SetActive(activeness);
+            }
         }
         public void SetBlockActiveness(EndGameTextType type, bool activeness)
         {

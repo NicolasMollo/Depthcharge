@@ -36,9 +36,13 @@ namespace Depthcharge.GameManagement
         private void SetSingleton()
         {
             if (Instance == null)
+            {
                 Instance = this;
+            }
             else
+            {
                 Destroy(this.gameObject);
+            }
         }
 
         private void InternalSetUp()

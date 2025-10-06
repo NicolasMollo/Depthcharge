@@ -33,8 +33,11 @@ namespace Depthcharge.LevelManagement
         protected override void InternalCleanUp()
         {
             base.InternalCleanUp();
-            foreach (EnemySpawner spawner in spawners) 
+            foreach (EnemySpawner spawner in spawners)
+            {
                 spawner.CleanUp();
+            }
+
             systemsRoot.UISystem.SetCampaignUIActiveness(false);
         }
 

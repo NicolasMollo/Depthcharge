@@ -8,15 +8,13 @@ namespace Depthcharge.Actors.AI
     {
 
         private EnemyController enemyController = null;
-        private bool isEnemyControllerTaken = false;
 
+        public override void SetUp()
+        {
+            enemyController = fsm.Owner.GetComponent<EnemyController>();
+        }
         public override void OnStateEnter()
         {
-            if (!isEnemyControllerTaken)
-            {
-                enemyController = fsm.Owner.GetComponent<EnemyController>();
-                isEnemyControllerTaken = true;
-            }
             StartCoroutine(WaitToShoot());
         }
 
@@ -24,7 +22,9 @@ namespace Depthcharge.Actors.AI
         {
             yield return new WaitForSeconds(enemyController.ShootDelay);
             if (enemyController.ShootModule.IsReloading)
+            {
                 yield return new WaitUntil(() => enemyController.ShootModule.IsReloading);
+            }
             fsm.GoToTheNextState();
         }
 

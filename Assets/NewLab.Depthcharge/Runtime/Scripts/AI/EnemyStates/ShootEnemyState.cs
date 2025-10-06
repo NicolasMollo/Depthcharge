@@ -8,11 +8,10 @@ namespace Depthcharge.Actors.AI
 
         private ShootModule shootModule = null;
 
-        private void Awake()
+        public override void SetUp()
         {
             shootModule = fsm.Owner.GetComponentInChildren<ShootModule>();
         }
-
         public override void OnStateEnter()
         {
             shootModule.Shoot();

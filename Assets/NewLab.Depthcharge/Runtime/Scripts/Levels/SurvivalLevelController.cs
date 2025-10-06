@@ -40,7 +40,9 @@ namespace Depthcharge.LevelManagement
         {
             base.InternalCleanUp();
             foreach (EnemySpawner spawner in spawners)
+            {
                 spawner.CleanUp();
+            }
             systemsRoot.UISystem.SetSurvivalUIActiveness(false);
         }
 

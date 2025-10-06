@@ -105,14 +105,14 @@ namespace Depthcharge.Actors
 
         private void Start()
         {
-            _movementModule.SetUpModule();
-            _healthModule.SetUpModule();
             _healthModule.OnDeath += Deactivation;
-            _shootModule.SetUpModule();
+            fsm.SetUpStates();
+            fsm.SetStartState();
         }
 
         private void OnDestroy()
         {
+            fsm.CleanUpStates();
             _healthModule.OnDeath -= Deactivation;
         }
 
@@ -127,8 +127,8 @@ namespace Depthcharge.Actors
             {
                 _shootModule.ResetBullets();
             }
-            _healthModule.SetUpModule();
-            fsm.SetStartState();
+            _healthModule.ResetHealth();
+            //fsm.SetStartState();
         }
 
         public void SetUpEnemy(EnemyConfiguration enemyConfiguration, Vector2 movementDirection)
