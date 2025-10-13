@@ -13,8 +13,8 @@ namespace Depthcharge.Actors
         public List<EnemySpawner> Spawners { get => _spawners; }
         private List<EnemyProvider> _providers = null;
         public List<EnemyProvider> Providers { get => _providers; }
-        private List<EnemyController> _enemies = null;
-        public List<EnemyController> Enemies { get => _enemies; }
+        private List<StdEnemyController> _enemies = null;
+        public List<StdEnemyController> Enemies { get => _enemies; }
 
         #region Factory
 
@@ -71,7 +71,7 @@ namespace Depthcharge.Actors
                 _spawners[i].SetUp(context.EnemiesDirection, configuration.MinEnemySpawnDelay, configuration.MaxEnemySpawnDelay);
                 _providers.AddRange(_spawners[i].Providers);
             }
-            _enemies = new List<EnemyController>();
+            _enemies = new List<StdEnemyController>();
             foreach (EnemyProvider provider in _providers)
             {
                 _enemies.AddRange(provider.Enemies);

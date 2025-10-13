@@ -1,16 +1,13 @@
+using Depthcharge.UI;
 using UnityEngine;
 
-public class BossLevelController : MonoBehaviour
+namespace Depthcharge.LevelManagement
 {
-    // Start is called before the first frame update
-    void Start()
+    public class BossLevelController : BaseLevelController
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        protected override void ConfigureUI(ref BaseGameUIController UI)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

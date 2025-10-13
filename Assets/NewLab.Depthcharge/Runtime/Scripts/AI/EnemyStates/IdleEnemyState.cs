@@ -7,15 +7,19 @@ namespace Depthcharge.Actors.AI
     public class IdleEnemyState : BaseState
     {
 
-        private EnemyController enemyController = null;
+        protected BaseEnemyController enemyController = null;
 
         public override void SetUp()
         {
-            enemyController = fsm.Owner.GetComponent<EnemyController>();
+            enemyController = fsm.Owner.GetComponent<BaseEnemyController>();
         }
         public override void OnStateEnter()
         {
             StartCoroutine(WaitToShoot());
+        }
+        public override void OnStateExit()
+        {
+            StopAllCoroutines();
         }
 
         private IEnumerator WaitToShoot()
@@ -23,7 +27,7 @@ namespace Depthcharge.Actors.AI
             yield return new WaitForSeconds(enemyController.ShootDelay);
             if (enemyController.ShootModule.IsReloading)
             {
-                yield return new WaitUntil(() => enemyController.ShootModule.IsReloading);
+                yield return new WaitUntil(() => !enemyController.ShootModule.IsReloading);
             }
             fsm.GoToTheNextState();
         }

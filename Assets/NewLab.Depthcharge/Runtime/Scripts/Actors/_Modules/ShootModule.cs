@@ -68,20 +68,22 @@ namespace Depthcharge.Actors.Modules
                     bulletsShooted++;
                     OnShoot?.Invoke();
                     if (bulletsShooted != bullets.Count)
+                    {
                         return;
+                    }
                 }
             }
             if (reloadAutomatically)
-                ReloadAutomatically();
+            {
+                Reload();
+            }
         }
         public void Reload()
         {
-            OnStartReload?.Invoke(_isReloading);
-            _isReloading = true;
-            ResetBulletsTransform();
-            bulletsShooted = 0;
-            OnReloaded?.Invoke();
-            _isReloading = !_isReloading;
+            if (!_isReloading)
+            {
+                StartCoroutine(Reload(reloadTime));
+            }
         }
         public void ChangeBulletsType(BaseBulletFactory bulletFactory)
         {
@@ -115,12 +117,7 @@ namespace Depthcharge.Actors.Modules
         #endregion
         #region Private
 
-        private void ReloadAutomatically()
-        {
-            if (!_isReloading)
-                StartCoroutine(ReloadAutomatically(reloadTime));
-        }
-        private IEnumerator ReloadAutomatically(float delay)
+        private IEnumerator Reload(float delay)
         {
             _isReloading = true;
             yield return new WaitUntil(AreBulletsDisabled);
@@ -152,7 +149,9 @@ namespace Depthcharge.Actors.Modules
             }
 
             if (deactivatedBullets == bullets.Count)
+            {
                 return true;
+            }
             return false;
         }
 

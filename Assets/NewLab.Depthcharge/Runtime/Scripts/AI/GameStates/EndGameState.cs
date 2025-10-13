@@ -24,12 +24,12 @@ namespace Depthcharge.GameManagement.AI
             sceneSystem = GameSystemsRoot.Instance.SceneSystem;
             UISystem = GameSystemsRoot.Instance.UISystem;
             UI = ConfigureUI();
-            UISystem.SetCurrentEndGameUI(UI);
         }
         public abstract UI_EndGameController ConfigureUI();
         public override void OnStateEnter()
         {
             level = FindFirstObjectByType<BaseLevelController>();
+            UISystem.SetCurrentEndGameUI(UI);
             AddListeners();
             StartCoroutine(ActivateEndGameUI());
         }

@@ -26,6 +26,10 @@ namespace Depthcharge.Actors
         private BaseCollisionModule collisionModule = null;
         public BaseCollisionModule CollisionModule { get => collisionModule; }
 
+        [SerializeField]
+        private HealthModule healthModule = null;
+        public HealthModule HealthModule { get => healthModule; }
+
         #endregion
         #region Settings
 
@@ -45,7 +49,6 @@ namespace Depthcharge.Actors
         {
             this.owner = owner;
             movementContext = new MovementContext();
-            movementModule.SetUpModule();
             collisionModule.SetUpModule(this.gameObject);
         }
 
@@ -59,9 +62,12 @@ namespace Depthcharge.Actors
             movementContext.SpawnTime = Time.time;
             movementContext.StartPosition = movementModule.Target.GetPosition();
             _isShooted = true;
+            healthModule.OnDeath += Deactivation;
         }
         private void OnDisable()
         {
+            healthModule.OnDeath -= Deactivation;
+            healthModule.ResetHealth();
             _isShooted = false;
         }
 

@@ -12,6 +12,7 @@ namespace Depthcharge.Actors.Modules
         private float maxHealth = 1.0f;
 
         private float _health = 0.0f;
+        private bool isVulnerable = false;
         private float Health
         {
             get => _health < 0 ? _health = 0 : _health > maxHealth ? maxHealth : _health;
@@ -25,15 +26,31 @@ namespace Depthcharge.Actors.Modules
         public Action<float> OnTakeDamage = null;
         public Action<float> OnTakeHealth = null;
         public Action OnDeath = null;
+        public Action OnInvulnerable = null;
 
         private void Awake()
         {
             Health = maxHealth;
+            isVulnerable = true;
             IsModuleSetUp = true;
         }
 
+        public void TakeMaxDamage()
+        {
+            if (!isVulnerable)
+            {
+                return;
+            }
+            Health -= maxHealth;
+            OnTakeDamage?.Invoke(Health);
+            OnDeath?.Invoke();
+        }
         public void TakeDamage(float damage)
         {
+            if (!isVulnerable)
+            {
+                return;
+            }
             Health -= damage;
             OnTakeDamage?.Invoke(Health);
             if (Health == 0)
@@ -53,6 +70,14 @@ namespace Depthcharge.Actors.Modules
         public void ResetHealth()
         {
             Health = maxHealth;
+        }
+        public void SetVulnerability(bool isVulnerable)
+        {
+            this.isVulnerable = isVulnerable;
+            if (!isVulnerable)
+            {
+                OnInvulnerable?.Invoke();
+            }
         }
 
     }

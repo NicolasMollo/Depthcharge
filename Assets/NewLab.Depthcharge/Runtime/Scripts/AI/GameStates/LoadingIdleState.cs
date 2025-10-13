@@ -40,6 +40,7 @@ namespace Depthcharge.GameManagement.AI
             UISystem.CurrentEndGameUI.SetMenuActiveness(false);
             UISystem.CurrentEndGameUI.FadeOutPanel();
             yield return new WaitUntil(() => !UISystem.CurrentEndGameUI.IsPanelFadedIn);
+            UISystem.CurrentEndGameUI.gameObject.SetActive(false);
             StartCoroutine(MoveCameraToTarget());
             yield return new WaitUntil(() => isCameraOnTarget);
             sceneSystem.ChangeScene(idleSceneConfig);

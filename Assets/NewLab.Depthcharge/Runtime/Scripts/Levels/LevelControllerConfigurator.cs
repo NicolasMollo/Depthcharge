@@ -40,7 +40,7 @@ namespace Depthcharge.LevelManagement
                 spawner.OnSpawnEnemy += listeners.OnSpawnEnemy;
                 foreach (EnemyProvider provider in spawner.Providers)
                 {
-                    foreach (EnemyController enemy in provider.Enemies)
+                    foreach (StdEnemyController enemy in provider.Enemies)
                     {
                         enemy.HealthModule.OnDeath += delegate { listeners.OnDefeatEnemy(enemy); };
                         enemy.OnDeactivation += listeners.OnDeactivateEnemy;
@@ -55,7 +55,7 @@ namespace Depthcharge.LevelManagement
                 spawner.OnSpawnEnemy -= listeners.OnSpawnEnemy;
                 foreach (EnemyProvider provider in spawner.Providers)
                 {
-                    foreach (EnemyController enemy in provider.Enemies)
+                    foreach (StdEnemyController enemy in provider.Enemies)
                     {
                         enemy.HealthModule.OnDeath -= delegate { listeners.OnDefeatEnemy(enemy); };
                         enemy.OnDeactivation -= listeners.OnDeactivateEnemy;

@@ -60,11 +60,11 @@ namespace Depthcharge.LevelManagement
             _stats.IncreaseActiveEnemies();
         }
 
-        private void OnDeactivateEnemy(EnemyController enemy)
+        private void OnDeactivateEnemy(BaseEnemyController enemy)
         {
             _stats.DecreaseActiveEnemies();
         }
-        private void OnDefeatEnemy(EnemyController enemy)
+        private void OnDefeatEnemy(BaseEnemyController enemy)
         {
             _stats.IncreaseEnemiesDefeated();
             _stats.IncreaseScore(enemy.ScorePoints);

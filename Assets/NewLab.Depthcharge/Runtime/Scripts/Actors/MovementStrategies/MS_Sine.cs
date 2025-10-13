@@ -15,7 +15,6 @@ namespace Depthcharge.Actors.Modules
 
         public override void MoveTarget(MovementContext movementContext)
         {
-
             float timeSinceSpawn = Time.time - movementContext.SpawnTime;
             Vector2 forwardMovement = Vector2.up * movementContext.Speed;
             float sinOffset = Mathf.Sin(timeSinceSpawn * frequency) * amplitude;
@@ -23,7 +22,6 @@ namespace Depthcharge.Actors.Modules
             Vector3 velocity = forwardMovement + lateralMovement;
 
             movementContext.Target.SetVelocity(velocity);
-
         }
 
     }

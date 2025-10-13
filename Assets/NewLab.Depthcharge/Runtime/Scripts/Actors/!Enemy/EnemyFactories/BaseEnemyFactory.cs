@@ -9,8 +9,8 @@ namespace Depthcharge.Actors
         [SerializeField]
         protected EnemyConfiguration configuration = null;
 
-        protected abstract EnemyController CreateEnemy(EnemyFactoryContext context);
-        public abstract List<EnemyController> CreateEnemyPool(EnemyFactoryContext context, int poolSize);
+        protected abstract StdEnemyController CreateEnemy(EnemyFactoryContext context);
+        public abstract List<StdEnemyController> CreateEnemyPool(EnemyFactoryContext context, int poolSize);
 
     }
 

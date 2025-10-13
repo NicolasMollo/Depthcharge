@@ -16,7 +16,6 @@ namespace Depthcharge.Environment
 
         private void Awake()
         {
-
             colorSetter = GetComponent<SpriteRendererColorSetter>();
             if (colorSetter == null)
             {
@@ -27,7 +26,6 @@ namespace Depthcharge.Environment
             {
                 Debug.LogError($"=== {this.name}.BackgroundController === BackgroundColorConfiguration is null!");
             }
-
         }
 
         #region API

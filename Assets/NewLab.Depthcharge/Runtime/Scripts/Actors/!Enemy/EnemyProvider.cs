@@ -9,8 +9,8 @@ namespace Depthcharge.Actors
     public class EnemyProvider : MonoBehaviour
     {
 
-        private List<EnemyController> _enemies = null;
-        public List<EnemyController> Enemies { get => _enemies; }
+        private List<StdEnemyController> _enemies = null;
+        public List<StdEnemyController> Enemies { get => _enemies; }
 
         #region Enemy factory
 
@@ -32,7 +32,7 @@ namespace Depthcharge.Actors
         {
             context.MovementDirection = movementDirection;
             _enemies = enemyFactory.CreateEnemyPool(context, poolSize);
-            foreach (EnemyController enemy in _enemies)
+            foreach (StdEnemyController enemy in _enemies)
             {
                 enemy.OnDeactivation += ResetEnemyPosition;
             }
@@ -44,7 +44,7 @@ namespace Depthcharge.Actors
 
         public void CleanUp()
         {
-            foreach (EnemyController enemy in _enemies)
+            foreach (StdEnemyController enemy in _enemies)
             {
                 enemy.OnDeactivation -= ResetEnemyPosition;
             }
@@ -53,14 +53,14 @@ namespace Depthcharge.Actors
         private void FlipEnemies()
         {
             SpriteRenderer spriteRenderer = null;
-            foreach (EnemyController enemy in _enemies)
+            foreach (StdEnemyController enemy in _enemies)
             {
                 spriteRenderer = enemy.GetComponentInChildren<SpriteRenderer>();
                 spriteRenderer.flipX = true;
             }
         }
 
-        private void ResetEnemyPosition(EnemyController enemy)
+        private void ResetEnemyPosition(BaseEnemyController enemy)
         {
             enemy.transform.position = context.SpawnPoint.position;
             enemy.transform.SetParent(context.Parent);

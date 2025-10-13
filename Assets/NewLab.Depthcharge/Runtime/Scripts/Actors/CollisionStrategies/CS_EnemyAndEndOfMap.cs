@@ -14,8 +14,9 @@ namespace Depthcharge.Actors.Modules
         {
             if (other.CompareTag(endOfMapTag))
             {
-                EnemyController enemy = owner.GetComponentInParent<EnemyController>();
+                StdEnemyController enemy = owner.GetComponentInParent<StdEnemyController>();
                 enemy.Deactivation();
+                // enemy.HealthModule.TakeMaxDamage();
             }
         }
 

@@ -11,7 +11,7 @@ namespace Depthcharge.Actors
     public class EnemySpawner : MonoBehaviour
     {
 
-        private List<EnemyController> enemies = null;
+        private List<StdEnemyController> enemies = null;
         private float minSpawnDelay = 0.0f;
         private float maxSpawnDelay = 0.0f;
 
@@ -26,11 +26,11 @@ namespace Depthcharge.Actors
         {
             this.minSpawnDelay = minSpawnDelay;
             this.maxSpawnDelay = maxSpawnDelay;
-            enemies = new List<EnemyController>();
+            enemies = new List<StdEnemyController>();
             foreach (EnemyProvider provider in _providers)
             {
                 provider.SetUp(enemiesDirection);
-                foreach (EnemyController enemy in provider.Enemies)
+                foreach (StdEnemyController enemy in provider.Enemies)
                 {
                     enemy.OnDeactivation += OnEnemyDeactivation;
                     enemies.Add(enemy);
@@ -44,14 +44,14 @@ namespace Depthcharge.Actors
             foreach (EnemyProvider provider in _providers)
             {
                 provider.CleanUp();
-                foreach (EnemyController enemy in provider.Enemies)
+                foreach (StdEnemyController enemy in provider.Enemies)
                 {
                     enemy.OnDeactivation -= OnEnemyDeactivation;
                 }
             }
         }
 
-        private void OnEnemyDeactivation(EnemyController enemy)
+        private void OnEnemyDeactivation(BaseEnemyController enemy)
         {
             SpawnEnemyWithRandomDelay();
         }
@@ -66,11 +66,11 @@ namespace Depthcharge.Actors
         {
             yield return new WaitForSeconds(delay);
             int randomIndex = UnityEngine.Random.Range(0, enemies.Count);
-            EnemyController enemyToSpawn = enemies[randomIndex];
+            StdEnemyController enemyToSpawn = enemies[randomIndex];
             SpawnEnemy(enemyToSpawn);
         }
 
-        private void SpawnEnemy(EnemyController enemy)
+        private void SpawnEnemy(StdEnemyController enemy)
         {
             if (!enemy.gameObject.activeSelf)
             {

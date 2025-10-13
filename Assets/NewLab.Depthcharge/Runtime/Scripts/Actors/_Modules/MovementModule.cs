@@ -42,6 +42,10 @@ namespace Depthcharge.Actors.Modules
         {
             movementContext.Speed = speed;
         }
+        public void SetMovementStrategy(BaseMovementStrategy movementStrategy)
+        {
+            this.movementStrategy = movementStrategy;
+        }
 
     }
 

@@ -15,10 +15,10 @@ namespace Depthcharge.Actors
         [SerializeField]
         private GameObject prefabStdEnemy = null;
 
-        public override List<EnemyController> CreateEnemyPool(EnemyFactoryContext context, int poolSize)
+        public override List<StdEnemyController> CreateEnemyPool(EnemyFactoryContext context, int poolSize)
         {
-            List<EnemyController> enemies = new List<EnemyController>();
-            EnemyController temporary = null;
+            List<StdEnemyController> enemies = new List<StdEnemyController>();
+            StdEnemyController temporary = null;
             for (int i = 0; i < poolSize; i++)
             {
                 temporary = CreateEnemy(context);
@@ -28,7 +28,7 @@ namespace Depthcharge.Actors
             return enemies;
         }
 
-        protected override EnemyController CreateEnemy(EnemyFactoryContext context)
+        protected override StdEnemyController CreateEnemy(EnemyFactoryContext context)
         {
             GameObject enemyObj = Instantiate(
                 prefabStdEnemy,
@@ -36,7 +36,7 @@ namespace Depthcharge.Actors
                 Quaternion.identity,
                 context.Parent
                 );
-            EnemyController enemyController = enemyObj.GetComponent<EnemyController>();
+            StdEnemyController enemyController = enemyObj.GetComponent<StdEnemyController>();
             Vector2 movementDirection = MovementDirectionToVector(context.MovementDirection);
             enemyController.SetUpEnemy(configuration, movementDirection);
             return enemyController;
