@@ -35,6 +35,9 @@ namespace Depthcharge.Actors
 
         [Header("SETTINGS (BASE)")]
         [SerializeField]
+        private string enemyName = string.Empty;
+        public string EnemyName { get => enemyName; }
+        [SerializeField]
         protected Vector2 movementDirection = Vector2.zero;
         [SerializeField]
         [Range(1.0f, 1000.0f)]

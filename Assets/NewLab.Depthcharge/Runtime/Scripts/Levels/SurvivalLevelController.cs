@@ -21,7 +21,6 @@ namespace Depthcharge.LevelManagement
 
         protected override void InternalSetUp()
         {
-            base.InternalSetUp();
             survivalUI = this.UI as SurvivalUIController;
             if (survivalUI == null)
             {
@@ -34,7 +33,7 @@ namespace Depthcharge.LevelManagement
         protected override void ConfigureUI(ref BaseGameUIController UI)
         {
             UI = systemsRoot.UISystem.SurvivalUI;
-            systemsRoot.UISystem.SetCurrentGameUI(UI);
+            //systemsRoot.UISystem.SetCurrentGameUI(UI);
         }
         protected override void InternalCleanUp()
         {

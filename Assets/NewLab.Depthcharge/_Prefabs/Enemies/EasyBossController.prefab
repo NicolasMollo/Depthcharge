@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 9163142786001957167}
   - component: {fileID: 9011264203318504133}
   m_Layer: 7
-  m_Name: Boss01Controller
+  m_Name: EasyBossController
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -136,12 +136,11 @@ MonoBehaviour:
   _shootModule: {fileID: 2550325209582596119}
   scorePointsText: {fileID: 3814898646332735561}
   fsm: {fileID: 6132523550224571432}
+  enemyName: slymarine
   movementDirection: {x: -1, y: 0}
   _scorePoints: 200
   _shootDelay: 10
   spriteRenderer: {fileID: 2821381624666673654}
-  topTarget: {fileID: 0}
-  bottomTarget: {fileID: 0}
   vulnerabilitySpeed: 2
   vsFirstMultiplier: 2
   vsSecondMultiplier: 3

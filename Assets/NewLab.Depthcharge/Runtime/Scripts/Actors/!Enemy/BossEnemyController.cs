@@ -1,5 +1,6 @@
 using Depthcharge.Actors.AI;
 using Depthcharge.Actors.Modules;
+using Depthcharge.Environment;
 using UnityEngine;
 
 namespace Depthcharge.Actors
@@ -15,13 +16,11 @@ namespace Depthcharge.Actors
         private float[] vsMultipliers = null;
         private float[] sdMultipliers = null;
         private int collisionCount = 0;
+        private Transform topSeaTarget = null;
+        private Transform bottomSeaTarget = null;
 
         [SerializeField]
         private SpriteRenderer spriteRenderer = null;
-        [SerializeField]
-        private Transform topTarget = null;
-        [SerializeField]
-        private Transform bottomTarget = null;
 
         #region Settings
 
@@ -63,8 +62,16 @@ namespace Depthcharge.Actors
         }
         protected override void InternalSetUp()
         {
+            EnvironmentRootController env = FindFirstObjectByType<EnvironmentRootController>();
+            if (env == null)
+            {
+                Debug.LogError($"=== BossEnemyController.InternalSetUp() === There isn't a EnvironmentRootController in scene!");
+                return;
+            }
+            topSeaTarget = env.TopSeaTarget;
+            bottomSeaTarget = env.BottomSeaTarget;
+            MoveToTargetY(topSeaTarget.position.y);
             startSpeed = MovementModule.MovementSpeed;
-            MoveToTargetY(topTarget.position.y);
         }
         private void Update()
         {
@@ -92,7 +99,7 @@ namespace Depthcharge.Actors
         }
         private void GoToIdleState()
         {
-            MoveToTargetY(topTarget.position.y);
+            MoveToTargetY(topSeaTarget.position.y);
             ShootModule.Reload();
             ScaleValueByHealth(ref _shootDelay, startShootDelay, sdMultipliers);
             MovementModule.SetMovementSpeed(startSpeed);
@@ -101,7 +108,7 @@ namespace Depthcharge.Actors
         }
         private void GoToVulnerabilityState()
         {
-            MoveToTargetY(bottomTarget.position.y);
+            MoveToTargetY(bottomSeaTarget.position.y);
             ScaleValueByHealth(ref vulnerabilitySpeed, startVulnerabilitySpeed, vsMultipliers);
             MovementModule.SetMovementSpeed(vulnerabilitySpeed);
             spriteRenderer.color = Color.white;

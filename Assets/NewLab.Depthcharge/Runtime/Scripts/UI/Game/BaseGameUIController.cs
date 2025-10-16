@@ -11,20 +11,20 @@ namespace Depthcharge.UI
 
         [Header("UI ELEMENTS (Base)")]
         [SerializeField]
-        protected UI_HealthBar healthBar = null;
+        private UI_HealthBar healthBar = null;
         [SerializeField]
-        protected UI_Ammo ammo = null;
+        private UI_Ammo ammo = null;
         [SerializeField]
-        protected UI_ReloadBar reloadBar = null;
+        private UI_ReloadBar reloadBar = null;
 
         #endregion
         #region Texts
 
         [Header("TEXTS (Base)")]
         [SerializeField]
-        protected TextMeshProUGUI scoreText = null;
+        private TextMeshProUGUI scoreText = null;
         [SerializeField]
-        protected TextMeshProUGUI enemiesText = null;
+        private TextMeshProUGUI enemiesText = null;
 
         #endregion
         #region Settings
@@ -48,32 +48,32 @@ namespace Depthcharge.UI
         }
         public virtual void CleanUp(GameUIContext context) { }
 
-        public virtual void UpdateHealthBar(float healthPercentage)
+        public void UpdateHealthBar(float healthPercentage)
         {
             healthBar.UpdateHealthBar(healthPercentage);
         }
-        public virtual void DecreaseReloadBar(float reloadTime)
+        public void DecreaseReloadBar(float reloadTime)
         {
             reloadBar.DecreaseReloadBar(reloadTime);
         }
-        public virtual void ResetReloadBar()
+        public void ResetReloadBar()
         {
             reloadBar.ResetReloadBar();
         }
-        public virtual void AddAmmoTransparency()
+        public void AddAmmoTransparency()
         {
             ammo.AddTransparency();
         }
-        public virtual void RemoveAmmoTransparency()
+        public void RemoveAmmoTransparency()
         {
             ammo.RemoveTransparency();
         }
 
-        public virtual void SetScoreText(string text)
+        public void SetScoreText(string text)
         {
             scoreText.text = text.PadLeft(scoreTextZeros, '0');
         }
-        public virtual void SetEnemiesText(string text)
+        public void SetEnemiesText(string text)
         {
             enemiesText.text = text;
         }

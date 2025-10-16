@@ -32,7 +32,9 @@ namespace Depthcharge.UI
         private UI_EndGameController _loseUI = null;
         public UI_EndGameController LoseUI { get => _loseUI; }
 
-
+        [SerializeField]
+        private BaseGameUIController _bossUIController = null;
+        public BaseGameUIController BossUIController { get => _bossUIController; }
 
         public void SetUp()
         {
@@ -42,6 +44,7 @@ namespace Depthcharge.UI
             SetSurvivalUIActiveness(!startUIActiveness);
             SetWinUIActiveness(!startUIActiveness);
             SetLoseUIActiveness(!startUIActiveness);
+            SetBossUIActiveness(!startUIActiveness);
         }
 
         public void SetStartUIActiveness(bool activeness)
@@ -81,6 +84,11 @@ namespace Depthcharge.UI
             _loseUI.gameObject.SetActive(activeness);
             if (activeness)
                 _currentEndGameUI = _loseUI;
+        }
+
+        public void SetBossUIActiveness(bool activeness)
+        {
+            _bossUIController.gameObject.SetActive(activeness);
         }
 
     }

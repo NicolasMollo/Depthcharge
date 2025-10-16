@@ -1,3 +1,4 @@
+using Depthcharge.Actors;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
@@ -26,6 +27,10 @@ namespace Depthcharge.LevelManagement
         [SerializeField]
         private float _maxEnemySpawnDelay = 1.0f;
         public float MaxEnemySpawnDelay { get => _maxEnemySpawnDelay; }
+
+        [SerializeField]
+        private GameObject _prefabBoss = null;
+        public GameObject PrefabBoss { get => _prefabBoss; }
 
     }
 

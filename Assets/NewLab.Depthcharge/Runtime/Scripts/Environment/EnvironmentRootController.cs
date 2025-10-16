@@ -22,19 +22,25 @@ namespace Depthcharge.Environment
         private SO_DayPhaseConfiguration dayPhaseConfig = default;
         private DayPhaseHelper dayPhaseHelper = null;
 
+        [Header("POSITIONS")]
+        [SerializeField]
+        private Transform _topSeaTarget = null;
+        public Transform TopSeaTarget { get => _topSeaTarget; }
+        [SerializeField]
+        private Transform _bottomSeaTarget = null;
+        public Transform BottomSeaTarget { get => _bottomSeaTarget; }
 
+        private void Awake()
+        {
+            dayPhaseHelper = new DayPhaseHelper(dayPhaseConfig);
+        }
         private void Start()
         {
-
-            SetUp();
-
+            SetBackgroundColors();
         }
 
-        private void SetUp()
+        private void SetBackgroundColors()
         {
-
-            dayPhaseHelper = new DayPhaseHelper(dayPhaseConfig);
-
             if (enableTimeBasedColor)
             {
                 SetBackgroundColorBasedOnTime(seaBackgroundController);
@@ -45,12 +51,10 @@ namespace Depthcharge.Environment
                 seaBackgroundController.SetMorningColor();
                 skyBackgroundController.SetMorningColor();
             }
-
         }
 
         private void SetBackgroundColorBasedOnTime(BackgroundController backgroundController)
         {
-
             switch (dayPhaseHelper.GetDayPhase())
             {
                 case DayPhaseHelper.DayPhaseType.Morning:
@@ -66,9 +70,7 @@ namespace Depthcharge.Environment
                     backgroundController.SetNightColor();
                     break;
             }
-
         }
-
 
     }
 
