@@ -29,6 +29,8 @@ namespace Depthcharge.GameManagement
         [SerializeField]
         private int _currentLevelNumber = 0;
         public int CurrentLevelNumber { get => _currentLevelNumber; }
+        public bool IsBossLevel { get => _currentLevelNumber % levelsPerDifficulty == 0; }
+        public bool IsLastLevel { get => _currentLevelNumber == levelsPerDifficulty * 3; }
         public bool LoadGameTransitionsState { get; set; }
 
         private void Awake()

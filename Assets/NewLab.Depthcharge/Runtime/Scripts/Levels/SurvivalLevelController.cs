@@ -33,7 +33,6 @@ namespace Depthcharge.LevelManagement
         protected override void ConfigureUI(ref BaseGameUIController UI)
         {
             UI = systemsRoot.UISystem.SurvivalUI;
-            //systemsRoot.UISystem.SetCurrentGameUI(UI);
         }
         protected override void InternalCleanUp()
         {

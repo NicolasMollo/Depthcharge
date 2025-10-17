@@ -420,7 +420,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 23
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 14347f31bd967ae469758e483930322c, type: 2}
   m_sharedMaterial: {fileID: -6058097216404855820, guid: 14347f31bd967ae469758e483930322c, type: 2}
@@ -1537,7 +1537,7 @@ MonoBehaviour:
   normalConfiguration: {fileID: 11400000, guid: 1f7be12da363ddd44ae3764b00136416, type: 2}
   hardConfiguration: {fileID: 11400000, guid: c8604ed4c9d6bcd4791df34cdf895d94, type: 2}
   randomConfiguration: {fileID: 11400000, guid: 4c982561914ca27409e954facf7004be, type: 2}
-  levelsPerDifficulty: 10
+  levelsPerDifficulty: 2
   _currentLevelNumber: 0
 --- !u!4 &296599682
 Transform:
@@ -3253,7 +3253,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 23
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 14347f31bd967ae469758e483930322c, type: 2}
   m_sharedMaterial: {fileID: -6058097216404855820, guid: 14347f31bd967ae469758e483930322c, type: 2}
@@ -3854,6 +3854,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fsm: {fileID: 338015360}
   nextState: {fileID: 0}
+  bossSceneConfiguration: {fileID: 11400000, guid: a7cb555c5c76a48419d2a974b9f4ee4d, type: 2}
 --- !u!1 &1114324135
 GameObject:
   m_ObjectHideFlags: 0
@@ -4086,6 +4087,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fsm: {fileID: 338015360}
   nextState: {fileID: 0}
+  bossSceneConfiguration: {fileID: 11400000, guid: a7cb555c5c76a48419d2a974b9f4ee4d, type: 2}
 --- !u!1 &1244968639
 GameObject:
   m_ObjectHideFlags: 0
@@ -9660,8 +9662,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -23.769989, y: -12.5}
-  m_SizeDelta: {x: 279.94, y: 25}
+  m_AnchoredPosition: {x: -10.15821, y: -12.5}
+  m_SizeDelta: {x: 320, y: 25}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &4752457294218311931
 RectTransform:

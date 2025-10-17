@@ -63,6 +63,7 @@ namespace Depthcharge.Actors
             InternalCleanUp();
             fsm.CleanUpStates();
         }
+        public virtual void UpdateEnemy() { }
         public void Deactivation()
         {
             OnDeactivation?.Invoke(this);

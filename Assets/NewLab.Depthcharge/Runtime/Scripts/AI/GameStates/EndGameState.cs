@@ -18,6 +18,9 @@ namespace Depthcharge.GameManagement.AI
         protected UISystem UISystem = null;
         protected UI_EndGameController UI = null;
 
+        [SerializeField]
+        protected SceneConfiguration bossSceneConfiguration = null;
+
         public override void SetUp()
         {
             gameLogic = GameLogic.Instance;
@@ -25,7 +28,7 @@ namespace Depthcharge.GameManagement.AI
             UISystem = GameSystemsRoot.Instance.UISystem;
             UI = ConfigureUI();
         }
-        public abstract UI_EndGameController ConfigureUI();
+        protected abstract UI_EndGameController ConfigureUI();
         public override void OnStateEnter()
         {
             level = FindFirstObjectByType<BaseLevelController>();
@@ -41,7 +44,6 @@ namespace Depthcharge.GameManagement.AI
 
         private void AddListeners()
         {
-            UI.SubscribeToButtons(OnClickButton);
             UI.SubscribeToButton(EndGameButtonType.Reload, OnClickReloadButton);
             UI.SubscribeToButton(EndGameButtonType.Quit, OnClickQuitButton);
         }
@@ -49,31 +51,23 @@ namespace Depthcharge.GameManagement.AI
         {
             UI.UnsubscribeFromButton(EndGameButtonType.Quit, OnClickQuitButton);
             UI.UnsubscribeFromButton(EndGameButtonType.Reload, OnClickReloadButton);
-            UI.UnsubscribeFromButtons(OnClickButton);
         }
 
-        private void OnClickButton(SceneConfiguration configuration)
-        {
-            UI.DisableInput();
-            StartCoroutine(OnSelectButton(configuration));
-        }
-        protected virtual void OnClickReloadButton(SceneConfiguration configuration)
-        {
-            gameLogic.LoadGameTransitionsState = false;
-        }
         private void OnClickQuitButton(SceneConfiguration configuration)
         {
+            UI.DisableInput();
+            fsm.ChangeState<LoadingIdleState>();
             gameLogic.LoadGameTransitionsState = true;
             gameLogic.ResetCurrentLevelNumber();
         }
-
-        private IEnumerator OnSelectButton(SceneConfiguration configuration)
+        protected virtual void OnClickReloadButton(SceneConfiguration configuration)
         {
-            if (configuration.SceneName != sceneSystem.CurrentScene.Configuration.SceneName)
-            {
-                fsm.ChangeState<LoadingIdleState>();
-                yield break;
-            }
+            UI.DisableInput();
+            StartCoroutine(OnSelectReloadButton(configuration));
+            gameLogic.LoadGameTransitionsState = false;
+        }
+        private IEnumerator OnSelectReloadButton(SceneConfiguration configuration)
+        {
             UI.SetMenuActiveness(false);
             UI.FadeOutPanel();
             yield return new WaitUntil(() => UI.IsPanelFadedIn == false);
@@ -102,9 +96,10 @@ namespace Depthcharge.GameManagement.AI
         }
         private void ConfigureTexts()
         {
+            bool isBoss = level is BossLevelController;
             EndGameMenuTexts texts = new EndGameMenuTexts(
                 level.Stats.EnemiesDefeated.ToString(),
-                level.Stats.EnemiesMissed.ToString(),
+                isBoss ? "0" : level.Stats.EnemiesMissed.ToString(),
                 level.Stats.Score.ToString(),
                 level.Stats.Time.ToString(@"hh\:mm\:ss")
             );

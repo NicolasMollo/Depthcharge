@@ -73,7 +73,8 @@ namespace Depthcharge.Actors
             MoveToTargetY(topSeaTarget.position.y);
             startSpeed = MovementModule.MovementSpeed;
         }
-        private void Update()
+
+        public override void UpdateEnemy()
         {
             MovementModule.MoveTarget(movementDirection);
         }

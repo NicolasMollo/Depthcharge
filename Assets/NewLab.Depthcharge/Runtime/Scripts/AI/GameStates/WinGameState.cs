@@ -7,15 +7,24 @@ namespace Depthcharge.GameManagement.AI
 
     public class WinGameState : EndGameState
     {
-        public override UI_EndGameController ConfigureUI()
+
+        protected override UI_EndGameController ConfigureUI()
         {
             return UISystem.WinUI;
         }
 
         protected override void OnClickReloadButton(SceneConfiguration configuration)
         {
-            base.OnClickReloadButton(configuration); //  gameLogic.LoadGameTransitionsState = false;
-            gameLogic.IncreaseCurrentLevelNumber();
+            SceneConfiguration selectedConfiguration = configuration;
+            if (gameLogic.IsBossLevel)
+            {
+                selectedConfiguration = bossSceneConfiguration;
+            }
+            if (!gameLogic.IsLastLevel && sceneSystem.CurrentScene.Configuration.SceneName == configuration.SceneName)
+            {
+                gameLogic.IncreaseCurrentLevelNumber();
+            }
+            base.OnClickReloadButton(selectedConfiguration);
         }
 
     }

@@ -16,7 +16,6 @@ namespace Depthcharge.Actors.Modules
             {
                 StdEnemyController enemy = owner.GetComponentInParent<StdEnemyController>();
                 enemy.Deactivation();
-                // enemy.HealthModule.TakeMaxDamage();
             }
         }
 

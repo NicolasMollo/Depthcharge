@@ -36,11 +36,17 @@ namespace Depthcharge.UI
             float redLimit = startWidth * LOW_HEALTH_PERCENTAGE * 0.01f;
 
             if (currentWidth > yellowLimit)
+            {
                 healthBar.color = Color.green;
+            }
             else if (currentWidth > redLimit && currentWidth <= yellowLimit)
+            {
                 healthBar.color = Color.yellow;
+            }
             else
+            {
                 healthBar.color = Color.red;
+            }
         }
 
     }
