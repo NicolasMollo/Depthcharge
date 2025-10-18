@@ -1,6 +1,7 @@
 using Depthcharge.Actors.AI;
 using Depthcharge.Actors.Modules;
 using Depthcharge.Environment;
+using System;
 using UnityEngine;
 
 namespace Depthcharge.Actors
@@ -46,6 +47,8 @@ namespace Depthcharge.Actors
 
         #endregion
 
+        public Action OnInvulnerability = null;
+
         private void Awake()
         {
             if (spriteRenderer == null)
@@ -72,6 +75,7 @@ namespace Depthcharge.Actors
             bottomSeaTarget = env.BottomSeaTarget;
             MoveToTargetY(topSeaTarget.position.y);
             startSpeed = MovementModule.MovementSpeed;
+            HealthModule.SetVulnerability(false);
         }
 
         private void Update()

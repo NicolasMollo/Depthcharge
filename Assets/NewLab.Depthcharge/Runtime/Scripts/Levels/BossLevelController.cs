@@ -53,12 +53,16 @@ namespace Depthcharge.LevelManagement
             base.AddListenersToActors();
             _boss.HealthModule.OnTakeDamage += OnBossTakeDamage;
             _boss.HealthModule.OnDeath += OnBossDeath;
+            _boss.HealthModule.OnVulnerable += OnBossVulnerable;
+            _boss.HealthModule.OnInvulnerable += OnBossInvulnerable;
         }
         protected override void RemoveListenersFromActors()
         {
-            base.RemoveListenersFromActors();
-            _boss.HealthModule.OnTakeDamage -= OnBossTakeDamage;
+            _boss.HealthModule.OnInvulnerable -= OnBossInvulnerable;
+            _boss.HealthModule.OnVulnerable -= OnBossVulnerable;
             _boss.HealthModule.OnDeath -= OnBossDeath;
+            _boss.HealthModule.OnTakeDamage -= OnBossTakeDamage;
+            base.RemoveListenersFromActors();
         }
         private void OnBossTakeDamage(float damage)
         {
@@ -69,6 +73,14 @@ namespace Depthcharge.LevelManagement
             _stats.IncreaseEnemiesDefeated();
             _stats.IncreaseScore(_boss.ScorePoints);
             OnWin?.Invoke();
+        }
+        private void OnBossVulnerable()
+        {
+            bossUI.UpdateBossHealthBar(_boss.HealthModule.HealthPercentage);
+        }
+        private void OnBossInvulnerable()
+        {
+            bossUI.SetBossHealthBarColor(Color.gray);
         }
 
     }

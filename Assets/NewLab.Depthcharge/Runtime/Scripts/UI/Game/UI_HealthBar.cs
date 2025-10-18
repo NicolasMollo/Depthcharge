@@ -25,10 +25,14 @@ namespace Depthcharge.UI
         {
             float calculatedWidth = healthPercentage * fixedWidth;
             healthBar.rectTransform.sizeDelta = new Vector2(calculatedWidth, healthBar.rectTransform.sizeDelta.y);
-            SetHealthBarColor(healthBar.rectTransform.sizeDelta.x);
+            SetColorBasedOnPercentage(healthBar.rectTransform.sizeDelta.x);
+        }
+        public void SetColor(Color color)
+        {
+            healthBar.color = color;
         }
 
-        private void SetHealthBarColor(float currentWidth)
+        private void SetColorBasedOnPercentage(float currentWidth)
         {
             const float MID_HEALTH_PERCENTAGE = 50.0f;
             const float LOW_HEALTH_PERCENTAGE = 15.0f;

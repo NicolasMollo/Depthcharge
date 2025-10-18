@@ -26,6 +26,7 @@ namespace Depthcharge.Actors.Modules
         public Action<float> OnTakeDamage = null;
         public Action<float> OnTakeHealth = null;
         public Action OnDeath = null;
+        public Action OnVulnerable = null;
         public Action OnInvulnerable = null;
 
         private void Awake()
@@ -71,10 +72,15 @@ namespace Depthcharge.Actors.Modules
         {
             Health = maxHealth;
         }
+
         public void SetVulnerability(bool isVulnerable)
         {
             this.isVulnerable = isVulnerable;
-            if (!isVulnerable)
+            if (this.isVulnerable)
+            {
+                OnVulnerable?.Invoke();
+            }
+            else
             {
                 OnInvulnerable?.Invoke();
             }

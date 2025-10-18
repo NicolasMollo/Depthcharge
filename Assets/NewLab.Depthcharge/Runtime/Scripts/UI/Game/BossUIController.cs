@@ -33,6 +33,10 @@ namespace Depthcharge.UI
         {
             bossHealthBar.UpdateHealthBar(healthPercentage);
         }
+        public void SetBossHealthBarColor(Color color)
+        {
+            bossHealthBar.SetColor(color);
+        }
 
     }
 }
