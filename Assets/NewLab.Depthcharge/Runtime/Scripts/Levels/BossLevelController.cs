@@ -37,21 +37,15 @@ namespace Depthcharge.LevelManagement
         {
             base.AddListeners();
             GameEventBus.OnGameStart += OnGameStart;
-            GameEventBus.OnGameUpdate += OnGameUpdate;
         }
         protected override void RemoveListeners()
         {
-            GameEventBus.OnGameUpdate -= OnGameUpdate;
             GameEventBus.OnGameStart -= OnGameStart;
             base.RemoveListeners();
         }
         private void OnGameStart()
         {
             _boss.gameObject.SetActive(true);
-        }
-        private void OnGameUpdate()
-        {
-            _boss.UpdateEnemy();
         }
 
         protected override void AddListenersToActors()

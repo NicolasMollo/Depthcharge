@@ -1,5 +1,7 @@
 using Depthcharge.Actors;
+using Depthcharge.Events;
 using Depthcharge.UI;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,6 +20,10 @@ namespace Depthcharge.LevelManagement
         {
             spawners = LevelControllerConfigurator.SetEnemySpawners(_configuration, ref spawnerProviders);
             listeners = new EnemyListenersContainer(OnSpawnEnemy, OnDefeatEnemy, OnDeactivateEnemy);
+            foreach (EnemySpawner spawner in spawners)
+            {
+                spawner.gameObject.SetActive(false);
+            }
         }
         protected override void ConfigureUI(ref BaseGameUIController UI)
         {
@@ -41,6 +47,25 @@ namespace Depthcharge.LevelManagement
         }
 
         #region Events
+
+        protected override void AddListeners()
+        {
+            base.AddListeners();
+            GameEventBus.OnGameStart += OnGameStart;
+        }
+        protected override void RemoveListeners()
+        {
+            GameEventBus.OnGameStart -= OnGameStart;
+            base.RemoveListeners();
+        }
+        private void OnGameStart()
+        {
+            foreach (EnemySpawner spawner in spawners)
+            {
+                spawner.gameObject.SetActive(true);
+                spawner.SpawnEnemyWithRandomDelay();
+            }
+        }
 
         protected override void AddListenersToActors()
         {

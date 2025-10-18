@@ -29,6 +29,10 @@ namespace Depthcharge.LevelManagement
             }
             spawners = LevelControllerConfigurator.SetEnemySpawners(_configuration, ref spawnerProviders);
             listeners = new EnemyListenersContainer(OnSpawnEnemy, OnDefeatEnemy, OnDeactivateEnemy);
+            foreach (EnemySpawner spawner in spawners)
+            {
+                spawner.gameObject.SetActive(false);
+            }
         }
         protected override void ConfigureUI(ref BaseGameUIController UI)
         {
@@ -47,12 +51,22 @@ namespace Depthcharge.LevelManagement
         protected override void AddListeners()
         {
             base.AddListeners(); // GameEventBus.OnGameOver += OnGameOver;
+            GameEventBus.OnGameStart += OnGameStart;
             GameEventBus.OnGameUpdate += OnGameUpdate;
         }
         protected override void RemoveListeners()
         {
             GameEventBus.OnGameUpdate -= OnGameUpdate;
+            GameEventBus.OnGameStart -= OnGameStart;
             base.RemoveListeners(); // GameEventBus.OnGameOver -= OnGameOver;
+        }
+        private void OnGameStart()
+        {
+            foreach (EnemySpawner spawner in spawners)
+            {
+                spawner.gameObject.SetActive(true);
+                spawner.SpawnEnemyWithRandomDelay();
+            }
         }
         private void OnGameUpdate()
         {

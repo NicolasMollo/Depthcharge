@@ -36,9 +36,7 @@ namespace Depthcharge.Actors
                     enemies.Add(enemy);
                 }
             }
-            SpawnEnemyWithRandomDelay();
         }
-
         public void CleanUp()
         {
             foreach (EnemyProvider provider in _providers)
@@ -51,12 +49,7 @@ namespace Depthcharge.Actors
             }
         }
 
-        private void OnEnemyDeactivation(BaseEnemyController enemy)
-        {
-            SpawnEnemyWithRandomDelay();
-        }
-
-        private void SpawnEnemyWithRandomDelay()
+        public void SpawnEnemyWithRandomDelay()
         {
             float randomDelay = UnityEngine.Random.Range(minSpawnDelay, maxSpawnDelay);
             StartCoroutine(SpawnEnemyDelayed(randomDelay));
@@ -69,7 +62,6 @@ namespace Depthcharge.Actors
             StdEnemyController enemyToSpawn = enemies[randomIndex];
             SpawnEnemy(enemyToSpawn);
         }
-
         private void SpawnEnemy(StdEnemyController enemy)
         {
             if (!enemy.gameObject.activeSelf)
@@ -78,6 +70,11 @@ namespace Depthcharge.Actors
                 enemy.gameObject.SetActive(!enemy.gameObject.activeSelf);
                 OnSpawnEnemy?.Invoke();
             }
+        }
+
+        private void OnEnemyDeactivation(BaseEnemyController enemy)
+        {
+            SpawnEnemyWithRandomDelay();
         }
 
     }

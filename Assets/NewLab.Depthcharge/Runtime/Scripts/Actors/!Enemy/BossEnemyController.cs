@@ -74,7 +74,7 @@ namespace Depthcharge.Actors
             startSpeed = MovementModule.MovementSpeed;
         }
 
-        public override void UpdateEnemy()
+        private void Update()
         {
             MovementModule.MoveTarget(movementDirection);
         }
