@@ -8,6 +8,8 @@ namespace Depthcharge.GameManagement.AI
     public class WinGameState : EndGameState
     {
 
+        private bool wasBossLevel = false;
+
         protected override UI_EndGameController ConfigureUI()
         {
             return UISystem.WinUI;
@@ -16,13 +18,15 @@ namespace Depthcharge.GameManagement.AI
         protected override void OnClickReloadButton(SceneConfiguration configuration)
         {
             SceneConfiguration selectedConfiguration = configuration;
-            if (gameLogic.IsBossLevel)
+            if (!wasBossLevel && gameLogic.IsBossLevel)
             {
                 selectedConfiguration = bossSceneConfiguration;
+                wasBossLevel = true;
             }
-            if (!gameLogic.IsLastLevel && sceneSystem.CurrentScene.Configuration.SceneName == configuration.SceneName)
+            else
             {
                 gameLogic.IncreaseCurrentLevelNumber();
+                wasBossLevel = false;
             }
             base.OnClickReloadButton(selectedConfiguration);
         }

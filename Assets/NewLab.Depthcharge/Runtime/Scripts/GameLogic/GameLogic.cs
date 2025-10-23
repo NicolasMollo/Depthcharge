@@ -59,11 +59,11 @@ namespace Depthcharge.GameManagement
             _currentLevelNumber++;
             return _currentLevelNumber;
         }
-        private void SetCurrentLevelNumber(int levelNumber)
+        public int DecreaseCurrentLevelNumber()
         {
-            _currentLevelNumber = levelNumber;
+            _currentLevelNumber--;
+            return _currentLevelNumber;
         }
-
         public void ResetCurrentLevelNumber()
         {
             _currentLevelNumber = 1;

@@ -3,7 +3,7 @@ using UnityEngine;
 using Depthcharge.Actors.Modules;
 
 [Serializable]
-public struct MovementContext
+public class MovementContext
 {
 
     [SerializeField] private BaseMovementAdapter _target;
@@ -20,5 +20,8 @@ public struct MovementContext
 
     private float _spawnTime;
     public float SpawnTime { get => _spawnTime; set => _spawnTime = value; }
+
+    [SerializeField] private Transform _targetToReach;
+    public Transform TargetToReach { get => _targetToReach; set => _targetToReach = value; }
 
 }

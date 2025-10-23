@@ -33,11 +33,13 @@ namespace Depthcharge.Actors.Modules
             IsModuleSetUp = true;
         }
 
-        public void MoveTarget(Vector2 direction = default)
+        public void MoveTarget(Vector2 direction = default, Transform targetToReach = null)
         {
             movementContext.Direction = direction;
+            movementContext.TargetToReach = targetToReach;
             movementStrategy.MoveTarget(movementContext);
         }
+
         public void SetMovementSpeed(float speed)
         {
             movementContext.Speed = speed;

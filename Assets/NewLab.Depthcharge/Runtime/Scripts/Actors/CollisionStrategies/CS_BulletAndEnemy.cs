@@ -19,6 +19,7 @@ namespace Depthcharge.Actors.Modules
                 BaseEnemyController enemyController = other.GetComponentInParent<BaseEnemyController>();
                 enemyController.HealthModule.TakeDamage(bulletController.Damage);
                 bulletController.HealthModule.TakeMaxDamage();
+                bulletController.CollisionModule.DisableModule();
             }
 
         }

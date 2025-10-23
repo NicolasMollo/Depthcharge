@@ -1770,7 +1770,7 @@ MonoBehaviour:
   movementContext:
     _target: {fileID: 1948835252}
     _direction: {x: 0, y: 0}
-    _speed: 3.5
+    _speed: 1.5
 --- !u!1 &1950592997
 GameObject:
   m_ObjectHideFlags: 0
@@ -1896,6 +1896,8 @@ MonoBehaviour:
   skyBackgroundController: {fileID: 1388720311}
   enableTimeBasedColor: 0
   dayPhaseConfig: {fileID: 11400000, guid: b16a41820e2b8434b83f629ad802d8bf, type: 2}
+  _topSeaTarget: {fileID: 0}
+  _bottomSeaTarget: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

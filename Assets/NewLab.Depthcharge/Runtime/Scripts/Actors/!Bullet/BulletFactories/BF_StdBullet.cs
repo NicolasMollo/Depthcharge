@@ -13,7 +13,6 @@ namespace Depthcharge.Actors.Modules
 
         public override List<BulletController> CreateBulletPool(ShootModule shootModule, int poolSize)
         {
-
             List<BulletController> bullets = new List<BulletController>();
             BulletController temporary = null;
             for (int i = 0; i < poolSize; i++)
@@ -24,11 +23,10 @@ namespace Depthcharge.Actors.Modules
             }
 
             return bullets;
-
         }
+
         protected override BulletController CreateBullet(ShootModule shootModule)
         {
-
             GameObject bulletObj = Instantiate(
                 prefabBullet, 
                 shootModule.ShootPoint.position, 
@@ -38,7 +36,6 @@ namespace Depthcharge.Actors.Modules
             BulletController bulletController = bulletObj.GetComponent<BulletController>();
             bulletController.SetUp(shootModule);
             return bulletController;
-
         }
 
     }

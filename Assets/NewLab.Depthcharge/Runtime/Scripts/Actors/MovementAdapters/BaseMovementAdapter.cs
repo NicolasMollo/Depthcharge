@@ -13,6 +13,8 @@ namespace Depthcharge.Actors.Modules
         public virtual void AddForce(Vector2 force, ForceMode2D forceMode2D) { }
         public virtual void SetVelocity(Vector2 velocity) { }
 
+        public virtual void Rotate(float rotation, float speedRotation) { }
+
     }
 
 }

@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5282b2e6086216e48b386edf8875de68, type: 3}
+  m_Name: BF_Boss02Bullet
+  m_EditorClassIdentifier: 
+  prefabBullet: {fileID: 4178596348148343302, guid: d27a7dd8ea3cff14d8d4e0db38c867e2, type: 3}

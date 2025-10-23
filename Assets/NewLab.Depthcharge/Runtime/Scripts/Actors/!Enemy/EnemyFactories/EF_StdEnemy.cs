@@ -1,9 +1,10 @@
-using Codice.CM.Client.Differences;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Depthcharge.Actors
 {
+
+    public enum MovementDirection { Left, Right, Up, Down, Override }
 
     [CreateAssetMenu(menuName = "Scriptable Objects/Actors/Enemy/Factories/EF_StdEnemy")]
     public class EF_StdEnemy : BaseEnemyFactory

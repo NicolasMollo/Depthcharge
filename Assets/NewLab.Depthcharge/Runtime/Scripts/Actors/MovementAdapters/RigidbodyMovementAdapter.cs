@@ -29,6 +29,12 @@ namespace Depthcharge.Actors.Modules
             rb.velocity = velocity;
         }
 
+        public override void Rotate(float rotation, float speedRotation)
+        {
+            float smoothRotation = Mathf.MoveTowardsAngle(rb.rotation, rotation, speedRotation * Time.fixedDeltaTime);
+            rb.MoveRotation(smoothRotation);
+        }
+
     }
 
 }

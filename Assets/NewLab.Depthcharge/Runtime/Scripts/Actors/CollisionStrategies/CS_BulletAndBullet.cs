@@ -18,8 +18,6 @@ namespace Depthcharge.Actors.Modules
                 BulletController otherBullet = other.GetComponentInParent<BulletController>();
                 ownerBullet.HealthModule.TakeDamage(otherBullet.Damage);
                 otherBullet.HealthModule.TakeDamage(ownerBullet.Damage);
-                // ownerBullet.Deactivation();
-                // otherBullet.Deactivation();
             }
         }
 

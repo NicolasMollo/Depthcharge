@@ -1,4 +1,3 @@
-using Codice.CM.Client.Differences;
 using System;
 using System.Collections;
 using System.Collections.Generic;

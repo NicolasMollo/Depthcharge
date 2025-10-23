@@ -47,8 +47,6 @@ namespace Depthcharge.Actors
 
         #endregion
 
-        public Action OnInvulnerability = null;
-
         private void Awake()
         {
             if (spriteRenderer == null)

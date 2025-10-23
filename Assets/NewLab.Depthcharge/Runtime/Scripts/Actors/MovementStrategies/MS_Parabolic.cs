@@ -13,10 +13,8 @@ namespace Depthcharge.Actors.Modules
 
         public override void MoveTarget(MovementContext movementContext)
         {
-
             Vector2 force = new Vector2(0f, forceY);
             movementContext.Target.AddForce(force, ForceMode2D.Impulse);
-
         }
 
     }

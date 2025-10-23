@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Codice.CM.Client.Differences;
 
 namespace Depthcharge.Actors
 {

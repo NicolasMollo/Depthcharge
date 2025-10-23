@@ -7,6 +7,7 @@ using UnityEngine;
 namespace Depthcharge.Actors
 {
 
+    [DisallowMultipleComponent]
     public abstract class BaseEnemyController : MonoBehaviour
     {
 

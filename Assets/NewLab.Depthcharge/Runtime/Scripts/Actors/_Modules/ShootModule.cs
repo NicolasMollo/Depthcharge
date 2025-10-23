@@ -110,6 +110,7 @@ namespace Depthcharge.Actors.Modules
                 {
                     bullet.transform.SetParent(bulletsParent);
                     bullet.transform.position = shootPoint.position;
+                    bullet.transform.rotation = Quaternion.Euler(Vector3.zero);
                 }
             }
         }

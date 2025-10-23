@@ -9,13 +9,11 @@ namespace Depthcharge.Actors.Modules
 
         public override void MoveTarget(MovementContext movementContext)
         {
-
             Vector2 directionNormalized = movementContext.Direction.normalized;
             float calculatedSpeed = movementContext.Speed * Time.deltaTime;
             Vector2 velocity = directionNormalized * calculatedSpeed;
 
             movementContext.Target.Translate(velocity);
-
         }
 
     }

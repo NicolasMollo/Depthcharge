@@ -8,13 +8,13 @@ namespace Depthcharge.Actors.Modules
 
         public override void SetUpModule(GameObject owner = null)
         {
-
             base.SetUpModule(owner);
 
             if (!setComponentsAutomatically)
+            {
                 boxCollider = GetComponent<BoxCollider2D>();
+            }
             boxCollider.isTrigger = true;
-
         }
 
         private void OnTriggerEnter2D(Collider2D collider)

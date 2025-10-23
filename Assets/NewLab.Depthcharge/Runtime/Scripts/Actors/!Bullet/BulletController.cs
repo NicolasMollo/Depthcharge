@@ -44,17 +44,20 @@ namespace Depthcharge.Actors
 
         #endregion
 
-
+        private void Awake()
+        {
+            movementContext = new MovementContext();
+        }
         public void SetUp(ShootModule owner)
         {
             this.owner = owner;
-            movementContext = new MovementContext();
+            movementContext.TargetToReach = FindFirstObjectByType<PlayerController>().transform;
             collisionModule.SetUpModule(this.gameObject);
         }
 
         private void FixedUpdate()
         {
-            movementModule.MoveTarget(movementDirection);
+            movementModule.MoveTarget(movementDirection, movementContext.TargetToReach);
         }
 
         private void OnEnable()
@@ -62,6 +65,10 @@ namespace Depthcharge.Actors
             movementContext.SpawnTime = Time.time;
             movementContext.StartPosition = movementModule.Target.GetPosition();
             _isShooted = true;
+            if (!collisionModule.enabled)
+            {
+                collisionModule.EnableModule();
+            }
             healthModule.OnDeath += Deactivation;
         }
         private void OnDisable()
