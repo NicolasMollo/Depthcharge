@@ -27,7 +27,7 @@ namespace Depthcharge.GameManagement.AI
         [SerializeField]
         private float cameraSpeed = 0f;
 
-        public override void SetUp()
+        public override void SetUp(GameObject owner)
         {
             UISystem = GameSystemsRoot.Instance.UISystem;
             gameLogic = GameLogic.Instance;
@@ -99,7 +99,7 @@ namespace Depthcharge.GameManagement.AI
                 playerMovement.Translate(translation);
                 yield return null;
             }
-            fsm.GoToTheNextState();
+            fsm.ChangeToNextState();
         }
         private IEnumerator MovePlayerRight()
         {
@@ -112,7 +112,7 @@ namespace Depthcharge.GameManagement.AI
                 playerMovement.Translate(translation);
                 yield return null;
             }
-            fsm.GoToTheNextState();
+            fsm.ChangeToNextState();
         }
 
         #endregion

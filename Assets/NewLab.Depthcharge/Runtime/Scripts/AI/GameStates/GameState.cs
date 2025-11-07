@@ -13,7 +13,7 @@ namespace Depthcharge.GameManagement.AI
         private BaseLevelController level = null;
         private UISystem UISystem = null;
 
-        public override void SetUp()
+        public override void SetUp(GameObject owner)
         {
             UISystem = GameSystemsRoot.Instance.UISystem;
         }

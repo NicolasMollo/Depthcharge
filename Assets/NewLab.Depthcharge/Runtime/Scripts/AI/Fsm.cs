@@ -10,27 +10,35 @@ namespace Depthcharge.Actors.AI
 
         [SerializeField]
         private GameObject _owner = null;
-        public GameObject Owner { get => _owner; }
-
         [SerializeField]
         private List<BaseState> states = null;
 
         [SerializeField]
         private BaseState startState = null;
         private BaseState currentState = null;
+        public BaseState CurrentState { get => currentState; }
+
+        private void Awake()
+        {
+            if (_owner == null)
+            {
+                Debug.LogError($"=== {this.transform.parent.name}.FSM.Awake() === Be ensure to assign fsm owner!");
+                return;
+            }
+        }
 
         public void SetUpStates()
         {
             foreach (BaseState state in states)
             {
-                state.SetUp();
+                state.SetUp(_owner);
             }
         }
         public void CleanUpStates()
         {
             foreach(BaseState state in states)
             {
-                state.CleanUp();
+                state.CleanUp(_owner);
             }
         }
 
@@ -44,7 +52,7 @@ namespace Depthcharge.Actors.AI
             currentState.OnStateUpdate();
         }
 
-        public void GoToTheNextState()
+        public void ChangeToNextState()
         {
             currentState.OnStateExit();
             currentState = currentState.NextState;

@@ -13,6 +13,7 @@ namespace Depthcharge.Actors.Modules
         private List<BulletController> bullets = null;
         private BaseBulletFactory originalBulletFactory = null;
         private int bulletsShooted = 0;
+        private bool canShoot = true;
         private bool _isReloading = false;
         public bool IsReloading { get => _isReloading; }
 
@@ -52,6 +53,7 @@ namespace Depthcharge.Actors.Modules
         {
             originalBulletFactory = bulletFactory;
             bullets = bulletFactory.CreateBulletPool(this, poolSize);
+            canShoot = true;
             IsModuleSetUp = true;
         }
 
@@ -59,10 +61,16 @@ namespace Depthcharge.Actors.Modules
 
         public void Shoot()
         {
+            if (!canShoot)
+            {
+                return;
+            }
+
             foreach (BulletController bullet in bullets)
             {
                 if (bullet.transform.parent == bulletsParent && !bullet.gameObject.activeSelf)
                 {
+                    bullet.transform.rotation = shootPoint.rotation;
                     bullet.transform.SetParent(null);
                     bullet.gameObject.SetActive(true);
                     bulletsShooted++;
@@ -73,18 +81,22 @@ namespace Depthcharge.Actors.Modules
                     }
                 }
             }
-            if (reloadAutomatically)
-            {
-                Reload();
-            }
-        }
-        public void Reload()
-        {
-            if (!_isReloading)
+            if (reloadAutomatically && !_isReloading)
             {
                 StartCoroutine(Reload(reloadTime));
             }
         }
+
+        public void Reload()
+        {
+            _isReloading = true;
+            OnStartReload?.Invoke(_isReloading);
+            ResetBullets();
+            bulletsShooted = 0;
+            OnReloaded?.Invoke();
+            _isReloading = !_isReloading;
+        }
+
         public void ChangeBulletsType(BaseBulletFactory bulletFactory)
         {
             this.bulletFactory = bulletFactory;
@@ -113,6 +125,27 @@ namespace Depthcharge.Actors.Modules
                     bullet.transform.rotation = Quaternion.Euler(Vector3.zero);
                 }
             }
+        }
+
+        public void IncreaseShootPointRotation(float rotationOffsetZ)
+        {
+            shootPoint.rotation *= Quaternion.Euler(shootPoint.forward * rotationOffsetZ);
+            float eulerRotationZ = shootPoint.rotation.eulerAngles.z;
+            const float STRAIGHT_ANGLE = 180.0f;
+            const float FULL_ANGLE = 360.0f;
+            if (eulerRotationZ > STRAIGHT_ANGLE)
+            {
+                eulerRotationZ -= FULL_ANGLE;
+            }
+        }
+
+        public override void EnableModule()
+        {
+            canShoot = true;
+        }
+        public override void DisableModule()
+        {
+            canShoot = false;
         }
 
         #endregion

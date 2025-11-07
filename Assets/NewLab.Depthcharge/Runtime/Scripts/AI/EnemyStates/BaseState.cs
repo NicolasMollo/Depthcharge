@@ -13,8 +13,8 @@ namespace Depthcharge.Actors.AI
         protected BaseState nextState = null;
         public BaseState NextState { get => nextState; }
 
-        public virtual void SetUp() { }
-        public virtual void CleanUp() { }
+        public virtual void SetUp(GameObject owner) { }
+        public virtual void CleanUp(GameObject owner) { }
         public virtual void OnStateEnter() { }
         public virtual void OnStateUpdate() { }
         public virtual void OnStateExit() { }

@@ -57,7 +57,7 @@ namespace Depthcharge.Actors
 
         private void FixedUpdate()
         {
-            movementModule.MoveTarget(movementDirection, movementContext.TargetToReach);
+            movementModule.MoveTarget(MovementModule.Target.transform.up, movementContext.TargetToReach);
         }
 
         private void OnEnable()

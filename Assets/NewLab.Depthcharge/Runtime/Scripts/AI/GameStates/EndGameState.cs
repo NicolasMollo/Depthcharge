@@ -21,7 +21,7 @@ namespace Depthcharge.GameManagement.AI
         [SerializeField]
         protected SceneConfiguration bossSceneConfiguration = null;
 
-        public override void SetUp()
+        public override void SetUp(GameObject owner)
         {
             gameLogic = GameLogic.Instance;
             sceneSystem = GameSystemsRoot.Instance.SceneSystem;

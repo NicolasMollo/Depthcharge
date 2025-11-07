@@ -1,7 +1,9 @@
 using Depthcharge.Actors;
+using Depthcharge.Environment;
 using Depthcharge.Events;
 using Depthcharge.UI;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace Depthcharge.LevelManagement
 {
@@ -12,6 +14,9 @@ namespace Depthcharge.LevelManagement
         private BaseEnemyController _boss = null;
         public BaseEnemyController Boss { get => _boss; }
 
+        [SerializeField]
+        private ShootModuleManager cannons = null;
+
         protected override void ConfigureUI(ref BaseGameUIController UI)
         {
             UI = systemsRoot.UISystem.BossUIController;
@@ -20,18 +25,12 @@ namespace Depthcharge.LevelManagement
         {
             GameObject bossObj = Instantiate(_configuration.PrefabBoss, player.transform.parent);
             _boss = bossObj.GetComponent<BaseEnemyController>();
-            if (_boss == null)
-            {
-                Debug.LogError($"=== BossLevelController.InternalSetUp() === boss is not a BaseEnemyController!");
-                return;
-            }
+            string message = $"=== BossLevelController.InternalSetUp() === boss is not a BaseEnemyController!";
+            Assert.IsNotNull(_boss, message);
             _boss.gameObject.SetActive(false);
             bossUI = UI as BossUIController;
-            if (bossUI == null)
-            {
-                Debug.LogError($"=== BossLevelController.InternalSetUp() === bossUI is not a BossUIController!");
-                return;
-            }
+            message = $"=== BossLevelController.InternalSetUp() === bossUI is not a BossUIController!";
+            Assert.IsNotNull(bossUI, message);
         }
         protected override void AddListeners()
         {

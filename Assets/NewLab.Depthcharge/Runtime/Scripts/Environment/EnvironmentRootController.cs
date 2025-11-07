@@ -14,7 +14,8 @@ namespace Depthcharge.Environment
         private BackgroundController seaBackgroundController = null;
         [SerializeField]
         private SpriteRenderer seaSpriteRenderer = null;
-        public float SeaWidth { get => seaSpriteRenderer.bounds.size.x; }
+        public Vector2 SeaSize { get => seaSpriteRenderer.bounds.size; }
+        public Vector2 SeaPosition { get => seaBackgroundController.transform.position; }
         [SerializeField]
         private BackgroundController skyBackgroundController = null;
         [SerializeField]

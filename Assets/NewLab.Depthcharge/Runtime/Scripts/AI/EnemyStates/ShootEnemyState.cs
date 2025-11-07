@@ -1,4 +1,5 @@
-using Depthcharge.Actors.Modules;
+using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace Depthcharge.Actors.AI
 {
@@ -6,16 +7,18 @@ namespace Depthcharge.Actors.AI
     public class ShootEnemyState : BaseState
     {
 
-        private ShootModule shootModule = null;
+        private BaseEnemyController enemy = null;
 
-        public override void SetUp()
+        public override void SetUp(GameObject owner)
         {
-            shootModule = fsm.Owner.GetComponentInChildren<ShootModule>();
+            enemy = owner.GetComponent<BaseEnemyController>();
+            string message = $"=== {owner.name}.ShootEnemyState.SetUp() === Owner is not a \"BaseEnemyController\"!";
+            Assert.IsNotNull(enemy, message);
         }
         public override void OnStateEnter()
         {
-            shootModule.Shoot();
-            fsm.GoToTheNextState();
+            enemy.Shoot();
+            fsm.ChangeToNextState();
         }
 
     }

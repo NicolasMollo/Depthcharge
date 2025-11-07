@@ -28,6 +28,8 @@ namespace Depthcharge.Actors.Modules
         public Action OnDeath = null;
         public Action OnVulnerable = null;
         public Action OnInvulnerable = null;
+        public Action OnReachHalfHealth = null;
+        public Action OnReachAQuarterHealth = null;
 
         private void Awake()
         {
@@ -54,6 +56,7 @@ namespace Depthcharge.Actors.Modules
             }
             Health -= damage;
             OnTakeDamage?.Invoke(Health);
+            CheckHealthState();
             if (Health == 0)
             {
                 OnDeath?.Invoke();
@@ -63,6 +66,7 @@ namespace Depthcharge.Actors.Modules
         {
             Health += health;
             OnTakeHealth?.Invoke(Health);
+            CheckHealthState();
         }
         public void SetMaxHealth(float maxHealth)
         {
@@ -83,6 +87,25 @@ namespace Depthcharge.Actors.Modules
             else
             {
                 OnInvulnerable?.Invoke();
+            }
+        }
+
+        private void CheckHealthState()
+        {
+            const float HALF_HEALTH = 0.5f;
+            const float QUARTER_HEALTH = 0.25f;
+
+            if (HealthPercentage <= 0)
+            {
+                return;
+            }
+            else if (HealthPercentage <= QUARTER_HEALTH)
+            {
+                OnReachAQuarterHealth?.Invoke();
+            }
+            else if (HealthPercentage <= HALF_HEALTH)
+            {
+                OnReachHalfHealth?.Invoke();
             }
         }
 

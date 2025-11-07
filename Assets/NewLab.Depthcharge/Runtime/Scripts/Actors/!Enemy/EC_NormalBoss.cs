@@ -2,6 +2,7 @@ using Depthcharge.Actors.AI;
 using Depthcharge.Environment;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace Depthcharge.Actors
 {
@@ -21,11 +22,8 @@ namespace Depthcharge.Actors
 
         private void Awake()
         {
-            if (spriteRenderer == null)
-            {
-                Debug.LogError($"=== EC_NormalBoss.Awake() === Be ensure to assign sprite renderer to the boss!");
-                return;
-            }
+            string message = $"=== EC_NormalBoss.Awake() === Be ensure to assign sprite renderer to the boss!";
+            Assert.IsNotNull(spriteRenderer, message);
             bulletShooted = 0;
             bulletToShootDivider = 3;
         }
@@ -33,12 +31,9 @@ namespace Depthcharge.Actors
         protected override void InternalSetUp()
         {
             EnvironmentRootController env = FindFirstObjectByType<EnvironmentRootController>();
-            if (env == null)
-            {
-                Debug.LogError($"=== EC_NormalBoss.InternalSetUp() === Doesn't exist a EnvironmentRootController object in scene!");
-                return;
-            }
-            seaWidth = env.SeaWidth;
+            string message = $"=== EC_NormalBoss.InternalSetUp() === Doesn't exist a EnvironmentRootController object in scene!";
+            Assert.IsNotNull(env, message);
+            seaWidth = env.SeaSize.x;
             startMovementSpeed = MovementModule.MovementSpeed;
             ShootModule.OnShoot += OnShoot;
             SetStallPosition();
@@ -113,7 +108,7 @@ namespace Depthcharge.Actors
             SetBulletToShootDivider();
             ShootModule.Reload();
             MovementModule.SetMovementSpeed(0);
-            HealthModule.SetVulnerability(false);
+            // HealthModule.SetVulnerability(false);
             spriteRenderer.color = Color.gray;
             fsm.ChangeState<IdleEnemyState>();
         }

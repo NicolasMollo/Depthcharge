@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace Depthcharge.Actors.AI
 {
@@ -7,11 +8,13 @@ namespace Depthcharge.Actors.AI
     public class IdleEnemyState : BaseState
     {
 
-        protected BaseEnemyController enemyController = null;
+        protected BaseEnemyController enemy = null;
 
-        public override void SetUp()
+        public override void SetUp(GameObject owner)
         {
-            enemyController = fsm.Owner.GetComponent<BaseEnemyController>();
+            enemy = owner.GetComponent<BaseEnemyController>();
+            string message = $"=== {owner.name}.IdleEnemyState.SetUp() === Owner is not a \"BaseEnemyController\"!";
+            Assert.IsNotNull(enemy, message);
         }
         public override void OnStateEnter()
         {
@@ -24,12 +27,12 @@ namespace Depthcharge.Actors.AI
 
         private IEnumerator WaitToShoot()
         {
-            yield return new WaitForSeconds(enemyController.ShootDelay);
-            if (enemyController.ShootModule.IsReloading)
+            yield return new WaitForSeconds(enemy.ShootDelay);
+            if (enemy.ShootModule.IsReloading)
             {
-                yield return new WaitUntil(() => !enemyController.ShootModule.IsReloading);
+                yield return new WaitUntil(() => !enemy.ShootModule.IsReloading);
             }
-            fsm.GoToTheNextState();
+            fsm.ChangeState<ShootEnemyState>();
         }
 
     }

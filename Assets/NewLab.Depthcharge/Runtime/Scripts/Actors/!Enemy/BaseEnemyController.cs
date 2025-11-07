@@ -49,7 +49,15 @@ namespace Depthcharge.Actors
         protected float _shootDelay = 0;
         public virtual float ShootDelay { get => _shootDelay; }
 
+        [SerializeField]
+        protected BaseShootStrategy shootStrategy = null;
+
         public Action<BaseEnemyController> OnDeactivation = null;
+
+        public virtual void Shoot()
+        {
+            shootStrategy.Shoot(ShootModule);
+        }
 
         private void Start()
         {

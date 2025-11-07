@@ -7,6 +7,7 @@ TagManager:
   - Enemy
   - SeaLevel
   - Bullet
+  - Environment
   layers:
   - Default
   - TransparentFX

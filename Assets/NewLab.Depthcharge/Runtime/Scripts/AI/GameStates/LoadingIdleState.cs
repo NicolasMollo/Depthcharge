@@ -21,7 +21,7 @@ namespace Depthcharge.GameManagement.AI
         [SerializeField]
         private float cameraTargetY = -10.0f;
 
-        public override void SetUp()
+        public override void SetUp(GameObject owner)
         {
             sceneSystem = GameSystemsRoot.Instance.SceneSystem;
         }
@@ -45,7 +45,7 @@ namespace Depthcharge.GameManagement.AI
             yield return new WaitUntil(() => isCameraOnTarget);
             sceneSystem.ChangeScene(idleSceneConfig);
             yield return new WaitUntil(() => sceneSystem.CurrentScene.IsLoaded);
-            fsm.GoToTheNextState();
+            fsm.ChangeToNextState();
         }
         private IEnumerator MoveCameraToTarget()
         {

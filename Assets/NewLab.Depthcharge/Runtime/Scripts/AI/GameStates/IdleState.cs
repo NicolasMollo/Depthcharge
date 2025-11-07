@@ -15,7 +15,7 @@ namespace Depthcharge.GameManagement.AI
         private UISystem UISystem = null;
         private SceneManagementSystem sceneSystem = null;
 
-        public override void SetUp()
+        public override void SetUp(GameObject owner)
         {
             UISystem = GameSystemsRoot.Instance.UISystem;
             sceneSystem = GameSystemsRoot.Instance.SceneSystem;
@@ -43,7 +43,7 @@ namespace Depthcharge.GameManagement.AI
         {
             sceneSystem.ChangeScene(configuration);
             yield return new WaitUntil(() => sceneSystem.CurrentScene.IsLoaded);
-            fsm.GoToTheNextState();
+            fsm.ChangeToNextState();
         }
 
     }

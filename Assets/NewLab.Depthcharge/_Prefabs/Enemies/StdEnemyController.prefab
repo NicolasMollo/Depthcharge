@@ -184,6 +184,7 @@ MonoBehaviour:
     _target: {fileID: 3883528170404355076}
     _direction: {x: -1, y: 0}
     _speed: 1
+    _targetToReach: {fileID: 0}
 --- !u!1 &4300483737321926581
 GameObject:
   m_ObjectHideFlags: 0
@@ -455,13 +456,15 @@ MonoBehaviour:
   _shootModule: {fileID: 8872896491554198012}
   scorePointsText: {fileID: 6190773126378537412}
   fsm: {fileID: 7014395801596498131}
+  enemyName: 
   movementDirection: {x: 0, y: 0}
   _scorePoints: 1
+  _shootDelay: 0
+  shootStrategy: {fileID: 11400000, guid: 087a973eea395134785b9c13e69314a5, type: 2}
   _collisionModule: {fileID: 2191717182897755735}
   randomShootDelay: 1
   minShootDelay: 1
   maxShootDelay: 1
-  shootDelay: 0
   aggressivenessMultiplier: 0
 --- !u!1 &4513265544863555701
 GameObject:
