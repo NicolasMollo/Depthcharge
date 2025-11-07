@@ -1,4 +1,5 @@
 ﻿using Depthcharge.Environment;
+using Depthcharge.LevelManagement;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -15,10 +16,10 @@ namespace Depthcharge.Actors.Modules
 
         public override void Shoot(ShootModule shootModule)
         {
-            EC_HardBoss boss = shootModule.GetComponentInParent<EC_HardBoss>();
-            string message = $"=== SS_CannonShoot === GameObject parent is not a \"EC_HardBoss\"!";
-            Assert.IsNotNull(boss, message);
-            ShootFromSelectedCannons(boss.ShootModuleManager, _shootType);
+            BossLevelController bossLevel = FindFirstObjectByType<BossLevelController>();
+            string message = $"=== SS_CannonShoot === There isn't a \"BossLevelController\" in this scene!";
+            Assert.IsNotNull(bossLevel, message);
+            ShootFromSelectedCannons(bossLevel.Cannons, _shootType);
         }
 
         private void ShootFromSelectedCannons(ShootModuleManager shootModuleManager, ShootModuleManager.ShootType shootType)

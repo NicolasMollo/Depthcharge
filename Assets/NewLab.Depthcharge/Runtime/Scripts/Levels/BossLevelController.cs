@@ -15,7 +15,8 @@ namespace Depthcharge.LevelManagement
         public BaseEnemyController Boss { get => _boss; }
 
         [SerializeField]
-        private ShootModuleManager cannons = null;
+        private ShootModuleManager _cannons = null;
+        public ShootModuleManager Cannons { get => _cannons;  }
 
         protected override void ConfigureUI(ref BaseGameUIController UI)
         {

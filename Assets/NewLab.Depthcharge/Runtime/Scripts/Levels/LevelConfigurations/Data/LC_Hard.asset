@@ -18,4 +18,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8e61aa7db551f0c49bbc8ab7086dea1c, type: 2}
   _minEnemySpawnDelay: 5
   _maxEnemySpawnDelay: 20
-  _prefabBoss: {fileID: 1609269853035396646, guid: 3b6e9f3ad074ac04c8d05367358986cf, type: 3}
+  _prefabBoss: {fileID: 7333238403349758987, guid: f00c586ef5f684f40ad50cf01c2155ff, type: 3}

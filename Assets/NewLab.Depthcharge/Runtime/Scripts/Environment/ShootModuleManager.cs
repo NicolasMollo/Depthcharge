@@ -32,7 +32,6 @@ namespace Depthcharge.Environment
             }
             OnShoot?.Invoke();
         }
-
         public void ShootFromAllExceptSides()
         {
             int lastIndex = shootModules.Count - 1;
@@ -42,7 +41,6 @@ namespace Depthcharge.Environment
             }
             OnShoot?.Invoke();
         }
-
         public void ShootFromSides()
         {
             int lastIndex = this.shootModules.Count - 1;
@@ -56,7 +54,6 @@ namespace Depthcharge.Environment
             }
             OnShoot?.Invoke();
         }
-
         public void ShootFromMiddle()
         {
             int middleIndex = Mathf.FloorToInt(shootModules.Count / 2);
@@ -78,6 +75,14 @@ namespace Depthcharge.Environment
             OnShoot?.Invoke();
         }
 
+        public void ReloadShootModules()
+        {
+            foreach (ShootModule module in shootModules)
+            {
+                module.Reload();
+            }
+        }
+
         public void DisableShootModules()
         {
             foreach (ShootModule module in shootModules)
@@ -90,14 +95,6 @@ namespace Depthcharge.Environment
             foreach (ShootModule module in shootModules)
             {
                 module.EnableModule();
-            }
-        }
-
-        public void ReloadShootModules()
-        {
-            foreach (ShootModule module in shootModules)
-            {
-                module.Reload();
             }
         }
 

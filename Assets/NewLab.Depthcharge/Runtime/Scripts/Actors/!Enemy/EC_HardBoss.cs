@@ -23,8 +23,7 @@ namespace Depthcharge.Actors
         private float startRotationOffset = 0f;
         private int bulletsShooted = 0;
         private int bulletsToShoot = 0;
-        private ShootModuleManager shootModuleManager = null;
-        public ShootModuleManager ShootModuleManager { get => shootModuleManager; }
+        private ShootModuleManager cannons = null;
 
         #endregion
         #region Serialized settings
@@ -79,9 +78,9 @@ namespace Depthcharge.Actors
         {
             currentCannonShootStrategy = GetCannonShootStrategy(ShootModuleManager.ShootType.FromAllExceptSides);
             ShootModule.IncreaseShootPointRotation(rotationLimit * -1);
-            shootModuleManager = FindFirstObjectByType<ShootModuleManager>();
+            cannons = FindFirstObjectByType<ShootModuleManager>();
             string message = $"=== EC_HardBoss.Awake() === There isn't a \"ShootModuleManager\" in this scene!";
-            Assert.IsNotNull(shootModuleManager, message);
+            Assert.IsNotNull(cannons, message);
         }
 
         protected override void InternalCleanUp()
@@ -92,7 +91,7 @@ namespace Depthcharge.Actors
         private void AddListeners()
         {
             ShootModule.OnShoot += OnShoot;
-            shootModuleManager.OnShoot += OnCannonsShoot;
+            cannons.OnShoot += OnCannonsShoot;
             HealthModule.OnReachAQuarterHealth += OnReachAQuarterHealth;
             HealthModule.OnReachHalfHealth += OnReachHalfHealth;
         }
@@ -100,7 +99,7 @@ namespace Depthcharge.Actors
         {
             HealthModule.OnReachAQuarterHealth -= OnReachAQuarterHealth;
             HealthModule.OnReachHalfHealth -= OnReachHalfHealth;
-            shootModuleManager.OnShoot -= OnCannonsShoot;
+            cannons.OnShoot -= OnCannonsShoot;
             ShootModule.OnShoot -= OnShoot;
         }
 
@@ -134,7 +133,7 @@ namespace Depthcharge.Actors
         }
         private void OnCannonsShoot()
         {
-            shootModuleManager.DisableShootModules();
+            cannons.DisableShootModules();
             StartCoroutine(GoToVulnerabilityState(vulnerabilityStateDelay));
         }
         private void OnReachHalfHealth()
@@ -182,8 +181,8 @@ namespace Depthcharge.Actors
         private void SetCannonShoot()
         {
             shootStrategy = currentCannonShootStrategy;
-            ShootModuleManager.ReloadShootModules();
-            ShootModuleManager.EnableShootModules();
+            cannons.ReloadShootModules();
+            cannons.EnableShootModules();
         }
 
         private void InvertBossDirection()

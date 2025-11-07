@@ -13,7 +13,7 @@ namespace Depthcharge.Actors.Modules
         {
             if (other.CompareTag(endOfMapTag))
             {
-                BossEnemyController boss = owner.GetComponentInParent<BossEnemyController>();
+                EC_EasyBoss boss = owner.GetComponentInParent<EC_EasyBoss>();
                 if (boss == null)
                 {
                     Debug.LogError($"=== {owner.name}.CS_BossAndEndOfMap.OnCollision() === Owner is not a boss!");

@@ -96,7 +96,7 @@ MonoBehaviour:
   - {fileID: 3568325967629928342}
   - {fileID: 1739239214505824869}
   - {fileID: 9176509379962099678}
-  startState: {fileID: 3568325967629928342}
+  startState: {fileID: 9176509379962099678}
 --- !u!1 &685798316974221905
 GameObject:
   m_ObjectHideFlags: 0
