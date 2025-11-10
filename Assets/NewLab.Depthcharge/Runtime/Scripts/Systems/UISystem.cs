@@ -8,6 +8,8 @@ namespace Depthcharge.UI
     public class UISystem : MonoBehaviour
     {
 
+        #region UI Controllers
+
         [SerializeField]
         private UI_StartController _startUI = null;
         public UI_StartController StartUI { get => _startUI; }
@@ -35,6 +37,8 @@ namespace Depthcharge.UI
         [SerializeField]
         private BaseGameUIController _bossUIController = null;
         public BaseGameUIController BossUIController { get => _bossUIController; }
+
+        #endregion
 
         public void SetUp()
         {

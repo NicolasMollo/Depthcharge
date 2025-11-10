@@ -94,7 +94,7 @@ namespace Depthcharge.GameManagement.AI
             UI.SetButtonsActiveness(true);
             UI.SetSelectorActiveness(true);
         }
-        private void ConfigureTexts()
+        protected void ConfigureTexts()
         {
             bool isBoss = level is BossLevelController;
             EndGameMenuTexts texts = new EndGameMenuTexts(

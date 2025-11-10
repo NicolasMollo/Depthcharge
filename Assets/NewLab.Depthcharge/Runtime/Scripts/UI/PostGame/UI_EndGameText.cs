@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Depthcharge.UI.EndGame
 {
-    public enum EndGameTextType { Defeated, Missed, Score, Time }
+    public enum EndGameTextType { Defeated, Missed, Score, Time, Default }
     [DisallowMultipleComponent]
     [RequireComponent(typeof(TextMeshProUGUI))]
     public class UI_EndGameText : MonoBehaviour
@@ -25,6 +25,11 @@ namespace Depthcharge.UI.EndGame
         public void SetText(string text)
         {
             strategy.SetText(tmpText, text);
+        }
+
+        public void ResetText()
+        {
+            tmpText.text = string.Empty;
         }
 
     }

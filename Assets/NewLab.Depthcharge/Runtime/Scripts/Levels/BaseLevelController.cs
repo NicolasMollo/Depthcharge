@@ -1,7 +1,6 @@
 using Depthcharge.Actors;
 using Depthcharge.Events;
 using Depthcharge.GameManagement;
-using Depthcharge.GameManagement.AI;
 using Depthcharge.UI;
 using System;
 using UnityEngine;

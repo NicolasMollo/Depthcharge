@@ -3,6 +3,7 @@ using Depthcharge.Toolkit;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 namespace Depthcharge.UI.EndGame
@@ -14,6 +15,9 @@ namespace Depthcharge.UI.EndGame
 
         public bool AreMenuTextsConfigured { get => menu.AreTextsConfigured; }
         public bool IsPanelFadedIn { get => fadeablePanel.IsFadedIn; }
+        public bool LastLevelPanelFadedIn { get => endGamePanel.IsFadedIn; }
+        public bool IsEndGameTextConfigured { get => endGameText.IsSet; }
+
         #region UI elements
 
         [Header("UI ELEMENTS")]
@@ -27,17 +31,30 @@ namespace Depthcharge.UI.EndGame
         private UI_Selector selector = null;
         [SerializeField]
         private UI_FadeableAdapter fadeablePanel = null;
+        [SerializeField]
+        private UI_FadeableAdapter endGamePanel = null;
+        [SerializeField]
+        private UI_EndGameText endGameText = null;
+        [SerializeField]
+        private string endGameTextToSet = string.Empty;
 
         #endregion
         #region Panel settings
 
-        [Header("PANEL SETTINGS")]
+        [Header("PANELS SETTINGS")]
         [SerializeField]
         private float fadeInDelay = 0.0f;
         [SerializeField]
         private float fadeInTreshold = 0.0f;
         [SerializeField]
         private float fadeOutDelay = 0.0f;
+
+        [SerializeField]
+        private float endGamePanelFadeInDelay = 0.0f;
+        [SerializeField]
+        private float endGamePanelFadeInTreshold = 0.0f;
+        [SerializeField]
+        private float endGamePanelFadeOutDelay = 0.0f;
 
         #endregion
 
@@ -48,6 +65,7 @@ namespace Depthcharge.UI.EndGame
                 buttonAdapters.Add(endGameButton.Button);
             SelectionContext selectionContext = new SelectionContext(buttonAdapters, input, selector);
             selection.SetUp(selectionContext);
+            SetEndGameTextActiveness(false);
         }
 
         #region Menu
@@ -168,6 +186,30 @@ namespace Depthcharge.UI.EndGame
         public void FadeOutPanel()
         {
             fadeablePanel.FadeOut(fadeOutDelay);
+        }
+
+        public void FadeInEndGamePanel()
+        {
+            endGamePanel.FadeIn(endGamePanelFadeInDelay, endGamePanelFadeInTreshold);
+        }
+        public void FadeOutEndGamePanel()
+        {
+            endGamePanel.FadeOut(endGamePanelFadeOutDelay);
+        }
+
+        public void SetEndGameTextActiveness(bool avctiveness)
+        {
+            endGameText.gameObject.SetActive(avctiveness);
+        }
+
+        public void SetEndGameText()
+        {
+            endGameText.SetText(endGameTextToSet);
+        }
+
+        public void ResetEndGameText()
+        {
+            endGameText.ResetText();
         }
 
         #endregion

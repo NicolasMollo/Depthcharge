@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 117623dd27708c94a992e7a9e0de37db, type: 3}
-  m_Name: TS_UpdatedTextFastly
+  m_Script: {fileID: 11500000, guid: 52554d8a7b0666b458909c34f93fd531, type: 3}
+  m_Name: TS_UpdatedEndTextNormal
   m_EditorClassIdentifier: 
-  delay: 0.01
+  delay: 0.1

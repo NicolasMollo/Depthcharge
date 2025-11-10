@@ -2,11 +2,12 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace Depthcharge.UI
 {
-    [CreateAssetMenu(menuName = "Scriptable Objects/UI/TextStrategies/TS_UpdatedText")]
-    public class TS_UpdatedText : BaseTextStrategy
+    [CreateAssetMenu(menuName = "Scriptable Objects/UI/TextStrategies/TS_UpdatedNumericText")]
+    public class TS_UpdatedNumericText : BaseTextStrategy
     {
 
         [SerializeField]
@@ -16,11 +17,8 @@ namespace Depthcharge.UI
         {
             int castedText = int.Parse(text);
             MonoBehaviour monoBehaviour = textToSet.GetComponent<MonoBehaviour>();
-            if (monoBehaviour == null)
-            {
-                Debug.LogError($"=== {this.name} === The owner of this strategy it's not a MonoBehaviour!");
-                return;
-            }
+            string message = $"=== {this.name} === The owner of this strategy it's not a MonoBehaviour!";
+            Assert.IsNotNull(monoBehaviour, message);
             monoBehaviour.StartCoroutine(UpdateText(textToSet, castedText));
         }
 
