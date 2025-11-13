@@ -27,23 +27,22 @@ namespace Depthcharge.Actors
 
         [Header("SHOOT CONFIGURATION")]
         [SerializeField]
-        [Range(10.0f, 100.0f)]
-        private float _shootDelay = 1.0f;
+        [Range(0.0f, 100.0f)]
+        private float _shootDelay = 0.0f;
         public float ShootDelay { get => _shootDelay; set => _shootDelay = value; }
         [SerializeField]
-        [Range(1.0f, 100.0f)]
-        private float _minShootDelay = 1.0f;
-        public float MinShootDelay { get => _minShootDelay; set => _minShootDelay = value; }
+        private float _travelledDistanceToShoot = 0.0f;
+        public float TravelledDistanceToShoot { get => _travelledDistanceToShoot; }
         [SerializeField]
         [Range(1.0f, 100.0f)]
-        private float _maxShootDelay = 1.0f;
-        public float MaxShootDelay { get => _maxShootDelay; set => _maxShootDelay = value; }
+        private float _minRandomDistance = 1.0f;
+        public float MinRandomDistance { get => _minRandomDistance; set => _minRandomDistance = value; }
         [SerializeField]
-        [Range(0.0f, 1.0f)]
-        private float _aggressivenessMultiplier = 0.5f;
-        public float AggressivenessMultiplier { get => _aggressivenessMultiplier; }
+        [Range(1.0f, 100.0f)]
+        private float _maxRandomDistance = 1.0f;
+        public float MaxRandomDistance { get => _maxRandomDistance; set => _maxRandomDistance = value; }
+
 
     }
-
 
 }

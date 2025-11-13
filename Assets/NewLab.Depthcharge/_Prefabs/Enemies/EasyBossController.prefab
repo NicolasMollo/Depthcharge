@@ -717,10 +717,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _owner: {fileID: 1609269853035396646}
   states:
-  - {fileID: 2157777543713913190}
+  - {fileID: 3772343632496047665}
   - {fileID: 6080349408033631396}
   - {fileID: 1694909433065351764}
-  startState: {fileID: 2157777543713913190}
+  startState: {fileID: 3772343632496047665}
 --- !u!1 &5007508456571859533
 GameObject:
   m_ObjectHideFlags: 0
@@ -761,9 +761,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 131996216841682404}
-  - component: {fileID: 2157777543713913190}
+  - component: {fileID: 3772343632496047665}
   m_Layer: 7
-  m_Name: IdleBossState
+  m_Name: WaitToShootEnemyState
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -784,7 +784,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 7020277538197807648}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2157777543713913190
+--- !u!114 &3772343632496047665
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -793,11 +793,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 5876521599833277755}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c5cfae136980804d81aa18b83e9cef5, type: 3}
+  m_Script: {fileID: 11500000, guid: d7fd2dd5b24c5c447aaffe0e0831dc7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   fsm: {fileID: 6132523550224571432}
-  nextState: {fileID: 6080349408033631396}
+  nextState: {fileID: 0}
 --- !u!1 &6325693040562577593
 GameObject:
   m_ObjectHideFlags: 0
@@ -996,4 +996,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fsm: {fileID: 6132523550224571432}
-  nextState: {fileID: 2157777543713913190}
+  nextState: {fileID: 3772343632496047665}

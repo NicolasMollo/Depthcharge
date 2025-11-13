@@ -38,9 +38,9 @@ namespace Depthcharge.GameManagement
             SetSingleton();
             DontDestroyOnLoad(this.gameObject);
             LoadGameTransitionsState = true;
-            // IncreaseCurrentLevelNumber();
+            IncreaseCurrentLevelNumber();
 
-            _currentLevelNumber = levelsPerDifficulty * 3;
+            // _currentLevelNumber = levelsPerDifficulty * 3;
         }
         private void SetSingleton()
         {

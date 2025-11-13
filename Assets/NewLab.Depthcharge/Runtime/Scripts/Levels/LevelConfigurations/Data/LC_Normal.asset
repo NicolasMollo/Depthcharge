@@ -16,6 +16,6 @@ MonoBehaviour:
   winConditions:
   - {fileID: 11400000, guid: 1ac9d5726ad33b742aab237dbed6411b, type: 2}
   - {fileID: 11400000, guid: 21269d9395bc675418d7aa80310428a7, type: 2}
-  _minEnemySpawnDelay: 10
-  _maxEnemySpawnDelay: 25
+  _minEnemySpawnDelay: 2.5
+  _maxEnemySpawnDelay: 5
   _prefabBoss: {fileID: 685798316974221905, guid: 758915353291b5344ba80ad1a9f43aa9, type: 3}

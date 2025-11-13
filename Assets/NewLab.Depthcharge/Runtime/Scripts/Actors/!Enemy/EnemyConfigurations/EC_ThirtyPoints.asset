@@ -15,7 +15,7 @@ MonoBehaviour:
   _scorePoints: 30
   _movementSpeed: 0.75
   _maxHealth: 1
-  _shootDelay: 20
-  _minShootDelay: 15
-  _maxShootDelay: 35
-  _aggressivenessMultiplier: 0.15
+  _shootDelay: 0
+  _travelledDistanceToShoot: 10
+  _minRandomDistance: 1
+  _maxRandomDistance: 9

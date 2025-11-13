@@ -30,6 +30,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7577466874814811563}
+  - {fileID: 6487927824807949779}
   - {fileID: 5139472550769812450}
   m_Father: {fileID: 5742747192089462493}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -461,7 +462,7 @@ MonoBehaviour:
   _scorePoints: 1
   _shootDelay: 0
   shootStrategy: {fileID: 11400000, guid: 087a973eea395134785b9c13e69314a5, type: 2}
-  _collisionModule: {fileID: 2191717182897755735}
+  travelledDistanceToShoot: 0
   randomShootDelay: 1
   minShootDelay: 1
   maxShootDelay: 1
@@ -703,6 +704,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1221171650720209283}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7579307208207838456
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6487927824807949779}
+  - component: {fileID: 913570993908465689}
+  m_Layer: 7
+  m_Name: WaitToShootEnemyState
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6487927824807949779
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7579307208207838456}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5804242957373301501}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &913570993908465689
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7579307208207838456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7fd2dd5b24c5c447aaffe0e0831dc7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fsm: {fileID: 7014395801596498131}
+  nextState: {fileID: 0}
 --- !u!1 &8336207955840535629
 GameObject:
   m_ObjectHideFlags: 0
@@ -750,8 +797,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _owner: {fileID: 4436673652001589509}
   states:
-  - {fileID: 5877840502824105186}
+  - {fileID: 913570993908465689}
   - {fileID: 4451562521402009293}
+  - {fileID: 5877840502824105186}
   startState: {fileID: 5877840502824105186}
 --- !u!1 &8677442591032122646
 GameObject:
@@ -951,4 +999,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fsm: {fileID: 7014395801596498131}
-  nextState: {fileID: 4451562521402009293}
+  nextState: {fileID: 0}

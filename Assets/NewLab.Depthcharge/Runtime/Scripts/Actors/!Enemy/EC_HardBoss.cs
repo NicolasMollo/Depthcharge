@@ -64,7 +64,7 @@ namespace Depthcharge.Actors
             SetShootModules();
             MoveToTargetY();
             AddListeners();
-            StartCoroutine(GoToIdleState());
+            StartCoroutine(GoToWaitToShootState());
         }
         private void SetSeaData()
         {
@@ -116,7 +116,7 @@ namespace Depthcharge.Actors
         {
             InvertBossDirection();
             MoveToTargetY();
-            StartCoroutine(GoToIdleState());
+            StartCoroutine(GoToWaitToShootState());
         }
         private void OnShoot()
         {
@@ -222,13 +222,13 @@ namespace Depthcharge.Actors
 
         #endregion
 
-        private IEnumerator GoToIdleState()
+        private IEnumerator GoToWaitToShootState()
         {
             yield return new WaitUntil(() => Mathf.Abs(seaPosition.x - MovementModule.Target.GetPosition().x) <= 0.1f);
             SetShootMode();
             spriteRenderer.color = Color.gray;
             MovementModule.SetMovementSpeed(0);
-            fsm.ChangeState<IdleEnemyState>();
+            fsm.ChangeState<WaitToShootEnemyState>();
         }
 
         private IEnumerator GoToVulnerabilityState(float delay)

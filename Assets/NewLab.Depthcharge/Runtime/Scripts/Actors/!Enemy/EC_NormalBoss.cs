@@ -43,7 +43,7 @@ namespace Depthcharge.Actors
             currentMovementSpeed = startMovementSpeed;
             AddListeners();
             SetStallPosition();
-            StartCoroutine(GoToIdleState());
+            StartCoroutine(GoToWaitToShootState());
         }
         protected override void InternalCleanUp()
         {
@@ -76,7 +76,7 @@ namespace Depthcharge.Actors
         {
             InvertBossDirection();
             SetStallPosition();
-            StartCoroutine(GoToIdleState());
+            StartCoroutine(GoToWaitToShootState());
         }
 
         private void OnShoot()
@@ -127,21 +127,21 @@ namespace Depthcharge.Actors
 
         #endregion
 
+        private IEnumerator GoToWaitToShootState()
+        {
+            yield return new WaitUntil(() => (stallPosition - MovementModule.Target.GetPosition()).sqrMagnitude <= 0.01f);
+            ShootModule.Reload();
+            MovementModule.SetMovementSpeed(0);
+            spriteRenderer.color = Color.gray;
+            fsm.ChangeState<WaitToShootEnemyState>();
+        }
+
         private IEnumerator GoToVulnerabilityState(float delay)
         {
             yield return new WaitForSeconds(delay);
             MovementModule.SetMovementSpeed(currentMovementSpeed);
             spriteRenderer.color = Color.white;
             fsm.ChangeState<VulnerabilityEnemyState>();
-        }
-
-        private IEnumerator GoToIdleState()
-        {
-            yield return new WaitUntil(() => (stallPosition - MovementModule.Target.GetPosition()).sqrMagnitude <= 0.01f);
-            ShootModule.Reload();
-            MovementModule.SetMovementSpeed(0);
-            spriteRenderer.color = Color.gray;
-            fsm.ChangeState<IdleEnemyState>();
         }
 
     }

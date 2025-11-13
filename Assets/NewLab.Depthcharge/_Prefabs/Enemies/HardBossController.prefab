@@ -404,7 +404,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fsm: {fileID: 1739996033034128957}
-  nextState: {fileID: 2800053555003356067}
+  nextState: {fileID: 4332339881415934727}
 --- !u!1 &3195409002770982997
 GameObject:
   m_ObjectHideFlags: 0
@@ -871,9 +871,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 773336514713341296}
-  - component: {fileID: 2800053555003356067}
+  - component: {fileID: 4332339881415934727}
   m_Layer: 7
-  m_Name: IdleBossState
+  m_Name: WaitToShootEnemyState
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -894,7 +894,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 7133140925781286117}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2800053555003356067
+--- !u!114 &4332339881415934727
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -903,11 +903,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 8495202987694135957}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c5cfae136980804d81aa18b83e9cef5, type: 3}
+  m_Script: {fileID: 11500000, guid: d7fd2dd5b24c5c447aaffe0e0831dc7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   fsm: {fileID: 1739996033034128957}
-  nextState: {fileID: 7499228622561745761}
+  nextState: {fileID: 0}
 --- !u!1 &9008162235931757462
 GameObject:
   m_ObjectHideFlags: 0
@@ -1001,7 +1001,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _owner: {fileID: 7333238403349758987}
   states:
-  - {fileID: 2800053555003356067}
+  - {fileID: 4332339881415934727}
   - {fileID: 7499228622561745761}
   - {fileID: 7233816370182195976}
   startState: {fileID: 7233816370182195976}

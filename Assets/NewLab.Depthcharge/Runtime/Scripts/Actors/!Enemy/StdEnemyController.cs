@@ -1,3 +1,4 @@
+using Depthcharge.Actors.AI;
 using Depthcharge.Actors.Modules;
 using System;
 using UnityEngine;
@@ -9,42 +10,23 @@ namespace Depthcharge.Actors
     public class StdEnemyController : BaseEnemyController
     {
 
-        [Header("MODULES")]
-        [SerializeField]
-        private BaseCollisionModule _collisionModule = null;
-        public BaseCollisionModule CollisionModule { get => _collisionModule; }
+        private float travelledDistance = 0.0f;
+        private float randomDistanceOffset = 0.0f;
+        private Vector2 lastPosition = Vector2.zero;
 
         [Header("SHOOT SETTINGS")]
         [SerializeField]
-        private bool randomShootDelay = false;
+        private float travelledDistanceToShoot = 0.0f;
         [SerializeField]
         [Range(1.0f, 100.0f)]
-        private float minShootDelay = 1.0f;
+        private float minRandomDistance = 1.0f;
         [SerializeField]
         [Range(1.0f, 100.0f)]
-        private float maxShootDelay = 1.0f;
-        //[SerializeField]
-        //[Range(0.0f, 100.0f)]
-        //private float shootDelay = 0;
-        private const float AGGRESSIVENESS = 1.0f;
-        [SerializeField]
-        [Range(0.0f, 1.0f)]
-        private float aggressivenessMultiplier = 0.0f;
+        private float maxRandomDistance = 1.0f;
 
-        public override float ShootDelay
+        private float CalculatedDistanceToShoot
         {
-            get
-            {
-                if (randomShootDelay)
-                {
-                    float shootDelayReduction = AGGRESSIVENESS * aggressivenessMultiplier;
-                    float min = minShootDelay - shootDelayReduction;
-                    float max = maxShootDelay - shootDelayReduction;
-                    float finalDelay = UnityEngine.Random.Range(min, max);
-                    _shootDelay = finalDelay;
-                }
-                return _shootDelay;
-            }
+            get => travelledDistanceToShoot + randomDistanceOffset;
         }
 
         private void OnEnable()
@@ -54,10 +36,24 @@ namespace Depthcharge.Actors
                 ShootModule.ResetBullets();
             }
             HealthModule.ResetHealth();
+            lastPosition = MovementModule.Target.GetPosition();
         }
         private void Update()
         {
             MovementModule.MoveTarget(movementDirection);
+            CalculateTravelledDistance();
+            if (travelledDistance >= CalculatedDistanceToShoot)
+            {
+                randomDistanceOffset = UnityEngine.Random.Range(minRandomDistance, maxRandomDistance);
+                travelledDistance = 0.0f;
+                fsm.ChangeState<WaitToShootEnemyState>();
+            }
+        }
+        private void CalculateTravelledDistance()
+        {
+            float positionDiff = Vector3.Distance(MovementModule.Target.GetPosition(), lastPosition);
+            travelledDistance += positionDiff;
+            lastPosition = MovementModule.Target.GetPosition();
         }
 
         public void SetUpEnemy(EnemyConfiguration enemyConfiguration, Vector2 movementDirection)
@@ -68,9 +64,10 @@ namespace Depthcharge.Actors
             MovementModule.SetMovementSpeed(enemyConfiguration.MovementSpeed);
             HealthModule.SetMaxHealth(enemyConfiguration.MaxHealth);
             _shootDelay = enemyConfiguration.ShootDelay;
-            minShootDelay = enemyConfiguration.MinShootDelay;
-            maxShootDelay = enemyConfiguration.MaxShootDelay;
-            aggressivenessMultiplier = enemyConfiguration.AggressivenessMultiplier;
+            minRandomDistance = enemyConfiguration.MinRandomDistance;
+            maxRandomDistance = enemyConfiguration.MaxRandomDistance;
+            randomDistanceOffset = UnityEngine.Random.Range(minRandomDistance, maxRandomDistance);
+            travelledDistanceToShoot = enemyConfiguration.TravelledDistanceToShoot;
         }
 
     }

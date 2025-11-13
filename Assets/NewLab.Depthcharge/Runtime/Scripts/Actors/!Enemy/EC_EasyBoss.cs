@@ -81,7 +81,7 @@ namespace Depthcharge.Actors
             InvertBossDirection();
             if (collisionCount % 2 == 0)
             {
-                GoToIdleState();
+                GoToWaitToShootState();
             }
             else
             {
@@ -124,13 +124,13 @@ namespace Depthcharge.Actors
 
         #endregion
 
-        private void GoToIdleState()
+        private void GoToWaitToShootState()
         {
             MoveToTargetY(topSeaTarget.position.y);
             ShootModule.Reload();
             MovementModule.SetMovementSpeed(startSpeed);
             spriteRenderer.color = Color.gray;
-            fsm.ChangeState<IdleEnemyState>();
+            fsm.ChangeState<WaitToShootEnemyState>();
         }
         private void GoToVulnerabilityState()
         {
