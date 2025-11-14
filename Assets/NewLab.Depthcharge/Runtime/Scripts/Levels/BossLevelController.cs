@@ -18,10 +18,16 @@ namespace Depthcharge.LevelManagement
         private ShootModuleManager _cannons = null;
         public ShootModuleManager Cannons { get => _cannons;  }
 
+
+        protected override void SetConfiguration(ref LevelConfiguration configuration)
+        {
+            configuration = gameLogic.GetLevelConfiguration();
+        }
         protected override void ConfigureUI(ref BaseGameUIController UI)
         {
             UI = systemsRoot.UISystem.BossUIController;
         }
+
         protected override void InternalSetUp()
         {
             GameObject bossObj = Instantiate(_configuration.PrefabBoss, player.transform.parent);

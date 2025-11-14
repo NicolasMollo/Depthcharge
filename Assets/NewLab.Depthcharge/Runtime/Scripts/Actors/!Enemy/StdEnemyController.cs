@@ -14,6 +14,11 @@ namespace Depthcharge.Actors
         private float randomDistanceOffset = 0.0f;
         private Vector2 lastPosition = Vector2.zero;
 
+        public enum EnemyTier { Weak, Medium, Strong, Last }
+        [SerializeField]
+        private EnemyTier _enemyTier = EnemyTier.Weak;
+        public EnemyTier Tier { get => _enemyTier; }
+
         [Header("SHOOT SETTINGS")]
         [SerializeField]
         private float travelledDistanceToShoot = 0.0f;
@@ -58,6 +63,7 @@ namespace Depthcharge.Actors
 
         public void SetUpEnemy(EnemyConfiguration enemyConfiguration, Vector2 movementDirection)
         {
+            _enemyTier = enemyConfiguration.EnemyTier;
             ScorePoints = enemyConfiguration.ScorePoints;
             scorePointsText.text = Mathf.RoundToInt(ScorePoints).ToString();
             this.movementDirection = movementDirection;

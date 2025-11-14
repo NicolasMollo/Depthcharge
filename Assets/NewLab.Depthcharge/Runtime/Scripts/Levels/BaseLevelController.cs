@@ -54,7 +54,7 @@ namespace Depthcharge.LevelManagement
         {
             systemsRoot = GameSystemsRoot.Instance;
             gameLogic = GameLogic.Instance;
-            _configuration = gameLogic.GetLevelConfiguration();
+            SetConfiguration(ref _configuration);
             int randomIndex = UnityEngine.Random.Range(0, _configuration.WinConditions.Count);
             _winCondition = _configuration.WinConditions[randomIndex];
             ConfigureUI(ref UI);
@@ -71,6 +71,7 @@ namespace Depthcharge.LevelManagement
         protected virtual void InternalSetUp() { }
         protected virtual void InternalCleanUp() { }
 
+        protected abstract void SetConfiguration(ref LevelConfiguration configuration);
         protected abstract void ConfigureUI(ref BaseGameUIController UI);
         protected virtual void SetGameUIContext(ref GameUIContext context)
         {

@@ -335,6 +335,12 @@ MonoBehaviour:
   spawnerProviders:
   - {fileID: 562686968}
   - {fileID: 1508932014}
+  mediumScoreThreshold: 350
+  hardScoreThreshold: 750
+  minMediumSpawnDelay: 2.5
+  maxMediumSpawnDelay: 5
+  minHardSpawnDelay: 1.25
+  maxHardSpawnDelay: 3.75
 --- !u!1 &368798683
 GameObject:
   m_ObjectHideFlags: 0
@@ -1771,6 +1777,7 @@ MonoBehaviour:
     _target: {fileID: 1948835252}
     _direction: {x: 0, y: 0}
     _speed: 1.5
+    _targetToReach: {fileID: 0}
 --- !u!1 &1950592997
 GameObject:
   m_ObjectHideFlags: 0
@@ -1893,7 +1900,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   seaBackgroundController: {fileID: 1415613472}
+  seaSpriteRenderer: {fileID: 0}
   skyBackgroundController: {fileID: 1388720311}
+  skySpriteRenderer: {fileID: 0}
   enableTimeBasedColor: 0
   dayPhaseConfig: {fileID: 11400000, guid: b16a41820e2b8434b83f629ad802d8bf, type: 2}
   _topSeaTarget: {fileID: 0}

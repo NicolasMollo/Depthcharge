@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7e6054f3ec243c459dc4f5df011b63f, type: 3}
   m_Name: EC_FiftyPoints
   m_EditorClassIdentifier: 
+  _enemyTier: 1
   _scorePoints: 50
   _movementSpeed: 1.25
   _maxHealth: 1.5

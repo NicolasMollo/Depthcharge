@@ -1,7 +1,6 @@
 using Depthcharge.Actors;
 using Depthcharge.Events;
 using Depthcharge.UI;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,14 +15,9 @@ namespace Depthcharge.LevelManagement
         [SerializeField]
         private EnemySpawnerProvider[] spawnerProviders = null;
 
-        protected override void InternalSetUp()
+        protected override void SetConfiguration(ref LevelConfiguration configuration)
         {
-            spawners = LevelControllerConfigurator.SetEnemySpawners(_configuration, ref spawnerProviders);
-            listeners = new EnemyListenersContainer(OnSpawnEnemy, OnDefeatEnemy, OnDeactivateEnemy);
-            foreach (EnemySpawner spawner in spawners)
-            {
-                spawner.gameObject.SetActive(false);
-            }
+            configuration = gameLogic.GetLevelConfiguration();
         }
         protected override void ConfigureUI(ref BaseGameUIController UI)
         {
@@ -35,6 +29,15 @@ namespace Depthcharge.LevelManagement
             context.levelNumber = gameLogic.CurrentLevelNumber;
         }
 
+        protected override void InternalSetUp()
+        {
+            spawners = LevelControllerConfigurator.SetEnemySpawners(_configuration, ref spawnerProviders);
+            listeners = new EnemyListenersContainer(OnSpawnEnemy, OnDefeatEnemy, OnDeactivateEnemy);
+            foreach (EnemySpawner spawner in spawners)
+            {
+                spawner.gameObject.SetActive(false);
+            }
+        }
         protected override void InternalCleanUp()
         {
             base.InternalCleanUp();

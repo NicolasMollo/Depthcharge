@@ -13,6 +13,10 @@ namespace Depthcharge.Actors
         private List<StdEnemyController> enemies = null;
         private float minSpawnDelay = 0.0f;
         private float maxSpawnDelay = 0.0f;
+        private List<StdEnemyController> tierEnemies = null;
+        private StdEnemyController.EnemyTier tier = StdEnemyController.EnemyTier.Last;
+
+        private List<StdEnemyController> currentEnemies = null;
 
         [SerializeField]
         private List<EnemyProvider> _providers = null;
@@ -35,7 +39,9 @@ namespace Depthcharge.Actors
                     enemies.Add(enemy);
                 }
             }
+            currentEnemies = enemies;
         }
+
         public void CleanUp()
         {
             foreach (EnemyProvider provider in _providers)
@@ -48,6 +54,27 @@ namespace Depthcharge.Actors
             }
         }
 
+        public void SetMinAndMaxSpawnDelay(float minSpawnDelay, float maxSpawnDelay)
+        {
+            if (this.minSpawnDelay == minSpawnDelay && this.maxSpawnDelay == maxSpawnDelay) return;
+            this.minSpawnDelay = minSpawnDelay;
+            this.maxSpawnDelay = maxSpawnDelay;
+        }
+        public void SetTierEnemies(StdEnemyController.EnemyTier tier)
+        {
+            if (this.tier == tier) return;
+            this.tier = tier;
+            tierEnemies = new List<StdEnemyController>();
+            foreach (StdEnemyController enemy in enemies)
+            {
+                if (enemy.Tier == this.tier)
+                {
+                    tierEnemies.Add(enemy);
+                }
+            }
+            currentEnemies = tierEnemies;
+        }
+
         public void SpawnEnemyWithRandomDelay()
         {
             float randomDelay = UnityEngine.Random.Range(minSpawnDelay, maxSpawnDelay);
@@ -57,8 +84,8 @@ namespace Depthcharge.Actors
         private IEnumerator SpawnEnemyDelayed(float delay)
         {
             yield return new WaitForSeconds(delay);
-            int randomIndex = UnityEngine.Random.Range(0, enemies.Count);
-            StdEnemyController enemyToSpawn = enemies[randomIndex];
+            int randomIndex = UnityEngine.Random.Range(0, currentEnemies.Count);
+            StdEnemyController enemyToSpawn = currentEnemies[randomIndex];
             SpawnEnemy(enemyToSpawn);
         }
         private void SpawnEnemy(StdEnemyController enemy)
@@ -66,7 +93,7 @@ namespace Depthcharge.Actors
             if (!enemy.gameObject.activeSelf)
             {
                 enemy.transform.SetParent(null);
-                enemy.gameObject.SetActive(!enemy.gameObject.activeSelf);
+                enemy.gameObject.SetActive(true);
                 OnSpawnEnemy?.Invoke();
             }
         }

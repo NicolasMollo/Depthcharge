@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7e6054f3ec243c459dc4f5df011b63f, type: 3}
   m_Name: EC_SeventyPoints
   m_EditorClassIdentifier: 
+  _enemyTier: 2
   _scorePoints: 70
   _movementSpeed: 1.5
   _maxHealth: 2

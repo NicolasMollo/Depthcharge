@@ -15,6 +15,7 @@ namespace Depthcharge.LevelManagement
             get => EnemiesSpawned - EnemiesDefeated - ActiveEnemies;
         }
         public TimeSpan Time { get; private set; }
+        public Action<float> OnIncreaseScore = null;
 
         public LevelStats()
         {
@@ -27,6 +28,7 @@ namespace Depthcharge.LevelManagement
         public float IncreaseScore(float points)
         {
             Score += points;
+            OnIncreaseScore?.Invoke(Score);
             return Score;
         }
 

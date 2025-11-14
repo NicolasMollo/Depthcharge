@@ -7,6 +7,10 @@ namespace Depthcharge.Actors
     public class EnemyConfiguration : ScriptableObject
     {
 
+        [SerializeField]
+        private StdEnemyController.EnemyTier _enemyTier = StdEnemyController.EnemyTier.Weak;
+        public StdEnemyController.EnemyTier EnemyTier { get => _enemyTier; }
+
         [Header("SCORE POINTS CONFIGURATION")]
         [SerializeField]
         [Range(20.0f, 100.0f)]
@@ -41,7 +45,6 @@ namespace Depthcharge.Actors
         [Range(1.0f, 100.0f)]
         private float _maxRandomDistance = 1.0f;
         public float MaxRandomDistance { get => _maxRandomDistance; set => _maxRandomDistance = value; }
-
 
     }
 

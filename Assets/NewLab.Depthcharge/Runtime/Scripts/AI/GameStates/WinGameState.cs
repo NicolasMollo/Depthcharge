@@ -20,7 +20,6 @@ namespace Depthcharge.GameManagement.AI
         [Tooltip("Time during which the last level panel will be visible")]
         private float endGamePanelDisappearingDelay = 0.0f;
 
-
         protected override UI_EndGameController ConfigureUI()
         {
             return UISystem.WinUI;

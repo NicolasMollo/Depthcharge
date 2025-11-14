@@ -19,6 +19,33 @@ namespace Depthcharge.LevelManagement
         [SerializeField]
         private EnemySpawnerProvider[] spawnerProviders = null;
 
+        #region Difficulty settings
+
+        [Header("DIFFICULTY SETTINGS")]
+        [SerializeField]
+        private float mediumScoreThreshold = 1.0f;
+        [SerializeField]
+        private float hardScoreThreshold = 1.0f;
+        [SerializeField]
+        private float minMediumSpawnDelay = 1.0f;
+        [SerializeField]
+        private float maxMediumSpawnDelay = 1.0f;
+        [SerializeField]
+        private float minHardSpawnDelay = 1.0f;
+        [SerializeField]
+        private float maxHardSpawnDelay = 1.0f;
+
+        #endregion
+
+        protected override void SetConfiguration(ref LevelConfiguration configuration)
+        {
+            configuration = gameLogic.GetSurvivalConfiguration();
+        }
+        protected override void ConfigureUI(ref BaseGameUIController UI)
+        {
+            UI = systemsRoot.UISystem.SurvivalUI;
+        }
+
         protected override void InternalSetUp()
         {
             survivalUI = this.UI as SurvivalUIController;
@@ -33,10 +60,7 @@ namespace Depthcharge.LevelManagement
             {
                 spawner.gameObject.SetActive(false);
             }
-        }
-        protected override void ConfigureUI(ref BaseGameUIController UI)
-        {
-            UI = systemsRoot.UISystem.SurvivalUI;
+            SetSpawnersTier(StdEnemyController.EnemyTier.Weak);
         }
         protected override void InternalCleanUp()
         {
@@ -53,9 +77,11 @@ namespace Depthcharge.LevelManagement
             base.AddListeners(); // GameEventBus.OnGameOver += OnGameOver;
             GameEventBus.OnGameStart += OnGameStart;
             GameEventBus.OnGameUpdate += OnGameUpdate;
+            _stats.OnIncreaseScore += OnIncreaseScore;
         }
         protected override void RemoveListeners()
         {
+            _stats.OnIncreaseScore -= OnIncreaseScore;
             GameEventBus.OnGameUpdate -= OnGameUpdate;
             GameEventBus.OnGameStart -= OnGameStart;
             base.RemoveListeners(); // GameEventBus.OnGameOver -= OnGameOver;
@@ -100,6 +126,34 @@ namespace Depthcharge.LevelManagement
             _stats.IncreaseScore(enemy.ScorePoints);
             UI.SetScoreText(_stats.Score.ToString());
             UI.SetEnemiesText(_stats.EnemiesDefeated.ToString());
+        }
+        private void OnIncreaseScore(float score)
+        {
+            if (score >= hardScoreThreshold)
+            {
+                SetSpawnersTier(StdEnemyController.EnemyTier.Strong);
+                SetSpawnersDelays(minHardSpawnDelay, maxHardSpawnDelay);
+            }
+            else if (score >= mediumScoreThreshold)
+            {
+                SetSpawnersTier(StdEnemyController.EnemyTier.Medium);
+                SetSpawnersDelays(minMediumSpawnDelay, maxMediumSpawnDelay);
+            }
+        }
+
+        private void SetSpawnersTier(StdEnemyController.EnemyTier tier)
+        {
+            foreach (EnemySpawner spawner in spawners)
+            {
+                spawner.SetTierEnemies(tier);
+            }
+        }
+        private void SetSpawnersDelays(float minSpawnDelay, float maxSpawnDelay)
+        {
+            foreach (EnemySpawner spawner in spawners)
+            {
+                spawner.SetMinAndMaxSpawnDelay(minSpawnDelay, maxSpawnDelay);
+            }
         }
 
     }
