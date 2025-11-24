@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace Depthcharge.Actors.Modules
 {
@@ -6,8 +7,16 @@ namespace Depthcharge.Actors.Modules
     public class RigidbodyMovementAdapter : BaseMovementAdapter
     {
 
+        private RigidbodyConstraints2D startConstraint = default;
         [SerializeField]
         private Rigidbody2D rb = null;
+
+        private void Awake()
+        {
+            string message = $"=== RigidbodyMovementAdapter.Awake() === \"Rigidbody2D\" component is required!";
+            Assert.IsNotNull(rb, message);
+            startConstraint = rb.constraints;
+        }
 
         public override Vector2 GetPosition()
         {
@@ -33,6 +42,20 @@ namespace Depthcharge.Actors.Modules
         {
             float smoothRotation = Mathf.MoveTowardsAngle(rb.rotation, rotation, speedRotation * Time.fixedDeltaTime);
             rb.MoveRotation(smoothRotation);
+        }
+
+        public override void SetRotation(float angle)
+        {
+            rb.SetRotation(angle);
+        }
+
+        public override void EnableMovement()
+        {
+            rb.constraints = startConstraint;
+        }
+        public override void DisableMovement()
+        {
+            rb.constraints = RigidbodyConstraints2D.FreezePosition | RigidbodyConstraints2D.FreezeRotation;
         }
 
     }

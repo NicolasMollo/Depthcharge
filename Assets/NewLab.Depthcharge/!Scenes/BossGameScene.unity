@@ -539,6 +539,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70e7ccaadf168234badb511bc38f61f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  owner: {fileID: 0}
   shootPoint: {fileID: 512123801}
   bulletsParent: {fileID: 1019954747}
   bulletFactory: {fileID: 11400000, guid: 4100b05d432e03745959e1925adbb42e, type: 2}
@@ -682,6 +683,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70e7ccaadf168234badb511bc38f61f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  owner: {fileID: 0}
   shootPoint: {fileID: 525595520}
   bulletsParent: {fileID: 985727001}
   bulletFactory: {fileID: 11400000, guid: e291fcffb5897754db88dfe762e2e76c, type: 2}
@@ -733,6 +735,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70e7ccaadf168234badb511bc38f61f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  owner: {fileID: 0}
   shootPoint: {fileID: 616663719}
   bulletsParent: {fileID: 1538289331}
   bulletFactory: {fileID: 11400000, guid: 1dbe7d4627e92074cb801331731a743c, type: 2}
@@ -992,6 +995,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33313a8e05134104eb09f333ff98a2bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  owner: {fileID: 1871618588}
 --- !u!1 &1019954746
 GameObject:
   m_ObjectHideFlags: 0
@@ -1705,6 +1709,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70e7ccaadf168234badb511bc38f61f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  owner: {fileID: 0}
   shootPoint: {fileID: 1680352253}
   bulletsParent: {fileID: 1756994388}
   bulletFactory: {fileID: 11400000, guid: 1dbe7d4627e92074cb801331731a743c, type: 2}
@@ -1869,6 +1874,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70e7ccaadf168234badb511bc38f61f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  owner: {fileID: 0}
   shootPoint: {fileID: 1872026266}
   bulletsParent: {fileID: 275472917}
   bulletFactory: {fileID: 11400000, guid: 4100b05d432e03745959e1925adbb42e, type: 2}
@@ -1920,6 +1926,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70e7ccaadf168234badb511bc38f61f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  owner: {fileID: 1871618588}
   shootPoint: {fileID: 1287328397}
   bulletsParent: {fileID: 1741702164}
   bulletFactory: {fileID: 11400000, guid: bf4d1774e757c744e8c1a95645c1e475, type: 2}
@@ -1984,6 +1991,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c793124b8d415746b018b31c41f875e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  owner: {fileID: 1871618588}
   _target: {fileID: 1948835252}
   movementStrategy: {fileID: 11400000, guid: 6dcc1ee68ad44bd4ca2f679d65c8afc4, type: 2}
   movementContext:
@@ -2035,6 +2043,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1953e808c63e0d34c8fd3af35ce2ff99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  owner: {fileID: 1871618588}
   maxHealth: 10
 --- !u!1 &2077292364
 GameObject:

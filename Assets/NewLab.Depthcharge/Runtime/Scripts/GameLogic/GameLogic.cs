@@ -33,6 +33,8 @@ namespace Depthcharge.GameManagement
         public bool IsLastLevel { get => _currentLevelNumber == levelsPerDifficulty * 3; }
         public bool LoadGameTransitionsState { get; set; }
 
+        public bool PreviousLevelWasBoss { get; set; }
+
         private void Awake()
         {
             SetSingleton();

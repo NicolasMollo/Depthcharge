@@ -6,13 +6,12 @@ namespace Depthcharge.Actors.Modules
     public abstract class BaseModule : MonoBehaviour
     {
 
-        public bool IsModuleSetUp { get; protected set; }
-        public virtual void SetUpModule(GameObject owner = null)
-        {
-            IsModuleSetUp = true;
-        }
+        [SerializeField]
+        protected GameObject owner = null;
+
+        public virtual void SetUpModule() { }
         public virtual void UpdateModule() { }
-        public virtual void CleanUpModule(GameObject owner = null) { }
+        public virtual void CleanUpModule() { }
 
         public virtual void EnableModule()
         {

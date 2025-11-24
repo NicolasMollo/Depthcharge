@@ -14,7 +14,6 @@ namespace Depthcharge.Actors.Modules
         {
             playerInput = new PlayerInputActions();
             playerInput.Std_ActionMap.Enable();
-            IsModuleSetUp = true;
         }
 
         public override void EnableModule()

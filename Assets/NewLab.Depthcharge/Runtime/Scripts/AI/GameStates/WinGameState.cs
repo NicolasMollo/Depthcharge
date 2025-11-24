@@ -11,8 +11,6 @@ namespace Depthcharge.GameManagement.AI
     public class WinGameState : EndGameState
     {
 
-        private bool previousLevelWasBoss = false;
-
         [SerializeField]
         [Tooltip("Delay in displaying the last level panel once the statistics are displayed")]
         private float endGamePanelAppearingDelay = 0.0f;
@@ -26,7 +24,7 @@ namespace Depthcharge.GameManagement.AI
         }
         public override void OnStateEnter()
         {
-            if (gameLogic.IsLastLevel && previousLevelWasBoss)
+            if (gameLogic.IsLastLevel && gameLogic.PreviousLevelWasBoss)
             {
                 level = FindFirstObjectByType<BaseLevelController>();
                 UISystem.SetCurrentEndGameUI(UI);
@@ -41,17 +39,23 @@ namespace Depthcharge.GameManagement.AI
         protected override void OnClickReloadButton(SceneConfiguration configuration)
         {
             SceneConfiguration selectedConfiguration = configuration;
-            if (!previousLevelWasBoss && gameLogic.IsBossLevel)
+            if (!gameLogic.PreviousLevelWasBoss && gameLogic.IsBossLevel)
             {
                 selectedConfiguration = bossSceneConfiguration;
-                previousLevelWasBoss = true;
+                gameLogic.PreviousLevelWasBoss = true;
             }
             else
             {
                 gameLogic.IncreaseCurrentLevelNumber();
-                previousLevelWasBoss = false;
+                gameLogic.PreviousLevelWasBoss = false;
             }
             base.OnClickReloadButton(selectedConfiguration);
+        }
+
+        protected override void OnClickQuitButton(SceneConfiguration configuration)
+        {
+            base.OnClickQuitButton(configuration);
+            gameLogic.PreviousLevelWasBoss = false;
         }
 
         private IEnumerator ActivateLastLevelUI()
@@ -75,7 +79,7 @@ namespace Depthcharge.GameManagement.AI
             yield return new WaitForSeconds(endGamePanelDisappearingDelay);
             fsm.ChangeState<LoadingIdleState>();
             UI.ResetEndGameText();
-            previousLevelWasBoss = false;
+            gameLogic.PreviousLevelWasBoss = false;
             gameLogic.LoadGameTransitionsState = true;
             gameLogic.ResetCurrentLevelNumber();
         }

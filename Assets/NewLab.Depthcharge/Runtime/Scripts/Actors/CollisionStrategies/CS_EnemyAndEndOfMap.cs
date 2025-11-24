@@ -15,6 +15,7 @@ namespace Depthcharge.Actors.Modules
             if (other.CompareTag(endOfMapTag))
             {
                 StdEnemyController enemy = owner.GetComponentInParent<StdEnemyController>();
+                enemy.OnCollisionWithEndOfMap();
                 enemy.Deactivation();
             }
         }

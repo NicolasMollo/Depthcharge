@@ -45,5 +45,11 @@ namespace Depthcharge.Toolkit
             IsFadedIn = false;
         }
 
+        public override void ResetAlpha()
+        {
+            maskableGraphic.color = new Color(maskableGraphic.color.r, maskableGraphic.color.g, maskableGraphic.color.b, 1.0f);
+            IsFadedIn = true;
+        }
+
     }
 }

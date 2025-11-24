@@ -35,7 +35,6 @@ namespace Depthcharge.Actors.Modules
         {
             Health = maxHealth;
             isVulnerable = true;
-            IsModuleSetUp = true;
         }
 
         public void TakeMaxDamage()
@@ -71,6 +70,7 @@ namespace Depthcharge.Actors.Modules
         public void SetMaxHealth(float maxHealth)
         {
             this.maxHealth = maxHealth;
+            Health = this.maxHealth;
         }
         public void ResetHealth()
         {

@@ -47,23 +47,19 @@ namespace Depthcharge.Actors
             startVulnerabilitySpeed = vulnerabilitySpeed;
             currentVulnerabilitySpeed = startVulnerabilitySpeed;
             HealthModule.SetVulnerability(false);
-            AddListeners();
         }
 
-        protected override void InternalCleanUp()
+        protected override void AddListeners()
         {
-            RemoveListeners();
-        }
-
-        private void AddListeners()
-        {
+            base.AddListeners();
             HealthModule.OnReachHalfHealth += OnReachHalfHealth;
             HealthModule.OnReachAQuarterHealth += OnReachAQuarterHealth;
         }
-        private void RemoveListeners()
+        protected override void RemoveListeners()
         {
             HealthModule.OnReachAQuarterHealth -= OnReachAQuarterHealth;
             HealthModule.OnReachHalfHealth -= OnReachHalfHealth;
+            base.RemoveListeners();
         }
 
         private void Update()

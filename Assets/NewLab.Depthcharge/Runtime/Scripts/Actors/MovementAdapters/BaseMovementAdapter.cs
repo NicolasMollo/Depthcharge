@@ -14,6 +14,10 @@ namespace Depthcharge.Actors.Modules
         public virtual void SetVelocity(Vector2 velocity) { }
 
         public virtual void Rotate(float rotation, float speedRotation) { }
+        public virtual void SetRotation(float angle) { }
+
+        public virtual void EnableMovement() { }
+        public virtual void DisableMovement() { }
 
     }
 

@@ -41,26 +41,23 @@ namespace Depthcharge.Actors
             seaPosition = env.SeaPosition;
             startMovementSpeed = MovementModule.MovementSpeed;
             currentMovementSpeed = startMovementSpeed;
-            AddListeners();
             SetStallPosition();
             StartCoroutine(GoToWaitToShootState());
         }
-        protected override void InternalCleanUp()
-        {
-            RemoveListeners();
-        }
 
-        private void AddListeners()
+        protected override void AddListeners()
         {
+            base.AddListeners();
             ShootModule.OnShoot += OnShoot;
             HealthModule.OnReachHalfHealth += OnReachHalfHealth;
             HealthModule.OnReachAQuarterHealth += OnReachAQuarterHealth;
         }
-        private void RemoveListeners()
+        protected override void RemoveListeners()
         {
             HealthModule.OnReachAQuarterHealth -= OnReachAQuarterHealth;
             HealthModule.OnReachHalfHealth -= OnReachHalfHealth;
             ShootModule.OnShoot -= OnShoot;
+            base.RemoveListeners();
         }
 
         private void Update()
@@ -82,7 +79,8 @@ namespace Depthcharge.Actors
         private void OnShoot()
         {
             bulletShooted++;
-            if (bulletShooted == ShootModule.PoolSize / bulletToShootDivider)
+            int halfPoolSize = ShootModule.PoolSize / 2;
+            if (bulletShooted == halfPoolSize / bulletToShootDivider)
             {
                 StartCoroutine(GoToVulnerabilityState(vulnerabilityStateDelay));
                 bulletShooted = 0;

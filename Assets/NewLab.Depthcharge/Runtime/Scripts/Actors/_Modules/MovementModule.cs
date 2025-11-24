@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace Depthcharge.Actors.Modules
 {
@@ -20,17 +21,12 @@ namespace Depthcharge.Actors.Modules
 
         private void Awake()
         {
-            if (_target == null)
-            {
-                Debug.LogError($"=== {this.name}.MovementModule.SetUpModule() === target is null!");
-                return;
-            }
-            if (movementStrategy == null)
-            {
-                Debug.LogError($"=== {this.name}.MovementModule.SetUpModule() === movementStrategy is null!");
-                return;
-            }
-            IsModuleSetUp = true;
+            string message = $"=== {this.name}.MovementModule.SetUpModule() === Be ensure to fill \"Owner\" field in Inspector!";
+            Assert.IsNotNull(owner, message);
+            message = $"=== {owner.name}.MovementModule.SetUpModule() === target is null!";
+            Assert.IsNotNull(_target, message);
+            message = $"=== {owner.name}.MovementModule.SetUpModule() === movementStrategy is null!";
+            Assert.IsNotNull(movementStrategy, message);
         }
 
         public void MoveTarget(Vector2 direction = default, Transform targetToReach = null)
@@ -47,6 +43,15 @@ namespace Depthcharge.Actors.Modules
         public void SetMovementStrategy(BaseMovementStrategy movementStrategy)
         {
             this.movementStrategy = movementStrategy;
+        }
+
+        public override void EnableModule()
+        {
+            _target.EnableMovement();
+        }
+        public override void DisableModule()
+        {
+            _target.DisableMovement();
         }
 
     }

@@ -13,6 +13,7 @@ namespace Depthcharge.LevelManagement
         public int EnemiesMissed
         {
             get => EnemiesSpawned - EnemiesDefeated - ActiveEnemies;
+            private set { EnemiesSpawned = value; }
         }
         public TimeSpan Time { get; private set; }
         public Action<float> OnIncreaseScore = null;
@@ -21,6 +22,7 @@ namespace Depthcharge.LevelManagement
         {
             EnemiesSpawned = 0;
             ActiveEnemies = 0;
+            EnemiesMissed = 0;
             EnemiesDefeated = 0;
             Score = 0;
         }
@@ -58,6 +60,14 @@ namespace Depthcharge.LevelManagement
         {
             Time = TimeSpan.FromSeconds(elapsedTime);
             return Time;
+        }
+        public void ResetAllStats()
+        {
+            EnemiesSpawned = 0;
+            ActiveEnemies = 0;
+            EnemiesMissed = 0;
+            EnemiesDefeated = 0;
+            Score = 0;
         }
 
     }

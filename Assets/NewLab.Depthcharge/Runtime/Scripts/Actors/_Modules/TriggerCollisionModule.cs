@@ -6,14 +6,9 @@ namespace Depthcharge.Actors.Modules
     public class TriggerCollisionModule : BaseCollisionModule
     {
 
-        public override void SetUpModule(GameObject owner = null)
+        public override void SetUpModule()
         {
-            base.SetUpModule(owner);
-
-            if (!setComponentsAutomatically)
-            {
-                boxCollider = GetComponent<BoxCollider2D>();
-            }
+            base.SetUpModule();
             boxCollider.isTrigger = true;
         }
 
@@ -22,6 +17,7 @@ namespace Depthcharge.Actors.Modules
             foreach (BaseCollisionStrategy strategy in collisionStrategies)
             {
                 strategy.OnCollision(this.gameObject, collider);
+                LastCollisionLayer = collider.gameObject.layer;
             }
         }
 

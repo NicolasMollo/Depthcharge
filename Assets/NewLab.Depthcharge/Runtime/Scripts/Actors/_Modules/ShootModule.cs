@@ -16,6 +16,7 @@ namespace Depthcharge.Actors.Modules
         private bool canShoot = true;
         private bool _isReloading = false;
         public bool IsReloading { get => _isReloading; }
+        public bool IsFullAmmo { get => bulletsShooted == 0; }
 
         #region References
 
@@ -54,7 +55,6 @@ namespace Depthcharge.Actors.Modules
             originalBulletFactory = bulletFactory;
             bullets = bulletFactory.CreateBulletPool(this, poolSize);
             canShoot = true;
-            IsModuleSetUp = true;
         }
 
         #region API
@@ -97,36 +97,6 @@ namespace Depthcharge.Actors.Modules
             _isReloading = !_isReloading;
         }
 
-        public void ChangeBulletsType(BaseBulletFactory bulletFactory)
-        {
-            this.bulletFactory = bulletFactory;
-            foreach (BulletController bullet in bullets)
-            {
-                if (!bullet.IsShooted)
-                    Destroy(bullet.gameObject);
-            }
-            bullets.Clear();
-            bullets = this.bulletFactory.CreateBulletPool(this, poolSize);
-            OnChangeBullets?.Invoke();
-        }
-        public void ResetBulletsType()
-        {
-            this.bulletFactory = originalBulletFactory;
-            ChangeBulletsType(this.bulletFactory);
-        }
-        public void ResetBullets()
-        {
-            foreach (BulletController bullet in bullets)
-            {
-                if (bullet.transform.parent == null && !bullet.gameObject.activeSelf)
-                {
-                    bullet.transform.SetParent(bulletsParent);
-                    bullet.transform.position = shootPoint.position;
-                    bullet.transform.rotation = Quaternion.Euler(Vector3.zero);
-                }
-            }
-        }
-
         public void IncreaseShootPointRotation(float rotationOffsetZ)
         {
             shootPoint.rotation *= Quaternion.Euler(shootPoint.forward * rotationOffsetZ);
@@ -157,22 +127,25 @@ namespace Depthcharge.Actors.Modules
             yield return new WaitUntil(AreBulletsDisabled);
             OnStartReload?.Invoke(_isReloading);
             yield return new WaitForSeconds(delay);
-            ResetBulletsTransform();
+            ResetBullets();
             bulletsShooted = 0;
             OnReloaded?.Invoke();
             _isReloading = !_isReloading;
         }
-        private void ResetBulletsTransform()
+
+        private void ResetBullets()
         {
             foreach (BulletController bullet in bullets)
             {
-                if (!bullet.IsShooted)
+                if (bullet.transform.parent == null && !bullet.gameObject.activeSelf)
                 {
                     bullet.transform.SetParent(bulletsParent);
                     bullet.transform.position = shootPoint.position;
+                    bullet.transform.rotation = Quaternion.Euler(Vector3.zero);
                 }
             }
         }
+
         private bool AreBulletsDisabled()
         {
             int deactivatedBullets = 0;

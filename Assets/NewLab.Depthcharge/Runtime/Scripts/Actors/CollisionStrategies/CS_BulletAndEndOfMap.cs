@@ -12,16 +12,12 @@ namespace Depthcharge.Actors.Modules
 
         public override void OnCollision(GameObject owner, Collider2D other)
         {
-
             if (other.CompareTag(endOfMapTag))
             {
                 BulletController bulletController = owner.GetComponentInParent<BulletController>();
+                bulletController.OnCollisionWithEndOfMap(endOfMapTag);
                 bulletController.HealthModule.TakeMaxDamage();
-                bulletController.CollisionModule.DisableModule();
-                // bulletController.Deactivation();
-                Debug.Log($"Collision with {other.name}");
             }
-
         }
 
     }

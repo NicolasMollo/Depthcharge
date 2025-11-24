@@ -1,5 +1,6 @@
-using UnityEngine;
+using Depthcharge.Actors.AI;
 using Depthcharge.Actors.Modules;
+using UnityEngine;
 
 namespace Depthcharge.Actors
 {
@@ -9,10 +10,13 @@ namespace Depthcharge.Actors
     {
 
         private ShootModule owner = null;
-        private bool _isShooted = false;
-        public bool IsShooted { get => _isShooted; }
+        private BaseBulletBehaviour behaviour = null;
+        private MovementContext _movementContext = default;
+        internal MovementContext MovementContext { get => _movementContext; }
 
-        private MovementContext movementContext = default;
+        [SerializeField]
+        private SpriteRenderer _spriteRenderer = null;
+        internal SpriteRenderer SpriteRenderer { get => _spriteRenderer; }
 
         #region Modules
 
@@ -29,56 +33,66 @@ namespace Depthcharge.Actors
         [SerializeField]
         private HealthModule healthModule = null;
         public HealthModule HealthModule { get => healthModule; }
+        [SerializeField]
+        private AnimationModule animationModule = null;
+        public AnimationModule AnimationModule { get => animationModule; }
 
         #endregion
-        #region Settings
-
         [Header("SETTINGS")]
-
         [SerializeField]
         private float _damage = 1.0f;
         public float Damage { get => _damage; }
 
-        [SerializeField]
-        private Vector2 movementDirection = Vector2.zero;
+        private string endOfMapTag = string.Empty;
 
-        #endregion
+
+        internal int collsionLayerMask = 0;
+
+        [SerializeField]
+        private Fsm fsm = null;
 
         private void Awake()
         {
-            movementContext = new MovementContext();
+            _movementContext = new MovementContext();
+            behaviour = GetComponent<BaseBulletBehaviour>();
         }
-        public void SetUp(ShootModule owner)
-        {
-            this.owner = owner;
-            movementContext.TargetToReach = FindFirstObjectByType<PlayerController>().transform;
-            collisionModule.SetUpModule(this.gameObject);
-        }
-
-        private void FixedUpdate()
-        {
-            movementModule.MoveTarget(MovementModule.Target.transform.up, movementContext.TargetToReach);
-        }
-
         private void OnEnable()
         {
-            movementContext.SpawnTime = Time.time;
-            movementContext.StartPosition = movementModule.Target.GetPosition();
-            _isShooted = true;
-            if (!collisionModule.enabled)
-            {
-                collisionModule.EnableModule();
-            }
-            healthModule.OnDeath += Deactivation;
+            behaviour.OnBulletEnable();
         }
         private void OnDisable()
         {
-            healthModule.OnDeath -= Deactivation;
             healthModule.ResetHealth();
-            _isShooted = false;
+            behaviour.OnBulletDisable();
+        }
+        private void Start()
+        {
+            behaviour.OnBulletStart();
+            healthModule.OnDeath += OnDeath;
+        }
+        private void OnDestroy()
+        {
+            healthModule.OnDeath -= OnDeath;
+            behaviour.OnBulletDestroy();
+        }
+        private void FixedUpdate()
+        {
+            movementModule.MoveTarget(MovementModule.Target.transform.up, _movementContext.TargetToReach);
         }
 
-        public void Deactivation()
+        public void SetUp(ShootModule owner)
+        {
+            this.owner = owner;
+            behaviour.OnBulletSetUp();
+            collisionModule.SetUpModule();
+        }
+
+        public void OnCollisionWithEndOfMap(string endOfMapTag)
+        {
+            this.endOfMapTag = endOfMapTag;
+        }
+
+        internal void Deactivation()
         {
             this.gameObject.SetActive(false);
         }
@@ -87,6 +101,12 @@ namespace Depthcharge.Actors
         {
             movementModule.MoveTarget(owner.ShootPoint.position);
             transform.SetParent(owner.BulletsParent);
+        }
+
+        private void OnDeath()
+        {
+            behaviour.OnBulletDeath(endOfMapTag);
+            endOfMapTag = string.Empty;
         }
 
     }

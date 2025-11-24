@@ -63,7 +63,6 @@ namespace Depthcharge.Actors
             SetSeaData();
             SetShootModules();
             MoveToTargetY();
-            AddListeners();
             StartCoroutine(GoToWaitToShootState());
         }
         private void SetSeaData()
@@ -83,24 +82,21 @@ namespace Depthcharge.Actors
             Assert.IsNotNull(cannons, message);
         }
 
-        protected override void InternalCleanUp()
+        protected override void AddListeners()
         {
-            RemoveListeners();
-        }
-
-        private void AddListeners()
-        {
+            base.AddListeners();
             ShootModule.OnShoot += OnShoot;
             cannons.OnShoot += OnCannonsShoot;
             HealthModule.OnReachAQuarterHealth += OnReachAQuarterHealth;
             HealthModule.OnReachHalfHealth += OnReachHalfHealth;
         }
-        private void RemoveListeners()
+        protected override void RemoveListeners()
         {
             HealthModule.OnReachAQuarterHealth -= OnReachAQuarterHealth;
             HealthModule.OnReachHalfHealth -= OnReachHalfHealth;
             cannons.OnShoot -= OnCannonsShoot;
             ShootModule.OnShoot -= OnShoot;
+            base.RemoveListeners();
         }
 
         private void Update()

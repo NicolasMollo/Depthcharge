@@ -1,7 +1,9 @@
 using Depthcharge.Actors;
+using Depthcharge.Actors.Modules;
 using Depthcharge.Environment;
 using Depthcharge.Events;
 using Depthcharge.UI;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -61,9 +63,11 @@ namespace Depthcharge.LevelManagement
             _boss.HealthModule.OnDeath += OnBossDeath;
             _boss.HealthModule.OnVulnerable += OnBossVulnerable;
             _boss.HealthModule.OnInvulnerable += OnBossInvulnerable;
+            _boss.AnimationModule.SubscribeToOnAnimationEnd(AnimationController.AnimationType.Death, OnBossDeathAnimationEnd);
         }
         protected override void RemoveListenersFromActors()
         {
+            _boss.AnimationModule.UnsubscribeFromOnAnimationEnd(AnimationController.AnimationType.Death, OnBossDeathAnimationEnd);
             _boss.HealthModule.OnInvulnerable -= OnBossInvulnerable;
             _boss.HealthModule.OnVulnerable -= OnBossVulnerable;
             _boss.HealthModule.OnDeath -= OnBossDeath;
@@ -78,7 +82,10 @@ namespace Depthcharge.LevelManagement
         {
             _stats.IncreaseEnemiesDefeated();
             _stats.IncreaseScore(_boss.ScorePoints);
-            OnWin?.Invoke();
+            player.InputModule.DisableModule();
+            player.HealthModule.SetVulnerability(false);
+            player.ShootModule.OnStartReload -= OnPlayerStartReload;
+            UI.gameObject.SetActive(false);
         }
         private void OnBossVulnerable()
         {
@@ -87,6 +94,15 @@ namespace Depthcharge.LevelManagement
         private void OnBossInvulnerable()
         {
             bossUI.SetBossHealthBarColor(Color.gray);
+        }
+        private void OnBossDeathAnimationEnd()
+        {
+            StartCoroutine(WaitUntilBossIsFadedOut());
+        }
+        private IEnumerator WaitUntilBossIsFadedOut()
+        {
+            yield return new WaitUntil(() => _boss.FadeableAdapter.IsFadedIn == false);
+            OnWin?.Invoke();
         }
 
     }

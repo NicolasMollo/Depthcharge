@@ -12,5 +12,7 @@ namespace Depthcharge.Toolkit
         public abstract void FadeOut(float delay);
         protected abstract IEnumerator InternalFadeOut(float delay);
 
+        public abstract void ResetAlpha();
+
     }
 }

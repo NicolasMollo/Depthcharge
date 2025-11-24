@@ -112,7 +112,7 @@ namespace Depthcharge.LevelManagement
         {
             UI.AddAmmoTransparency();
         }
-        private void OnPlayerStartReload(bool isReloading)
+        protected void OnPlayerStartReload(bool isReloading)
         {
             UI.DecreaseReloadBar(player.ShootModule.ReloadTime);
         }

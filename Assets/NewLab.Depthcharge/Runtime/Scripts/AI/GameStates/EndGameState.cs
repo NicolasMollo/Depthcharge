@@ -53,8 +53,9 @@ namespace Depthcharge.GameManagement.AI
             UI.UnsubscribeFromButton(EndGameButtonType.Reload, OnClickReloadButton);
         }
 
-        private void OnClickQuitButton(SceneConfiguration configuration)
+        protected virtual void OnClickQuitButton(SceneConfiguration configuration)
         {
+            level.Stats.ResetAllStats();
             UI.DisableInput();
             fsm.ChangeState<LoadingIdleState>();
             gameLogic.LoadGameTransitionsState = true;
@@ -62,6 +63,7 @@ namespace Depthcharge.GameManagement.AI
         }
         protected virtual void OnClickReloadButton(SceneConfiguration configuration)
         {
+            level.Stats.ResetAllStats();
             UI.DisableInput();
             StartCoroutine(OnSelectReloadButton(configuration));
             gameLogic.LoadGameTransitionsState = false;
