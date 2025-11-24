@@ -9,8 +9,6 @@ namespace Depthcharge.Actors
     public class BulletController : MonoBehaviour
     {
 
-        private ShootModule owner = null;
-        private BaseBulletBehaviour behaviour = null;
         private MovementContext _movementContext = default;
         internal MovementContext MovementContext { get => _movementContext; }
 
@@ -25,11 +23,9 @@ namespace Depthcharge.Actors
         [SerializeField]
         private MovementModule movementModule = null;
         public MovementModule MovementModule { get => movementModule; }
-
         [SerializeField]
         private BaseCollisionModule collisionModule = null;
         public BaseCollisionModule CollisionModule { get => collisionModule; }
-
         [SerializeField]
         private HealthModule healthModule = null;
         public HealthModule HealthModule { get => healthModule; }
@@ -38,58 +34,47 @@ namespace Depthcharge.Actors
         public AnimationModule AnimationModule { get => animationModule; }
 
         #endregion
+
+        [Header("FSM")]
+        [SerializeField]
+        private Fsm fsm = null;
+
         [Header("SETTINGS")]
         [SerializeField]
         private float _damage = 1.0f;
         public float Damage { get => _damage; }
 
-        private string endOfMapTag = string.Empty;
-
-
-        internal int collsionLayerMask = 0;
-
-        [SerializeField]
-        private Fsm fsm = null;
-
         private void Awake()
         {
             _movementContext = new MovementContext();
-            behaviour = GetComponent<BaseBulletBehaviour>();
         }
         private void OnEnable()
         {
-            behaviour.OnBulletEnable();
+            if (fsm.CurrentState == null) return;
+            fsm.ChangeToNextState();
         }
         private void OnDisable()
         {
             healthModule.ResetHealth();
-            behaviour.OnBulletDisable();
         }
         private void Start()
         {
-            behaviour.OnBulletStart();
+            fsm.SetUpStates();
+            fsm.SetStartState();
             healthModule.OnDeath += OnDeath;
         }
         private void OnDestroy()
         {
             healthModule.OnDeath -= OnDeath;
-            behaviour.OnBulletDestroy();
         }
         private void FixedUpdate()
         {
-            movementModule.MoveTarget(MovementModule.Target.transform.up, _movementContext.TargetToReach);
+            fsm.UpdateCurrentState();
         }
 
         public void SetUp(ShootModule owner)
         {
-            this.owner = owner;
-            behaviour.OnBulletSetUp();
             collisionModule.SetUpModule();
-        }
-
-        public void OnCollisionWithEndOfMap(string endOfMapTag)
-        {
-            this.endOfMapTag = endOfMapTag;
         }
 
         internal void Deactivation()
@@ -97,16 +82,9 @@ namespace Depthcharge.Actors
             this.gameObject.SetActive(false);
         }
 
-        public void ResetBulletTransform()
-        {
-            movementModule.MoveTarget(owner.ShootPoint.position);
-            transform.SetParent(owner.BulletsParent);
-        }
-
         private void OnDeath()
         {
-            behaviour.OnBulletDeath(endOfMapTag);
-            endOfMapTag = string.Empty;
+            fsm.ChangeToNextState();
         }
 
     }

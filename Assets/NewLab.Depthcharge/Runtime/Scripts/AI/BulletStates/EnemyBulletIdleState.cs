@@ -4,16 +4,19 @@ using UnityEngine.Assertions;
 
 namespace Depthcharge.Actors.AI
 {
-    public class EnemyBulletIdleState : BaseBulletIdleState
+    public class EnemyBulletIdleState : BaseState
     {
 
+        private BulletController bullet = null;
         private StdFadeableAdapter fadeableAdapter = null;
 
         public override void SetUp(GameObject owner)
         {
-            base.SetUp(owner);
+            bullet = owner.GetComponent<BulletController>();
+            string message = $"=== {owner}.EnemyBulletIdleState.SetUp() === Owner \"{owner.name}\" doesn't had a \"BulletController\" component attached!";
+            Assert.IsNotNull(bullet, message);
             fadeableAdapter = bullet.GetComponent<StdFadeableAdapter>();
-            string message = $"=== {bullet.name}.EnemyBulletIdleState.SetUp() === Bullet {bullet.name} doesn't had a \"StdFadeableAdapter\" component attached!";
+            message = $"=== {bullet.name}.EnemyBulletIdleState.SetUp() === Bullet {bullet.name} doesn't had a \"StdFadeableAdapter\" component attached!";
             Assert.IsNotNull(fadeableAdapter, message);
             bullet.MovementContext.TargetToReach = FindFirstObjectByType<PlayerController>().transform;
         }
@@ -27,6 +30,11 @@ namespace Depthcharge.Actors.AI
             bullet.MovementContext.StartPosition = bullet.MovementModule.Target.GetPosition();
             bullet.SpriteRenderer.color = Color.white;
             fadeableAdapter.ResetAlpha();
+        }
+
+        public override void OnStateUpdate()
+        {
+            bullet.MovementModule.MoveTarget(bullet.MovementModule.Target.transform.up, bullet.MovementContext.TargetToReach);
         }
 
     }

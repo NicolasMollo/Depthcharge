@@ -16,8 +16,8 @@ namespace Depthcharge.Actors.Modules
         {
             foreach (BaseCollisionStrategy strategy in collisionStrategies)
             {
-                strategy.OnCollision(this.gameObject, collider);
                 LastCollisionLayer = collider.gameObject.layer;
+                strategy.OnCollision(this.gameObject, collider);
             }
         }
 

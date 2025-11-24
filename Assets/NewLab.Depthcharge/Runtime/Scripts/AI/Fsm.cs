@@ -40,8 +40,12 @@ namespace Depthcharge.Actors.AI
             }
         }
 
-        public void SetStartState()
+        public void SetStartState(BaseState state = null)
         {
+            if (state != null)
+            {
+                startState = state;
+            }
             currentState = startState;
             currentState.OnStateEnter();
         }
@@ -54,7 +58,7 @@ namespace Depthcharge.Actors.AI
         {
             currentState.OnStateExit();
             currentState = currentState.NextState;
-            string message = $"=== {this.transform.parent.name}.FSM.GoToTheNextState() === Current state hasn't a next state!";
+            string message = $"=== {_owner.name}.FSM.GoToTheNextState() === Current state hasn't a next state!";
             Assert.IsNotNull(currentState, message);
             currentState.OnStateEnter();
         }
@@ -62,8 +66,16 @@ namespace Depthcharge.Actors.AI
         {
             currentState.OnStateExit();
             currentState = GetState<T>();
-            string message = $"=== {this.transform.parent.name}.FSM === There isn't state of this type in the fsm!";
+            string message = $"=== {_owner.name}.FSM === There isn't state of this type in the fsm!";
             Assert.IsNotNull(currentState, message);
+            currentState.OnStateEnter();
+        }
+        public void ChangeState(BaseState state)
+        {
+            string message = $"=== {_owner.name}.FSM.ChangeState() === \"state\" is null!";
+            Assert.IsNotNull(state, message);
+            currentState.OnStateExit();
+            currentState = state;
             currentState.OnStateEnter();
         }
 

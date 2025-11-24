@@ -6,18 +6,22 @@ using UnityEngine.Assertions;
 
 namespace Depthcharge.Actors.AI
 {
-    public class EnemyBulletDeathState : BaseBulletDeathState
+    public class EnemyBulletDeathState : BaseState
     {
 
+        private BulletController bullet = null;
         private StdFadeableAdapter fadeableAdapter = null;
+        private const string ENDOFMAP_LAYERNAME = "Default";
         [SerializeField]
         private float fadeOutDelay = 0.005f;
 
         public override void SetUp(GameObject owner)
         {
-            base.SetUp(owner);
+            bullet = owner.GetComponent<BulletController>();
+            string message = $"=== {owner}.EnemyBulletDeathState.SetUp() === Owner \"{owner.name}\" doesn't had a \"BulletController\" component attached!";
+            Assert.IsNotNull(bullet, message);
             fadeableAdapter = bullet.GetComponent<StdFadeableAdapter>();
-            string message = $"=== {bullet.name}.EnemyBulletDeathState.SetUp() === Bullet {bullet.name} doesn't had a \"StdFadeableAdapter\" component attached!";
+            message = $"=== {bullet.name}.EnemyBulletDeathState.SetUp() === Bullet {bullet.name} doesn't had a \"StdFadeableAdapter\" component attached!";
             Assert.IsNotNull(fadeableAdapter, message);
             AddListeners();
         }
@@ -29,7 +33,11 @@ namespace Depthcharge.Actors.AI
 
         public override void OnStateEnter()
         {
-            if (bullet.CollisionModule.LastCollisionLayer == LayerMask.NameToLayer("Default")) return;
+            if (bullet.CollisionModule.LastCollisionLayer != LayerMask.NameToLayer(ENDOFMAP_LAYERNAME))
+            {
+                bullet.Deactivation();
+                return;
+            }
             bullet.SpriteRenderer.color = Color.black;
             bullet.MovementModule.Target.SetRotation(0);
             bullet.MovementModule.DisableModule();

@@ -15,7 +15,6 @@ namespace Depthcharge.Actors.Modules
             if (other.CompareTag(endOfMapTag))
             {
                 BulletController bulletController = owner.GetComponentInParent<BulletController>();
-                bulletController.OnCollisionWithEndOfMap(endOfMapTag);
                 bulletController.HealthModule.TakeMaxDamage();
             }
         }

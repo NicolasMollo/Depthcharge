@@ -223,6 +223,14 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5700173954889366058, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
+      propertyPath: idleState
+      value: 
+      objectReference: {fileID: 4471939925239566626}
+    - target: {fileID: 5700173954889366058, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
+      propertyPath: deathState
+      value: 
+      objectReference: {fileID: 3799514166967063738}
+    - target: {fileID: 5700173954889366058, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
       propertyPath: _spriteRenderer
       value: 
       objectReference: {fileID: 3105411725594483315}
@@ -361,7 +369,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fsm: {fileID: 1176442233761039078}
-  nextState: {fileID: 0}
+  nextState: {fileID: 3799514166967063738}
 --- !u!1 &5879416392038480341 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5285657799135710182, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
@@ -380,7 +388,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fsm: {fileID: 1176442233761039078}
-  nextState: {fileID: 0}
+  nextState: {fileID: 4471939925239566626}
   fadeOutDelay: 0.005
 --- !u!114 &6329415442881513497 stripped
 MonoBehaviour:

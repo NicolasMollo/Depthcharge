@@ -24,6 +24,10 @@ PrefabInstance:
       propertyPath: states.Array.data[1]
       value: 
       objectReference: {fileID: 3139771905806516896}
+    - target: {fileID: 620934038568710357, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
+      propertyPath: states.Array.data[2]
+      value: 
+      objectReference: {fileID: 3139771905806516896}
     - target: {fileID: 2648495108678834044, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -80,6 +84,14 @@ PrefabInstance:
       propertyPath: fsm
       value: 
       objectReference: {fileID: 3786298740795312912}
+    - target: {fileID: 5700173954889366058, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
+      propertyPath: idleState
+      value: 
+      objectReference: {fileID: 9201757623440710173}
+    - target: {fileID: 5700173954889366058, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
+      propertyPath: deathState
+      value: 
+      objectReference: {fileID: 3139771905806516896}
     - target: {fileID: 5700173954889366058, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
       propertyPath: _spriteRenderer
       value: 
@@ -155,7 +167,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fsm: {fileID: 3786298740795312912}
-  nextState: {fileID: 0}
+  nextState: {fileID: 3139771905806516896}
 --- !u!114 &3786298740795312912 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 620934038568710357, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
@@ -196,4 +208,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fsm: {fileID: 3786298740795312912}
-  nextState: {fileID: 0}
+  nextState: {fileID: 9201757623440710173}
