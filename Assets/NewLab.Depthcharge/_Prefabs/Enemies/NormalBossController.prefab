@@ -147,22 +147,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27e3beb716f00c343ad83895e7fffb4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _movementModule: {fileID: 2146186192058807696}
+  _spriteRenderer: {fileID: 9077062732747199832}
   _healthModule: {fileID: 6420066684807939629}
+  _movementModule: {fileID: 2146186192058807696}
+  _animationModule: {fileID: 1624389463198199642}
   _shootModule: {fileID: 3825817577489874656}
-  animationModule: {fileID: 1624389463198199642}
   collisionModule: {fileID: 4205844665807364672}
   fsm: {fileID: 6034847764828159549}
   scorePointsText: {fileID: 1518697856643053576}
   shootStrategy: {fileID: 11400000, guid: 087a973eea395134785b9c13e69314a5, type: 2}
   fadeableAdapter: {fileID: 1010348244866182360}
   enemyName: depthstalker
+  movementDirection: {x: -1, y: 0}
   _scorePoints: 350
   _shootDelay: 2
-  movementDirection: {x: -1, y: 0}
   fadeOutDelay: 0.05
-  spriteRenderer: {fileID: 9077062732747199832}
   vulnerabilityStateDelay: 2
+  invulnerabilityColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  halfHealthSpeedMultiplier: 1.5
+  quarterHealthSpeedMultiplier: 2
+  halfHealthBulletToShootDivider: 2
+  quarterHealthBulletToShootDivider: 1
 --- !u!114 &1010348244866182360
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -522,7 +527,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70e7ccaadf168234badb511bc38f61f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  owner: {fileID: 685798316974221905}
+  owner: {fileID: 7387739242894239376}
   shootPoint: {fileID: 2526640051621235375}
   bulletsParent: {fileID: 6525343791841756564}
   bulletFactory: {fileID: 11400000, guid: 1dbe7d4627e92074cb801331731a743c, type: 2}
@@ -618,7 +623,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c793124b8d415746b018b31c41f875e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  owner: {fileID: 685798316974221905}
+  owner: {fileID: 7387739242894239376}
   _target: {fileID: 601076946422667498}
   movementStrategy: {fileID: 11400000, guid: 2a04952a38233034dad8ba7f1c76ec15, type: 2}
   movementContext:
@@ -744,11 +749,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8b17e6fd10ab38488fe4689cef5f85e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  owner: {fileID: 685798316974221905}
+  owner: {fileID: 7387739242894239376}
   rb: {fileID: 6648532053175995933}
   boxCollider: {fileID: 7096031895508280330}
   collisionStrategies:
-  - {fileID: 11400000, guid: 2fedba9b6cb4c9744a9674c055b33ba0, type: 2}
+  - {fileID: 11400000, guid: 405f86e8b305b2b47bb44d79182b2066, type: 2}
   setComponentsAutomatically: 0
 --- !u!1 &3894591059347959188
 GameObject:
@@ -830,7 +835,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1953e808c63e0d34c8fd3af35ce2ff99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  owner: {fileID: 685798316974221905}
+  owner: {fileID: 7387739242894239376}
   maxHealth: 20
 --- !u!1 &5645074171362270958
 GameObject:
@@ -877,10 +882,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd491f5db0562da4da11435e8367cc62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  owner: {fileID: 685798316974221905}
+  owner: {fileID: 7387739242894239376}
   animator: {fileID: 0}
   animations:
   - {fileID: 1555210408256326427}
+  - {fileID: 3790829371121676708}
 --- !u!1 &5856960157357338880
 GameObject:
   m_ObjectHideFlags: 0
@@ -911,6 +917,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2179936358210398488}
+  - {fileID: 7304607557870425411}
   m_Father: {fileID: 7316748884603409048}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5966670302204223017
@@ -1073,6 +1080,55 @@ Transform:
   - {fileID: 578418663144935530}
   m_Father: {fileID: 680775741024306145}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8183741411920037256
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7304607557870425411}
+  - component: {fileID: 3790829371121676708}
+  m_Layer: 7
+  m_Name: Damage
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7304607557870425411
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8183741411920037256}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9125218099175069744}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3790829371121676708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8183741411920037256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d3499b82d3f0474ea8b8544a33481cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animatorParameterName: 
+  animatorStateName: 
+  _type: 2
+  strategy: {fileID: 11400000, guid: 83c994c5125545a46bb4bf4b91774683, type: 2}
+  isDummyAnimation: 1
 --- !u!1 &9096427152101283292
 GameObject:
   m_ObjectHideFlags: 0

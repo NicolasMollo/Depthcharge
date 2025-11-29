@@ -101,7 +101,7 @@ namespace Depthcharge.LevelManagement
         }
         private IEnumerator WaitUntilBossIsFadedOut()
         {
-            yield return new WaitUntil(() => _boss.FadeableAdapter.IsFadedIn == false);
+            yield return new WaitUntil(() => _boss.IsFadedIn == false);
             OnWin?.Invoke();
         }
 

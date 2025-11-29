@@ -151,7 +151,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1997439567
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 46f80f8efb8319e4e99dfecfd5fbb12c, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
@@ -235,9 +235,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   seaBackgroundController: {fileID: 4347303099919380111}
+  seaSpriteRenderer: {fileID: 0}
   skyBackgroundController: {fileID: 2633620109629392933}
+  skySpriteRenderer: {fileID: 0}
   enableTimeBasedColor: 0
   dayPhaseConfig: {fileID: 11400000, guid: b16a41820e2b8434b83f629ad802d8bf, type: 2}
+  _topSeaTarget: {fileID: 0}
+  _bottomSeaTarget: {fileID: 0}
 --- !u!1 &3870786170622721660
 GameObject:
   m_ObjectHideFlags: 0
@@ -410,7 +414,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.05000019, y: 0.09569092}
+  m_Offset: {x: 0.05000019, y: 0.059346557}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -421,7 +425,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 18, y: 0.10861817}
+  m_Size: {x: 18, y: 0.03592944}
   m_EdgeRadius: 0
 --- !u!1 &5282168006767809011
 GameObject:
@@ -530,7 +534,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1997439567
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: e00f7aeff4ae8134bbc863fa5100298e, type: 3}
   m_Color: {r: 0.06666667, g: 0.42352942, b: 0.6509804, a: 1}

@@ -9,7 +9,6 @@ namespace Depthcharge.Actors.Modules
 
         [SerializeField]
         private float frequency = 2f;
-
         [SerializeField]
         private float amplitude = 0.5f;
 

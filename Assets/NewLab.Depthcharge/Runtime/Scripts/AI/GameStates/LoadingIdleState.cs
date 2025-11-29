@@ -45,6 +45,7 @@ namespace Depthcharge.GameManagement.AI
                 UISystem.CurrentEndGameUI.SetEndGameTextActiveness(false);
                 UISystem.CurrentEndGameUI.FadeOutEndGamePanel();
                 yield return new WaitUntil(() => !UISystem.CurrentEndGameUI.LastLevelPanelFadedIn);
+                UISystem.CurrentEndGameUI.SetEndGamePanelOnTopOfHierarchy();
             }
             UISystem.CurrentEndGameUI.gameObject.SetActive(false);
             StartCoroutine(MoveCameraToTarget());

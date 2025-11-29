@@ -20,6 +20,7 @@ namespace Depthcharge.Actors.Modules
         protected bool setComponentsAutomatically = false;
 
         public int LastCollisionLayer { protected set; get; } = -1;
+        public bool IsEnable { get; private set; } = true;
 
         public override void SetUpModule()
         {
@@ -42,10 +43,12 @@ namespace Depthcharge.Actors.Modules
         public override void EnableModule()
         {
             boxCollider.enabled = true;
+            IsEnable = boxCollider.enabled;
         }
         public override void DisableModule()
         {
             boxCollider.enabled = false;
+            IsEnable = boxCollider.enabled;
         }
 
     }

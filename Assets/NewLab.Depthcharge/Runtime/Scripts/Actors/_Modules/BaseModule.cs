@@ -7,7 +7,7 @@ namespace Depthcharge.Actors.Modules
     {
 
         [SerializeField]
-        protected GameObject owner = null;
+        protected Actor owner = null;
 
         public virtual void SetUpModule() { }
         public virtual void UpdateModule() { }

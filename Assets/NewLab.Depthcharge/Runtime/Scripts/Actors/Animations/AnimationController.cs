@@ -9,7 +9,7 @@ namespace Depthcharge.Actors.Modules
     public class AnimationController : MonoBehaviour
     {
 
-        public enum AnimationType : byte { Idle, Death }
+        public enum AnimationType : byte { Idle, Death, Damage, UnderwaterIdle }
 
         private int animatorStateID = 0;
 
@@ -37,7 +37,7 @@ namespace Depthcharge.Actors.Modules
             animatorStateID = Animator.StringToHash(animatorStateName);
         }
 
-        public void Animate(GameObject owner, Animator animator = null)
+        public void Animate(Actor owner, Animator animator = null)
         {
             if (isDummyAnimation)
             {
@@ -49,12 +49,12 @@ namespace Depthcharge.Actors.Modules
             }
         }
 
-        private void AnimateWithAnimator(GameObject owner, Animator animator)
+        private void AnimateWithAnimator(Actor owner, Animator animator)
         {
             strategy.Animate(owner, animator, this);
             StartCoroutine(CheckAnimationState(animator));
         }
-        private void AnimateWithoutAnimator(GameObject owner)
+        private void AnimateWithoutAnimator(Actor owner)
         {
             OnAnimationStart?.Invoke();
             strategy.Animate(owner, null, this);

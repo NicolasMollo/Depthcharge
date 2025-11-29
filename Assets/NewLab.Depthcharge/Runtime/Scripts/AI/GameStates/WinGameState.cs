@@ -71,6 +71,7 @@ namespace Depthcharge.GameManagement.AI
             ConfigureTexts();
             yield return new WaitUntil(() => UI.AreMenuTextsConfigured);
             yield return new WaitForSeconds(endGamePanelAppearingDelay);
+            UI.SetEndGamePanelOnBottomOfHierarchy();
             UI.FadeInEndGamePanel();
             yield return new WaitUntil(() => UI.LastLevelPanelFadedIn);
             UI.SetEndGameTextActiveness(true);

@@ -1,21 +1,32 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace Assets.NewLab.Depthcharge.Runtime.Scripts.Actors.AnimationStrategies
+namespace Depthcharge.Actors.Modules
 {
-    public class AS_ModifyColor : MonoBehaviour
+    [CreateAssetMenu(menuName = "Scriptable Objects/Actors/AnimationStrategies/AS_ModifyColor")]
+    public class AS_ModifyColor : BaseAnimationStrategy
     {
 
-        // Use this for initialization
-        void Start()
-        {
+        [SerializeField]
+        private Color color = default;
+        [SerializeField]
+        [Tooltip("Time when color remain setted")]
+        private float delay = 0.0f;
 
+        public override void Animate(Actor owner, Animator animator = null, AnimationController animation = null)
+        {
+            owner.StartCoroutine(SetColor(owner.SpriteRenderer, owner.StartColor));
         }
 
-        // Update is called once per frame
-        void Update()
+        private IEnumerator SetColor(SpriteRenderer sr, Color startColor)
         {
-
+            sr.color = color;
+            yield return new WaitForSeconds(delay);
+            if (sr.color == color)
+            {
+                sr.color = startColor;
+            }
         }
+
     }
 }

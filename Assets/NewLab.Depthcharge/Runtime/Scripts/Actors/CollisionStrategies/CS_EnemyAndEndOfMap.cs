@@ -10,13 +10,12 @@ namespace Depthcharge.Actors.Modules
         [SerializeField]
         private string endOfMapTag = string.Empty;
 
-        public override void OnCollision(GameObject owner, Collider2D other)
+        public override void OnCollision(Actor owner, Collider2D other)
         {
             if (other.CompareTag(endOfMapTag))
             {
-                StdEnemyController enemy = owner.GetComponentInParent<StdEnemyController>();
+                BaseEnemyController enemy = owner as BaseEnemyController;
                 enemy.OnCollisionWithEndOfMap();
-                enemy.Deactivation();
             }
         }
 

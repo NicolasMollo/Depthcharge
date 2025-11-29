@@ -26,16 +26,33 @@ namespace Depthcharge.Actors
         private ShootModuleManager cannons = null;
 
         #endregion
-        #region Serialized settings
+        #region Settings
 
-        [SerializeField]
-        private SpriteRenderer spriteRenderer = null;
+        [Header("HARD BOSS SETTINGS")]
         [SerializeField]
         [Range(15.0f, 90.0f)]
         private float rotationLimit = 60.0f;
         [SerializeField]
         [Range(1.0f, 10.0f)]
         private float vulnerabilityStateDelay = 1.0f;
+        [SerializeField]
+        private Color invulnerabilityColor = Color.gray;
+        [SerializeField]
+        [Range(1.0f, 10.0f)]
+        [Tooltip("Multiplier applied on \"vulnearabilitySpeed\" when enemy reached half health")]
+        private float halfHealthSpeedMultiplier = 2.0f;
+        [SerializeField]
+        [Range(1.0f, 10.0f)]
+        [Tooltip("Multiplier applied on \"vulnearabilitySpeed\" when enemy reached a quarter health")]
+        private float quarterHealthSpeedMultiplier = 3.0f;
+        [SerializeField]
+        [Range(1.0f, 10.0f)]
+        [Tooltip("Divider applied on \"rotationOffset\" when enemy reached half health")]
+        private float halfHealthRotationDivider = 2.0f;
+        [SerializeField]
+        [Range(1.0f, 10.0f)]
+        [Tooltip("Divider applied on \"rotationOffset\" when enemy reached a quarter health")]
+        private float quarterHealthRotationDivider = 4.0f;
         [SerializeField]
         [Tooltip("Offset that will be subtracted by sea position on \"Y\" axis")]
         private float positionYOffset = 0.5f;
@@ -46,10 +63,8 @@ namespace Depthcharge.Actors
 
         #region Initialization & life cycle
 
-        private void Awake()
+        protected override void Awake()
         {
-            string message = $"=== EC_HardBoss.Awake() === Be ensure to assign sprite renderer to the boss!";
-            Assert.IsNotNull(spriteRenderer, message);
             bulletsToShoot = (int)(rotationLimit / rotationOffset) * 2 + 1;
             rotationOffset = rotationLimit;
             startRotationOffset = rotationOffset;
@@ -87,6 +102,8 @@ namespace Depthcharge.Actors
             base.AddListeners();
             ShootModule.OnShoot += OnShoot;
             cannons.OnShoot += OnCannonsShoot;
+            HealthModule.OnVulnerable += OnVulnerable;
+            HealthModule.OnInvulnerable += OnInvulnerable;
             HealthModule.OnReachAQuarterHealth += OnReachAQuarterHealth;
             HealthModule.OnReachHalfHealth += OnReachHalfHealth;
         }
@@ -94,6 +111,8 @@ namespace Depthcharge.Actors
         {
             HealthModule.OnReachAQuarterHealth -= OnReachAQuarterHealth;
             HealthModule.OnReachHalfHealth -= OnReachHalfHealth;
+            HealthModule.OnInvulnerable -= OnInvulnerable;
+            HealthModule.OnVulnerable -= OnVulnerable;
             cannons.OnShoot -= OnCannonsShoot;
             ShootModule.OnShoot -= OnShoot;
             base.RemoveListeners();
@@ -108,7 +127,7 @@ namespace Depthcharge.Actors
 
         #region Event callbacks
 
-        public void OnCollisionWithEndOfMap()
+        internal override void OnCollisionWithEndOfMap()
         {
             InvertBossDirection();
             MoveToTargetY();
@@ -135,25 +154,34 @@ namespace Depthcharge.Actors
         private void OnReachHalfHealth()
         {
             currentCannonShootStrategy = GetCannonShootStrategy(ShootModuleManager.ShootType.FromSides);
-            float halfHealthRotationOffset = startRotationOffset / 2;
+            float halfHealthRotationOffset = startRotationOffset / halfHealthRotationDivider;
             rotationOffset = halfHealthRotationOffset;
-            float halfHealthSpeed = startMovementSpeed * 2;
+            float halfHealthSpeed = startMovementSpeed * halfHealthSpeedMultiplier;
             MovementModule.SetMovementSpeed(halfHealthSpeed);
             currentMovementSpeed = MovementModule.MovementSpeed;
         }
         private void OnReachAQuarterHealth()
         {
             currentCannonShootStrategy = GetCannonShootStrategy(ShootModuleManager.ShootType.FromAll);
-            float quarterHealthRotationOffset = startRotationOffset / 4;
+            float quarterHealthRotationOffset = startRotationOffset / quarterHealthRotationDivider;
             rotationOffset = quarterHealthRotationOffset;
-            float quarterHealthSpeed = startMovementSpeed * 3;
+            float quarterHealthSpeed = startMovementSpeed * quarterHealthSpeedMultiplier;
             MovementModule.SetMovementSpeed(quarterHealthSpeed);
             currentMovementSpeed = MovementModule.MovementSpeed;
         }
 
+        private void OnVulnerable()
+        {
+            SpriteRenderer.color = StartColor;
+        }
+        private void OnInvulnerable()
+        {
+            SpriteRenderer.color = invulnerabilityColor;
+        }
+
         #endregion
 
-        #region Helpers and internal logic
+        #region Helpers & internal logic
 
         private void SetShootMode()
         {
@@ -183,14 +211,14 @@ namespace Depthcharge.Actors
 
         private void InvertBossDirection()
         {
-            spriteRenderer.flipX = !spriteRenderer.flipX;
+            SpriteRenderer.flipX = !SpriteRenderer.flipX;
             movementDirection *= -1.0f;
         }
         private void MoveToTargetY()
         {
             const float SEA_SIZEY_OFFSET = 1.0f;
             float halfSeaSizeY = seaSize.y * 0.5f;
-            float halfBossSizeY = spriteRenderer.bounds.size.y * 0.5f;
+            float halfBossSizeY = SpriteRenderer.bounds.size.y * 0.5f;
             float topSeaY = seaPosition.y + (halfSeaSizeY - SEA_SIZEY_OFFSET) - halfBossSizeY;
             float bottomSeaY = seaPosition.y - (halfSeaSizeY + SEA_SIZEY_OFFSET) + halfBossSizeY;
             float positionY = MovementModule.Target.GetPosition().y;
@@ -222,7 +250,6 @@ namespace Depthcharge.Actors
         {
             yield return new WaitUntil(() => Mathf.Abs(seaPosition.x - MovementModule.Target.GetPosition().x) <= 0.1f);
             SetShootMode();
-            spriteRenderer.color = Color.gray;
             MovementModule.SetMovementSpeed(0);
             fsm.ChangeState<WaitToShootEnemyState>();
         }
@@ -230,7 +257,6 @@ namespace Depthcharge.Actors
         private IEnumerator GoToVulnerabilityState(float delay)
         {
             yield return new WaitForSeconds(delay);
-            spriteRenderer.color = Color.white;
             MovementModule.SetMovementSpeed(currentMovementSpeed);
             fsm.ChangeState<VulnerabilityEnemyState>();
         }

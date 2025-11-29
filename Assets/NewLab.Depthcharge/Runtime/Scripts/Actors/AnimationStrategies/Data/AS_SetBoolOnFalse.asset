@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 024a4b6c0104bf24e91e81b660e03fe6, type: 3}
   m_Name: AS_SetBoolOnFalse
   m_EditorClassIdentifier: 
-  parameterValue: 1
+  parameterValue: 0

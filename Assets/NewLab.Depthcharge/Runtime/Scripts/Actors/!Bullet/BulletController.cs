@@ -1,87 +1,104 @@
 using Depthcharge.Actors.AI;
 using Depthcharge.Actors.Modules;
+using System;
 using UnityEngine;
 
 namespace Depthcharge.Actors
 {
 
-    [DisallowMultipleComponent]
-    public class BulletController : MonoBehaviour
+    public class BulletController : Actor
     {
-
-        private MovementContext _movementContext = default;
-        internal MovementContext MovementContext { get => _movementContext; }
-
-        [SerializeField]
-        private SpriteRenderer _spriteRenderer = null;
-        internal SpriteRenderer SpriteRenderer { get => _spriteRenderer; }
 
         #region Modules
 
         [Header("MODULES")]
-
         [SerializeField]
-        private MovementModule movementModule = null;
-        public MovementModule MovementModule { get => movementModule; }
+        private HealthModule _healthModule = null;
         [SerializeField]
-        private BaseCollisionModule collisionModule = null;
-        public BaseCollisionModule CollisionModule { get => collisionModule; }
+        private MovementModule _movementModule = null;
         [SerializeField]
-        private HealthModule healthModule = null;
-        public HealthModule HealthModule { get => healthModule; }
+        private AnimationModule _animationModule = null;
         [SerializeField]
-        private AnimationModule animationModule = null;
-        public AnimationModule AnimationModule { get => animationModule; }
+        private BaseCollisionModule _collisionModule = null;
 
         #endregion
-
-        [Header("FSM")]
-        [SerializeField]
-        private Fsm fsm = null;
+        #region Settings
 
         [Header("SETTINGS")]
         [SerializeField]
+        private Fsm fsm = null;
+        [SerializeField]
         private float _damage = 1.0f;
+
+        #endregion
+
+        public HealthModule HealthModule { get => _healthModule; }
+        public MovementModule MovementModule { get => _movementModule; }
+        public AnimationModule AnimationModule { get => _animationModule; }
+        public BaseCollisionModule CollisionModule { get => _collisionModule; }
+
         public float Damage { get => _damage; }
 
-        private void Awake()
-        {
-            _movementContext = new MovementContext();
-        }
+        internal Action<string> OnCollideWithEndOfMap = null;
+        internal bool killOnCollisionWithEndOfMap = true;
+
+
         private void OnEnable()
         {
             if (fsm.CurrentState == null) return;
+            SpriteRenderer.color = StartColor;
+            _healthModule.ResetHealth();
+            _collisionModule.EnableModule();
             fsm.ChangeToNextState();
         }
-        private void OnDisable()
+        protected override void Start()
         {
-            healthModule.ResetHealth();
-        }
-        private void Start()
-        {
+            base.Start();
+            _collisionModule.SetUpModule();
             fsm.SetUpStates();
             fsm.SetStartState();
-            healthModule.OnDeath += OnDeath;
+            AddListeners();
         }
         private void OnDestroy()
         {
-            healthModule.OnDeath -= OnDeath;
+            RemoveListeners();
+            fsm.CleanUpStates();
         }
         private void FixedUpdate()
         {
             fsm.UpdateCurrentState();
         }
 
-        public void SetUp(ShootModule owner)
+        internal void OnCollisionWithEndOfMap(string tag)
         {
-            collisionModule.SetUpModule();
+            if (!_collisionModule.IsEnable) return;
+            OnCollideWithEndOfMap?.Invoke(tag);
+            if (killOnCollisionWithEndOfMap)
+            {
+                HealthModule.TakeMaxDamage();
+                CollisionModule.DisableModule();
+            }
         }
-
         internal void Deactivation()
         {
             this.gameObject.SetActive(false);
         }
 
+        private void AddListeners()
+        {
+            _healthModule.OnTakeDamage += OnTakeDamage;
+            _healthModule.OnDeath += OnDeath;
+        }
+        private void RemoveListeners()
+        {
+            _healthModule.OnDeath -= OnDeath;
+            _healthModule.OnTakeDamage -= OnTakeDamage;
+        }
+        private void OnTakeDamage(float health)
+        {
+            if (health <= 0.0f) return;
+            _animationModule.PlayAnimation(AnimationController.AnimationType.Damage);
+        }
         private void OnDeath()
         {
             fsm.ChangeToNextState();

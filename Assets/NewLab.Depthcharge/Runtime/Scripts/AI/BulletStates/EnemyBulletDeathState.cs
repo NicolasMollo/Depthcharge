@@ -23,12 +23,6 @@ namespace Depthcharge.Actors.AI
             fadeableAdapter = bullet.GetComponent<StdFadeableAdapter>();
             message = $"=== {bullet.name}.EnemyBulletDeathState.SetUp() === Bullet {bullet.name} doesn't had a \"StdFadeableAdapter\" component attached!";
             Assert.IsNotNull(fadeableAdapter, message);
-            AddListeners();
-        }
-
-        public override void CleanUp(GameObject owner)
-        {
-            RemoveListeners();
         }
 
         public override void OnStateEnter()
@@ -38,11 +32,16 @@ namespace Depthcharge.Actors.AI
                 bullet.Deactivation();
                 return;
             }
+            AddListeners();
             bullet.SpriteRenderer.color = Color.black;
             bullet.MovementModule.Target.SetRotation(0);
             bullet.MovementModule.DisableModule();
             bullet.CollisionModule.DisableModule();
             bullet.AnimationModule.PlayAnimation(AnimationController.AnimationType.Death);
+        }
+        public override void OnStateExit()
+        {
+            RemoveListeners();
         }
 
         private void AddListeners()

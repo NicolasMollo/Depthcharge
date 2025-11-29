@@ -11,7 +11,6 @@ namespace Depthcharge.Actors.Modules
     {
 
         private List<BulletController> bullets = null;
-        private BaseBulletFactory originalBulletFactory = null;
         private int bulletsShooted = 0;
         private bool canShoot = true;
         private bool _isReloading = false;
@@ -52,7 +51,6 @@ namespace Depthcharge.Actors.Modules
 
         private void Awake()
         {
-            originalBulletFactory = bulletFactory;
             bullets = bulletFactory.CreateBulletPool(this, poolSize);
             canShoot = true;
         }

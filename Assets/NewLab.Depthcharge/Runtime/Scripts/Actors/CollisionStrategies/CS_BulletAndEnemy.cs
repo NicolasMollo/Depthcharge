@@ -10,14 +10,15 @@ namespace Depthcharge.Actors.Modules
         [SerializeField]
         private string enemyTag = string.Empty;
 
-        public override void OnCollision(GameObject owner, Collider2D other)
+        public override void OnCollision(Actor owner, Collider2D other)
         {
             if (other.CompareTag(enemyTag))
             {
-                BulletController bulletController = owner.GetComponentInParent<BulletController>();
+                BulletController bullet = owner as BulletController;
+                if (bullet == null) return;
                 BaseEnemyController enemyController = other.GetComponentInParent<BaseEnemyController>();
-                enemyController.HealthModule.TakeDamage(bulletController.Damage);
-                bulletController.HealthModule.TakeMaxDamage();
+                enemyController.HealthModule.TakeDamage(bullet.Damage);
+                bullet.HealthModule.TakeMaxDamage();
             }
         }
     }

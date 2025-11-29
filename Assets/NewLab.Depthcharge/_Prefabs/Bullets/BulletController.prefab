@@ -89,7 +89,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c793124b8d415746b018b31c41f875e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  owner: {fileID: 3169378445894886542}
+  owner: {fileID: 5700173954889366058}
   _target: {fileID: 208575120908861826}
   movementStrategy: {fileID: 0}
   movementContext:
@@ -238,12 +238,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spriteRenderer: {fileID: 3734940186986571840}
-  movementModule: {fileID: 5171899566883688671}
-  collisionModule: {fileID: 8461198669745871267}
-  healthModule: {fileID: 8090008252788191891}
-  animationModule: {fileID: 6612833295684891593}
-  _damage: 1
+  _healthModule: {fileID: 8090008252788191891}
+  _movementModule: {fileID: 5171899566883688671}
+  _animationModule: {fileID: 6612833295684891593}
+  _collisionModule: {fileID: 8461198669745871267}
   fsm: {fileID: 620934038568710357}
+  _damage: 1
 --- !u!95 &3691066621361137953
 Animator:
   serializedVersion: 5
@@ -355,7 +355,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32d2d2500561c1d4394ae00397695963, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  owner: {fileID: 3169378445894886542}
+  owner: {fileID: 5700173954889366058}
   rb: {fileID: 3062813346604937480}
   boxCollider: {fileID: 5572449997905816261}
   collisionStrategies: []
@@ -405,7 +405,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd491f5db0562da4da11435e8367cc62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  owner: {fileID: 3169378445894886542}
+  owner: {fileID: 5700173954889366058}
   animator: {fileID: 0}
   animations:
   - {fileID: 0}
@@ -567,7 +567,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1953e808c63e0d34c8fd3af35ce2ff99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  owner: {fileID: 3169378445894886542}
+  owner: {fileID: 5700173954889366058}
   maxHealth: 1
 --- !u!1 &8888021639614470341
 GameObject:

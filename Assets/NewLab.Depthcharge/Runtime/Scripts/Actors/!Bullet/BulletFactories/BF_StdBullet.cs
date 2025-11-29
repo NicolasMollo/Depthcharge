@@ -34,7 +34,6 @@ namespace Depthcharge.Actors.Modules
                 shootModule.BulletsParent
                 );
             BulletController bulletController = bulletObj.GetComponent<BulletController>();
-            bulletController.SetUp(shootModule);
             return bulletController;
         }
 

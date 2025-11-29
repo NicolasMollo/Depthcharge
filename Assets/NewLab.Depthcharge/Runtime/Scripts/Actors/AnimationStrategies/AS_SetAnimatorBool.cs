@@ -11,7 +11,7 @@ namespace Depthcharge.Actors.Modules
         [SerializeField]
         private bool parameterValue = false;
 
-        public override void Animate(GameObject owner, Animator animator = null, AnimationController animation = null)
+        public override void Animate(Actor owner, Animator animator = null, AnimationController animation = null)
         {
             string message = $"=== AS_SetAnimatorBool.Animate() === Be ensure to pass \"Animator\" parameter to this method!";
             Assert.IsNotNull(animator, message);

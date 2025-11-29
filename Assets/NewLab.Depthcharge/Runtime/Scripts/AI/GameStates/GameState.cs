@@ -34,6 +34,7 @@ namespace Depthcharge.GameManagement.AI
             RemoveListeners();
             UISystem.CurrentGameUI.gameObject.SetActive(false);
             level.Player.InputModule.DisableModule();
+            level.Player.HealthModule.SetVulnerability(false);
             GameEventBus.CallOnGameOver();
         }
 

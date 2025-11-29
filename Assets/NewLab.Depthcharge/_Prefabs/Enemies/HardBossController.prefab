@@ -248,11 +248,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8b17e6fd10ab38488fe4689cef5f85e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  owner: {fileID: 7333238403349758987}
+  owner: {fileID: 1807858831221984050}
   rb: {fileID: 4087940773712458902}
   boxCollider: {fileID: 1980972229699234791}
   collisionStrategies:
-  - {fileID: 11400000, guid: c7967896530df814db1cf2b98fec0be2, type: 2}
+  - {fileID: 11400000, guid: 405f86e8b305b2b47bb44d79182b2066, type: 2}
   setComponentsAutomatically: 0
 --- !u!1 &1755561523425762655
 GameObject:
@@ -298,7 +298,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1953e808c63e0d34c8fd3af35ce2ff99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  owner: {fileID: 7333238403349758987}
+  owner: {fileID: 1807858831221984050}
   maxHealth: 30
 --- !u!1 &2141364344389548750
 GameObject:
@@ -453,7 +453,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70e7ccaadf168234badb511bc38f61f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  owner: {fileID: 7333238403349758987}
+  owner: {fileID: 1807858831221984050}
   shootPoint: {fileID: 7008706275937812707}
   bulletsParent: {fileID: 1297480226501566518}
   bulletFactory: {fileID: 11400000, guid: e291fcffb5897754db88dfe762e2e76c, type: 2}
@@ -701,6 +701,55 @@ Transform:
   - {fileID: 3020278132540496314}
   m_Father: {fileID: 7409697575818434340}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5617093026417430110
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3872112861340391514}
+  - component: {fileID: 2065459956743916694}
+  m_Layer: 7
+  m_Name: Damage
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3872112861340391514
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5617093026417430110}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8874958047865715599}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2065459956743916694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5617093026417430110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d3499b82d3f0474ea8b8544a33481cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animatorParameterName: 
+  animatorStateName: 
+  _type: 2
+  strategy: {fileID: 11400000, guid: 83c994c5125545a46bb4bf4b91774683, type: 2}
+  isDummyAnimation: 1
 --- !u!1 &6245966429532900960
 GameObject:
   m_ObjectHideFlags: 0
@@ -795,9 +844,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd491f5db0562da4da11435e8367cc62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  owner: {fileID: 7333238403349758987}
+  owner: {fileID: 1807858831221984050}
   animator: {fileID: 0}
   animations:
+  - {fileID: 2065459956743916694}
   - {fileID: 2547089323320210787}
 --- !u!1 &7027979133519360897
 GameObject:
@@ -857,7 +907,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c793124b8d415746b018b31c41f875e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  owner: {fileID: 7333238403349758987}
+  owner: {fileID: 1807858831221984050}
   _target: {fileID: 5641858327497757042}
   movementStrategy: {fileID: 11400000, guid: 2a04952a38233034dad8ba7f1c76ec15, type: 2}
   movementContext:
@@ -915,23 +965,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7303e6d113083e74091926f009e683ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _movementModule: {fileID: 2192226149994985854}
+  _spriteRenderer: {fileID: 8709622760050246281}
   _healthModule: {fileID: 6046298846849344451}
+  _movementModule: {fileID: 2192226149994985854}
+  _animationModule: {fileID: 5636032451119733203}
   _shootModule: {fileID: 7258167390412865867}
-  animationModule: {fileID: 5636032451119733203}
   collisionModule: {fileID: 3425885893245580210}
   fsm: {fileID: 1739996033034128957}
   scorePointsText: {fileID: 4298706517686597786}
   shootStrategy: {fileID: 11400000, guid: 087a973eea395134785b9c13e69314a5, type: 2}
   fadeableAdapter: {fileID: 6785262138581708939}
   enemyName: sea satan
+  movementDirection: {x: -1, y: 0}
   _scorePoints: 500
   _shootDelay: 0
-  movementDirection: {x: -1, y: 0}
   fadeOutDelay: 0.05
-  spriteRenderer: {fileID: 8709622760050246281}
   rotationLimit: 45
   vulnerabilityStateDelay: 1
+  invulnerabilityColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  halfHealthSpeedMultiplier: 2
+  quarterHealthSpeedMultiplier: 3
+  halfHealthRotationDivider: 2
+  quarterHealthRotationDivider: 4
   positionYOffset: 0.5
   shootStrategies:
   - {fileID: 11400000, guid: 91feeb3f609e27147ba14f90a1fb825b, type: 2}
@@ -982,6 +1037,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7674978784653130482}
+  - {fileID: 3872112861340391514}
   m_Father: {fileID: 2853360761372279083}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8495202987694135957

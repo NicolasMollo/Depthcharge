@@ -9,6 +9,7 @@ namespace Depthcharge.Actors.AI
 
         private BulletController bullet = null;
         private StdFadeableAdapter fadeableAdapter = null;
+        private MovementContext movementContext = default;
 
         public override void SetUp(GameObject owner)
         {
@@ -18,7 +19,8 @@ namespace Depthcharge.Actors.AI
             fadeableAdapter = bullet.GetComponent<StdFadeableAdapter>();
             message = $"=== {bullet.name}.EnemyBulletIdleState.SetUp() === Bullet {bullet.name} doesn't had a \"StdFadeableAdapter\" component attached!";
             Assert.IsNotNull(fadeableAdapter, message);
-            bullet.MovementContext.TargetToReach = FindFirstObjectByType<PlayerController>().transform;
+            movementContext = new MovementContext();
+            movementContext.TargetToReach = FindFirstObjectByType<PlayerController>().transform;
         }
 
         public override void OnStateEnter()
@@ -26,15 +28,15 @@ namespace Depthcharge.Actors.AI
             if (fadeableAdapter.IsFadedIn) return;
             bullet.MovementModule.EnableModule();
             bullet.CollisionModule.EnableModule();
-            bullet.MovementContext.SpawnTime = Time.time;
-            bullet.MovementContext.StartPosition = bullet.MovementModule.Target.GetPosition();
+            movementContext.SpawnTime = Time.time;
+            movementContext.StartPosition = bullet.MovementModule.Target.GetPosition();
             bullet.SpriteRenderer.color = Color.white;
             fadeableAdapter.ResetAlpha();
         }
 
         public override void OnStateUpdate()
         {
-            bullet.MovementModule.MoveTarget(bullet.MovementModule.Target.transform.up, bullet.MovementContext.TargetToReach);
+            bullet.MovementModule.MoveTarget(bullet.MovementModule.Target.transform.up, movementContext.TargetToReach);
         }
 
     }

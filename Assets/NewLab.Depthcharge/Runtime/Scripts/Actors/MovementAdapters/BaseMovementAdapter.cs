@@ -19,6 +19,11 @@ namespace Depthcharge.Actors.Modules
         public virtual void EnableMovement() { }
         public virtual void DisableMovement() { }
 
+        public virtual void SetGravity(float gravity) { }
+        public virtual void ResetGravity() { }
+        public virtual void SetDrag(float drag) { }
+        public virtual void ResetDrag() { }
+
     }
 
 }

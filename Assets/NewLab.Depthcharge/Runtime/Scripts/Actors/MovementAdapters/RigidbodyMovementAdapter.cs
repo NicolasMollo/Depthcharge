@@ -8,6 +8,8 @@ namespace Depthcharge.Actors.Modules
     {
 
         private RigidbodyConstraints2D startConstraint = default;
+        private float startGravity = 0.0f;
+        private float startDrag = 0.0f;
         [SerializeField]
         private Rigidbody2D rb = null;
 
@@ -16,6 +18,8 @@ namespace Depthcharge.Actors.Modules
             string message = $"=== RigidbodyMovementAdapter.Awake() === \"Rigidbody2D\" component is required!";
             Assert.IsNotNull(rb, message);
             startConstraint = rb.constraints;
+            startGravity = rb.gravityScale;
+            startDrag = rb.drag;
         }
 
         public override Vector2 GetPosition()
@@ -43,7 +47,6 @@ namespace Depthcharge.Actors.Modules
             float smoothRotation = Mathf.MoveTowardsAngle(rb.rotation, rotation, speedRotation * Time.fixedDeltaTime);
             rb.MoveRotation(smoothRotation);
         }
-
         public override void SetRotation(float angle)
         {
             rb.SetRotation(angle);
@@ -56,6 +59,24 @@ namespace Depthcharge.Actors.Modules
         public override void DisableMovement()
         {
             rb.constraints = RigidbodyConstraints2D.FreezePosition | RigidbodyConstraints2D.FreezeRotation;
+        }
+
+        public override void SetGravity(float gravity)
+        {
+            rb.gravityScale = gravity;
+        }
+        public override void ResetGravity()
+        {
+            rb.gravityScale = startGravity;
+        }
+
+        public override void SetDrag(float drag)
+        {
+            rb.drag = drag;
+        }
+        public override void ResetDrag()
+        {
+            rb.drag = startDrag;
         }
 
     }

@@ -187,6 +187,15 @@ namespace Depthcharge.UI.EndGame
             fadeablePanel.FadeOut(fadeOutDelay);
         }
 
+        public void SetEndGamePanelOnTopOfHierarchy()
+        {
+            endGamePanel.transform.SetAsFirstSibling();
+        }
+        public void SetEndGamePanelOnBottomOfHierarchy()
+        {
+            endGamePanel.transform.SetAsLastSibling();
+        }
+
         public void FadeInEndGamePanel()
         {
             endGamePanel.FadeIn(endGamePanelFadeInDelay, endGamePanelFadeInTreshold);

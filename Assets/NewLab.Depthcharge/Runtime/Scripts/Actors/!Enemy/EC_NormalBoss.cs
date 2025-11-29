@@ -9,6 +9,32 @@ namespace Depthcharge.Actors
     public class EC_NormalBoss : BaseEnemyController
     {
 
+        #region Settings
+
+        [Header("NORMAL BOSS SETTINGS")]
+        [SerializeField]
+        private float vulnerabilityStateDelay = 1.0f;
+        [SerializeField]
+        private Color invulnerabilityColor = Color.gray;
+        [SerializeField]
+        [Range(1.0f, 10.0f)]
+        [Tooltip("Multiplier applied on \"vulnearabilitySpeed\" when enemy reached half health")]
+        private float halfHealthSpeedMultiplier = 1.5f;
+        [SerializeField]
+        [Range(1.0f, 10.0f)]
+        [Tooltip("Multiplier applied on \"vulnearabilitySpeed\" when enemy reached a quarter health")]
+        private float quarterHealthSpeedMultiplier = 2.0f;
+        [SerializeField]
+        [Range(1, 5)]
+        [Tooltip("Divider applied on \"bulletToShoot\" when enemy reached half health")]
+        private int halfHealthBulletToShootDivider = 2;
+        [SerializeField]
+        [Range(1, 5)]
+        [Tooltip("Divider applied on \"bulletToShoot\" when enemy reached a quarter health")]
+        private int quarterHealthBulletToShootDivider = 1;
+
+        #endregion
+
         private float seaWidth = 0f;
         private Vector2 seaPosition = Vector2.zero;
         private int bulletShooted = 0;
@@ -17,17 +43,11 @@ namespace Depthcharge.Actors
         private float currentMovementSpeed = 0f;
         private Vector2 stallPosition = Vector2.zero;
 
-        [SerializeField]
-        private SpriteRenderer spriteRenderer = null;
-        [SerializeField]
-        private float vulnerabilityStateDelay = 1.0f;
 
         #region Initialization & life cycle
 
-        private void Awake()
+        protected override void Awake()
         {
-            string message = $"=== EC_NormalBoss.Awake() === Be ensure to assign sprite renderer to the boss!";
-            Assert.IsNotNull(spriteRenderer, message);
             bulletShooted = 0;
             bulletToShootDivider = 3;
         }
@@ -49,6 +69,8 @@ namespace Depthcharge.Actors
         {
             base.AddListeners();
             ShootModule.OnShoot += OnShoot;
+            HealthModule.OnVulnerable += OnVulnerable;
+            HealthModule.OnInvulnerable += OnInvulnerable;
             HealthModule.OnReachHalfHealth += OnReachHalfHealth;
             HealthModule.OnReachAQuarterHealth += OnReachAQuarterHealth;
         }
@@ -56,6 +78,8 @@ namespace Depthcharge.Actors
         {
             HealthModule.OnReachAQuarterHealth -= OnReachAQuarterHealth;
             HealthModule.OnReachHalfHealth -= OnReachHalfHealth;
+            HealthModule.OnInvulnerable -= OnInvulnerable;
+            HealthModule.OnVulnerable -= OnVulnerable;
             ShootModule.OnShoot -= OnShoot;
             base.RemoveListeners();
         }
@@ -69,7 +93,7 @@ namespace Depthcharge.Actors
 
         #region Event callbacks
 
-        public void OnCollisionWithEndOfMap()
+        internal override void OnCollisionWithEndOfMap()
         {
             InvertBossDirection();
             SetStallPosition();
@@ -89,17 +113,26 @@ namespace Depthcharge.Actors
 
         private void OnReachHalfHealth()
         {
-            float speed = startMovementSpeed * 2;
+            float speed = startMovementSpeed * halfHealthSpeedMultiplier;
             MovementModule.SetMovementSpeed(speed);
             currentMovementSpeed = MovementModule.MovementSpeed;
-            bulletToShootDivider = 2;
+            bulletToShootDivider = halfHealthBulletToShootDivider;
         }
         private void OnReachAQuarterHealth()
         {
-            float speed = startMovementSpeed * 3;
+            float speed = startMovementSpeed * quarterHealthSpeedMultiplier;
             MovementModule.SetMovementSpeed(speed);
             currentMovementSpeed = MovementModule.MovementSpeed;
-            bulletToShootDivider = 1;
+            bulletToShootDivider = quarterHealthBulletToShootDivider;
+        }
+
+        private void OnVulnerable()
+        {
+            SpriteRenderer.color = StartColor;
+        }
+        private void OnInvulnerable()
+        {
+            SpriteRenderer.color = invulnerabilityColor;
         }
 
         #endregion
@@ -109,7 +142,7 @@ namespace Depthcharge.Actors
         private void SetStallPosition()
         {
             const float SPRITE_OFFSET_X = 1.0f;
-            float halfWidth = (spriteRenderer.sprite.bounds.size.x * 0.5f) - SPRITE_OFFSET_X;
+            float halfWidth = (SpriteRenderer.sprite.bounds.size.x * 0.5f) - SPRITE_OFFSET_X;
             float halfSeaWidth = seaWidth * 0.5f;
             float calculatedMinX = seaPosition.x - halfSeaWidth + halfWidth;
             float calculatedMaxX = seaPosition.x + halfSeaWidth - halfWidth;
@@ -119,7 +152,7 @@ namespace Depthcharge.Actors
         }
         private void InvertBossDirection()
         {
-            spriteRenderer.flipX = !spriteRenderer.flipX;
+            SpriteRenderer.flipX = !SpriteRenderer.flipX;
             movementDirection *= -1.0f;
         }
 
@@ -130,7 +163,6 @@ namespace Depthcharge.Actors
             yield return new WaitUntil(() => (stallPosition - MovementModule.Target.GetPosition()).sqrMagnitude <= 0.01f);
             ShootModule.Reload();
             MovementModule.SetMovementSpeed(0);
-            spriteRenderer.color = Color.gray;
             fsm.ChangeState<WaitToShootEnemyState>();
         }
 
@@ -138,7 +170,6 @@ namespace Depthcharge.Actors
         {
             yield return new WaitForSeconds(delay);
             MovementModule.SetMovementSpeed(currentMovementSpeed);
-            spriteRenderer.color = Color.white;
             fsm.ChangeState<VulnerabilityEnemyState>();
         }
 

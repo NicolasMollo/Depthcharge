@@ -303,9 +303,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3169378445894886542, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2825221442800003658}
-    - targetCorrespondingSourceObject: {fileID: 3169378445894886542, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2304355483506899394}
     - targetCorrespondingSourceObject: {fileID: 2363414772571426844, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1133059394131048842}
@@ -376,20 +373,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeableRenderer: {fileID: 2437454093574352584}
---- !u!114 &2304355483506899394
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4178596348148343302}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d7114e484505fa49946d1b14048f32e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  owner: {fileID: 6709705765539904674}
-  fadeOutDelay: 0.005
 --- !u!1 &6583367761277848942 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5285657799135710182, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
@@ -410,14 +393,3 @@ MonoBehaviour:
   fsm: {fileID: 1916492666488387165}
   nextState: {fileID: 1133059394131048842}
   fadeOutDelay: 0.005
---- !u!114 &6709705765539904674 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5700173954889366058, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
-  m_PrefabInstance: {fileID: 1298936488879736456}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4178596348148343302}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7eb0d8c37ac82dc47859d493a445bff2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

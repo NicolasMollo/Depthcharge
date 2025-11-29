@@ -9,35 +9,27 @@ using UnityEngine;
 namespace Depthcharge.Actors
 {
 
-    [DisallowMultipleComponent]
-    public abstract class BaseEnemyController : MonoBehaviour
+    public abstract class BaseEnemyController : Actor
     {
-
-        private const float DEATH_SPEED = 0.1f;
-        public Action<BaseEnemyController> OnDeactivation = null;
 
         #region Modules
 
-        [Header("MODULES (BASE)")]
-        [SerializeField]
-        private MovementModule _movementModule = null;
-        public MovementModule MovementModule { get => _movementModule; }
+        [Header("MODULES")]
         [SerializeField]
         private HealthModule _healthModule = null;
-        public HealthModule HealthModule { get => _healthModule; }
+        [SerializeField]
+        private MovementModule _movementModule = null;
+        [SerializeField]
+        protected AnimationModule _animationModule = null;
         [SerializeField]
         private ShootModule _shootModule = null;
-        public ShootModule ShootModule { get => _shootModule; }
-        [SerializeField]
-        protected AnimationModule animationModule = null;
-        public AnimationModule AnimationModule { get => animationModule; }
         [SerializeField]
         protected BaseCollisionModule collisionModule = null;
 
         #endregion
-        #region Serialized settings
+        #region Settings
 
-        [Header("SETTINGS (BASE)")]
+        [Header("SETTINGS")]
         [SerializeField]
         protected Fsm fsm = null;
         [SerializeField]
@@ -46,41 +38,40 @@ namespace Depthcharge.Actors
         protected BaseShootStrategy shootStrategy = null;
         [SerializeField]
         protected StdFadeableAdapter fadeableAdapter = null;
-        public StdFadeableAdapter FadeableAdapter { get => fadeableAdapter; }
-
         [SerializeField]
         private string enemyName = string.Empty;
-        public string EnemyName { get => enemyName; }
+        [SerializeField]
+        protected Vector2 movementDirection = Vector2.zero;
         [SerializeField]
         [Range(1.0f, 1000.0f)]
         private float _scorePoints = 1.0f;
-        public float ScorePoints { get => _scorePoints; protected set => _scorePoints = value; }
         [SerializeField]
         [Range(0.0f, 100.0f)]
         protected float _shootDelay = 0;
-        public virtual float ShootDelay { get => _shootDelay; }
-        [SerializeField]
-        protected Vector2 movementDirection = Vector2.zero;
         [SerializeField]
         private float fadeOutDelay = 0.2f;
 
         #endregion
 
-        public virtual void Shoot()
-        {
-            shootStrategy.Shoot(ShootModule);
-        }
+        public MovementModule MovementModule { get => _movementModule; }
+        public HealthModule HealthModule { get => _healthModule; }
+        public ShootModule ShootModule { get => _shootModule; }
+        public AnimationModule AnimationModule { get => _animationModule; }
 
-        public void Deactivation()
-        {
-            OnDeactivation?.Invoke(this);
-            this.gameObject.SetActive(false);
-        }
+        public string EnemyName { get => enemyName; }
+        public float ScorePoints { get => _scorePoints; protected set => _scorePoints = value; }
+        public float ShootDelay { get => _shootDelay; }
+        public bool IsFadedIn { get => fadeableAdapter.IsFadedIn; }
+
+        private const float DEATH_SPEED = 0.1f;
+        public Action<BaseEnemyController> OnDeactivation = null;
+
 
         #region Initialization & life cycle
 
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
             fsm.SetUpStates();
             fsm.SetStartState();
             InternalSetUp();
@@ -97,26 +88,36 @@ namespace Depthcharge.Actors
 
         protected virtual void AddListeners()
         {
+            _healthModule.OnTakeDamage += OnTakeDamage;
             _healthModule.OnDeath += OnDeath;
-            animationModule.SubscribeToOnAnimationStart(AnimationController.AnimationType.Death, OnDeathAnimationStart);
-            animationModule.SubscribeToOnAnimationEnd(AnimationController.AnimationType.Death, OnDeathAnimationEnd);
+            _animationModule.SubscribeToOnAnimationStart(AnimationController.AnimationType.Death, OnDeathAnimationStart);
+            _animationModule.SubscribeToOnAnimationEnd(AnimationController.AnimationType.Death, OnDeathAnimationEnd);
         }
         protected virtual void RemoveListeners()
         {
-            animationModule.UnsubscribeFromOnAnimationEnd(AnimationController.AnimationType.Death, OnDeathAnimationEnd);
-            animationModule.UnsubscribeFromOnAnimationStart(AnimationController.AnimationType.Death, OnDeathAnimationStart);
+            _animationModule.UnsubscribeFromOnAnimationEnd(AnimationController.AnimationType.Death, OnDeathAnimationEnd);
+            _animationModule.UnsubscribeFromOnAnimationStart(AnimationController.AnimationType.Death, OnDeathAnimationStart);
             _healthModule.OnDeath -= OnDeath;
+            _healthModule.OnTakeDamage -= OnTakeDamage;
         }
 
         #endregion
 
-        #region Event callbacks
+        internal void Shoot()
+        {
+            shootStrategy.Shoot(ShootModule);
+        }
+        internal void Deactivation()
+        {
+            OnDeactivation?.Invoke(this);
+            this.gameObject.SetActive(false);
+        }
+        internal virtual void OnCollisionWithEndOfMap() { }
 
         protected virtual void OnDeath()
         {
-            animationModule.PlayAnimation(AnimationController.AnimationType.Death);
+            _animationModule.PlayAnimation(AnimationController.AnimationType.Death);
         }
-
         protected virtual void OnDeathAnimationStart()
         {
             scorePointsText.gameObject.SetActive(false);
@@ -130,8 +131,10 @@ namespace Depthcharge.Actors
             MovementModule.SetMovementSpeed(DEATH_SPEED);
             StartCoroutine(FadeOutEnemy());
         }
-
-        #endregion
+        protected virtual void OnTakeDamage(float health)
+        {
+            _animationModule.PlayAnimation(AnimationController.AnimationType.Damage);
+        }
 
         private IEnumerator FadeOutEnemy()
         {
