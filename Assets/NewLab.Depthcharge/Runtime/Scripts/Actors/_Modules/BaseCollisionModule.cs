@@ -8,17 +8,21 @@ namespace Depthcharge.Actors.Modules
     public abstract class BaseCollisionModule : BaseModule
     {
 
-        protected SpriteRenderer spriteRenderer = null;
-
         [SerializeField]
         protected Rigidbody2D rb = null;
         [SerializeField]
         protected BoxCollider2D boxCollider = null;
         [SerializeField]
-        protected List<BaseCollisionStrategy> collisionStrategies = null;
+        protected List<BaseCollisionEnterStrategy> collisionStrategies = null;
+        [SerializeField]
+        protected List<BaseCollisionStayStrategy> stayStrategies = null;
+        [SerializeField]
+        protected List<BaseCollisionExitStrategy> exitStrategies = null;
+
         [SerializeField]
         protected bool setComponentsAutomatically = false;
 
+        public Vector2 ColliderSize { get => boxCollider.size; }
         public int LastCollisionLayer { protected set; get; } = -1;
         public bool IsEnable { get; private set; } = true;
 
@@ -28,16 +32,17 @@ namespace Depthcharge.Actors.Modules
 
             string message = $"=== {this.name}.CollisionModule.SetUpModule() === This module requires a GameObject owner to function!";
             Assert.IsNotNull(owner, message);
-            spriteRenderer = owner.GetComponentInChildren<SpriteRenderer>();
-            message = $"=== {owner.name}.CollisionModule.SetUpModule() === spriteRenderer is null!";
-            Assert.IsNotNull(spriteRenderer, message);
             message = $"=== {owner.name}.CollisionModule.SetUpModule() === Rigidbody is null!";
             Assert.IsNotNull(rb, message);
-            rb.bodyType = RigidbodyType2D.Kinematic;
-            rb.useFullKinematicContacts = true;
             message = $"=== {owner.name}.CollisionModule.SetUpModule() === BoxCollider is null!";
             Assert.IsNotNull(boxCollider, message);
-            boxCollider.size = new Vector3(spriteRenderer.sprite.bounds.size.x, spriteRenderer.sprite.bounds.size.y, 0);
+            SetModuleAutomatically();
+        }
+        private void SetModuleAutomatically()
+        {
+            rb.bodyType = RigidbodyType2D.Kinematic;
+            rb.useFullKinematicContacts = true;
+            boxCollider.size = new Vector3(owner.SpriteRenderer.sprite.bounds.size.x, owner.SpriteRenderer.sprite.bounds.size.y, 0);
         }
 
         public override void EnableModule()

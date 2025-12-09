@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 
@@ -22,9 +23,9 @@ namespace Depthcharge.UI.EndGame
             tmpText = GetComponent<TextMeshProUGUI>();
         }
 
-        public void SetText(string text)
+        public void SetText(string text, Action<bool> onSetText = null)
         {
-            strategy.SetText(tmpText, text);
+            strategy.SetText(tmpText, text, onSetText);
         }
 
         public void ResetText()

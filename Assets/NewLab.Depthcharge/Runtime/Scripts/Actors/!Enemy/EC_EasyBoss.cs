@@ -3,6 +3,7 @@ using Depthcharge.Actors.Modules;
 using Depthcharge.Environment;
 using UnityEngine;
 using UnityEngine.Assertions;
+using Depthcharge.Audio;
 
 namespace Depthcharge.Actors
 {
@@ -49,6 +50,7 @@ namespace Depthcharge.Actors
 
         protected override void Awake()
         {
+            base.Awake();
             startVulnerabilitySpeed = vulnerabilitySpeed;
             startShootDelay = _shootDelay;
             collisionCount = 0;
@@ -94,7 +96,15 @@ namespace Depthcharge.Actors
 
         #region Event callbacks
 
-        internal override void OnCollisionWithEndOfMap()
+        internal override void OnCollideWithBullet(float bulletDamage)
+        {
+            if (!HealthModule.IsVulnerable)
+            {
+                AudioSource.PlayOneShot(AudioClipType.InvulnerabilityDamage);
+            }
+            base.OnCollideWithBullet(bulletDamage);
+        }
+        internal override void OnCollisionWithEndOfMap(EndOfMapContext context)
         {
             collisionCount++;
             InvertBossDirection();
@@ -106,6 +116,11 @@ namespace Depthcharge.Actors
             {
                 GoToVulnerabilityState();
             }
+        }
+        internal override void Shoot()
+        {
+            base.Shoot();
+            AudioSource.PlayOneShot(AudioClipType.Shoot);
         }
 
         private void OnReachHalfHealth()

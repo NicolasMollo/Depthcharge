@@ -88,6 +88,7 @@ namespace Depthcharge.LevelManagement
         }
         private void OnGameStart()
         {
+            _audioSource.PlayCurrentClip();
             foreach (EnemySpawner spawner in spawners)
             {
                 spawner.gameObject.SetActive(true);

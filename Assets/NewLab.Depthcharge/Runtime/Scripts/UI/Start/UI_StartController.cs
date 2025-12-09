@@ -14,6 +14,7 @@ namespace Depthcharge.UI
         private UI_InputController input = null;
         [SerializeField]
         private UI_SelectionController selection = null;
+        public UI_SelectionController Selection { get => selection; }
         [SerializeField]
         private UI_Selector selector = null;
         [SerializeField]

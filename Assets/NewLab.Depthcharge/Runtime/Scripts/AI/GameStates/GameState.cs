@@ -1,4 +1,5 @@
 using Depthcharge.Actors.AI;
+using Depthcharge.Audio;
 using Depthcharge.Events;
 using Depthcharge.LevelManagement;
 using Depthcharge.UI;
@@ -12,10 +13,12 @@ namespace Depthcharge.GameManagement.AI
 
         private BaseLevelController level = null;
         private UISystem UISystem = null;
+        private AudioSystem audioSystem = null;
 
         public override void SetUp(GameObject owner)
         {
             UISystem = GameSystemsRoot.Instance.UISystem;
+            audioSystem = GameSystemsRoot.Instance.AudioSystem;
         }
         public override void OnStateEnter()
         {
@@ -23,6 +26,7 @@ namespace Depthcharge.GameManagement.AI
             level = FindFirstObjectByType<BaseLevelController>();
             level.Player.EnableModules();
             UISystem.CurrentGameUI.gameObject.SetActive(true);
+            audioSystem.SetGameSfxVolumes(1.0f);
             AddListeners();
         }
         public override void OnStateUpdate()

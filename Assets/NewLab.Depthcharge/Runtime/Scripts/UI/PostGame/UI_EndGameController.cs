@@ -26,6 +26,7 @@ namespace Depthcharge.UI.EndGame
         private UI_InputController input = null;
         [SerializeField]
         private UI_SelectionController selection = null;
+        public UI_SelectionController Selection { get => selection; }
         [SerializeField]
         private UI_Selector selector = null;
         [SerializeField]
@@ -36,6 +37,9 @@ namespace Depthcharge.UI.EndGame
         private UI_EndGameText endGameText = null;
         [SerializeField]
         private string endGameTextToSet = string.Empty;
+        [SerializeField]
+        [Tooltip("Delay between displaying end of game texts")]
+        private float menuShowTextsDelay = 0.5f;
 
         #endregion
         #region Panel settings
@@ -81,11 +85,11 @@ namespace Depthcharge.UI.EndGame
         {
             menu.SetAllButtonsActiveness(activeness);
         }
-        public void ConfigureTexts(EndGameMenuTexts texts, bool configureTimeText = true)
+        public void ConfigureTexts(EndGameMenuTexts texts, Action<bool> onSetText, bool configureTimeText = true)
         {
-            StartCoroutine(ConfigureMenuTexts(texts, configureTimeText));
+            StartCoroutine(ConfigureMenuTexts(texts, onSetText, configureTimeText));
         }
-        private IEnumerator ConfigureMenuTexts(EndGameMenuTexts texts, bool configureTimeText = true)
+        private IEnumerator ConfigureMenuTexts(EndGameMenuTexts texts, Action<bool> onSetText, bool configureTimeText = true)
         {
             bool blocksActiveness = true;
             foreach (UI_EndGameText text in menu.Texts)
@@ -96,8 +100,9 @@ namespace Depthcharge.UI.EndGame
                     continue;
                 }
                 menu.SetBlockActiveness(text.Type, blocksActiveness);
-                menu.SetText(text.Type, GetTextFromEndGameTexts(text.Type, texts));
+                menu.SetText(text.Type, GetTextFromEndGameTexts(text.Type, texts), onSetText);
                 yield return new WaitUntil(() => text.IsSet);
+                yield return new WaitForSeconds(menuShowTextsDelay);
             }
         }
         private string GetTextFromEndGameTexts(EndGameTextType type, EndGameMenuTexts endGameTexts)
@@ -210,9 +215,9 @@ namespace Depthcharge.UI.EndGame
             endGameText.gameObject.SetActive(avctiveness);
         }
 
-        public void SetEndGameText()
+        public void SetEndGameText(Action<bool> onSetText = null)
         {
-            endGameText.SetText(endGameTextToSet);
+            endGameText.SetText(endGameTextToSet, onSetText);
         }
 
         public void ResetEndGameText()

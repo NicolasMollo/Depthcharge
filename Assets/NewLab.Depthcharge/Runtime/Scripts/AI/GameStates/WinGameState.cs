@@ -66,7 +66,11 @@ namespace Depthcharge.GameManagement.AI
             UI.SetMenuActiveness(false);
             UI.gameObject.SetActive(true);
             UI.FadeInPanel();
+            level.AudioSource.SetVolume(0f, 0.05f);
             yield return new WaitUntil(() => UI.IsPanelFadedIn);
+
+            // audioSystem.SetMusicVolume(0f);
+
             UI.SetMenuActiveness(true);
             ConfigureTexts();
             yield return new WaitUntil(() => UI.AreMenuTextsConfigured);
@@ -75,7 +79,7 @@ namespace Depthcharge.GameManagement.AI
             UI.FadeInEndGamePanel();
             yield return new WaitUntil(() => UI.LastLevelPanelFadedIn);
             UI.SetEndGameTextActiveness(true);
-            UI.SetEndGameText();
+            UI.SetEndGameText(OnSetEndGameText);
             yield return new WaitUntil(() => UI.IsEndGameTextConfigured);
             yield return new WaitForSeconds(endGamePanelDisappearingDelay);
             fsm.ChangeState<LoadingIdleState>();
@@ -83,6 +87,14 @@ namespace Depthcharge.GameManagement.AI
             gameLogic.PreviousLevelWasBoss = false;
             gameLogic.LoadGameTransitionsState = true;
             gameLogic.ResetCurrentLevelNumber();
+        }
+
+        private void OnSetEndGameText(bool isUpdatedText)
+        {
+            if (isUpdatedText)
+            {
+                audioSystem.PlayKeyPress();
+            }
         }
 
     }

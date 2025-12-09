@@ -1,4 +1,5 @@
 ﻿using Depthcharge.Actors.Modules;
+using Depthcharge.Audio;
 using Depthcharge.Toolkit;
 using System.Collections;
 using UnityEngine;
@@ -12,8 +13,10 @@ namespace Depthcharge.Actors.AI
         private BulletController bullet = null;
         private StdFadeableAdapter fadeableAdapter = null;
         private const string ENDOFMAP_LAYERNAME = "Default";
+
         [SerializeField]
         private float fadeOutDelay = 0.005f;
+
 
         public override void SetUp(GameObject owner)
         {
@@ -33,6 +36,7 @@ namespace Depthcharge.Actors.AI
                 return;
             }
             AddListeners();
+            bullet.AudioSource.PlayOneShot(AudioClipType.Death);
             bullet.SpriteRenderer.color = Color.black;
             bullet.MovementModule.Target.SetRotation(0);
             bullet.MovementModule.DisableModule();

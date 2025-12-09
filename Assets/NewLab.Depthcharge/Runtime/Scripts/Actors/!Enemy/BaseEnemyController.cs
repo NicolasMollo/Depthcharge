@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using Depthcharge.Audio;
 
 namespace Depthcharge.Actors
 {
@@ -103,7 +104,7 @@ namespace Depthcharge.Actors
 
         #endregion
 
-        internal void Shoot()
+        internal virtual void Shoot()
         {
             shootStrategy.Shoot(ShootModule);
         }
@@ -112,7 +113,10 @@ namespace Depthcharge.Actors
             OnDeactivation?.Invoke(this);
             this.gameObject.SetActive(false);
         }
-        internal virtual void OnCollisionWithEndOfMap() { }
+        internal virtual void OnCollideWithBullet(float bulletDamage)
+        {
+            HealthModule.TakeDamage(bulletDamage);
+        }
 
         protected virtual void OnDeath()
         {
@@ -134,6 +138,7 @@ namespace Depthcharge.Actors
         protected virtual void OnTakeDamage(float health)
         {
             _animationModule.PlayAnimation(AnimationController.AnimationType.Damage);
+            AudioSource.PlayOneShot(AudioClipType.Damage);
         }
 
         private IEnumerator FadeOutEnemy()

@@ -1,3 +1,4 @@
+using Depthcharge.Audio;
 using Depthcharge.SceneManagement;
 using Depthcharge.UI;
 using UnityEngine;
@@ -9,30 +10,30 @@ namespace Depthcharge.GameManagement
     public class GameSystemsRoot : MonoBehaviour
     {
 
-        public static GameSystemsRoot Instance { get; private set; } = null;
-
         #region Systems
 
+        [Header("SYSTEMS")]
         [SerializeField]
         private UISystem _UISystem = null;
-        public UISystem UISystem { get => _UISystem; }
-
+        [SerializeField]
+        private AudioSystem _audioSystem = null;
         [SerializeField]
         private SceneManagementSystem _sceneSystem = null;
-        public SceneManagementSystem SceneSystem { get => _sceneSystem; }
 
         #endregion
+
+        public static GameSystemsRoot Instance { get; private set; } = null;
+
+        public UISystem UISystem { get => _UISystem; }
+        public AudioSystem AudioSystem { get => _audioSystem; }
+        public SceneManagementSystem SceneSystem { get => _sceneSystem; }
+
 
         private void Awake()
         {
             SetSingleton();
             DontDestroyOnLoad(this.gameObject);
         }
-        private void Start()
-        {
-            InternalSetUp();
-        }
-
         private void SetSingleton()
         {
             if (Instance == null)
@@ -45,7 +46,7 @@ namespace Depthcharge.GameManagement
             }
         }
 
-        private void InternalSetUp()
+        private void Start()
         {
             _sceneSystem.SetUp();
             _UISystem.SetUp();

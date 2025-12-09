@@ -19,3 +19,4 @@ MonoBehaviour:
   _minEnemySpawnDelay: 2.5
   _maxEnemySpawnDelay: 5
   _prefabBoss: {fileID: 685798316974221905, guid: 758915353291b5344ba80ad1a9f43aa9, type: 3}
+  _bossMusic: 7

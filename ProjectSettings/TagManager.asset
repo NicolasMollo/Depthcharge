@@ -8,6 +8,8 @@ TagManager:
   - SeaLevel
   - Bullet
   - Environment
+  - SkyLimit
+  - SeaLimit
   layers:
   - Default
   - TransparentFX

@@ -1,4 +1,6 @@
 using Depthcharge.Actors.AI;
+using Depthcharge.Actors.Modules;
+using Depthcharge.Audio;
 using Depthcharge.Environment;
 using System.Collections;
 using UnityEngine;
@@ -48,6 +50,7 @@ namespace Depthcharge.Actors
 
         protected override void Awake()
         {
+            base.Awake();
             bulletShooted = 0;
             bulletToShootDivider = 3;
         }
@@ -93,11 +96,25 @@ namespace Depthcharge.Actors
 
         #region Event callbacks
 
-        internal override void OnCollisionWithEndOfMap()
+        internal override void OnCollideWithBullet(float bulletDamage)
+        {
+            if (!HealthModule.IsVulnerable)
+            {
+                AudioSource.PlayOneShot(AudioClipType.InvulnerabilityDamage);
+            }
+            base.OnCollideWithBullet(bulletDamage);
+        }
+
+        internal override void OnCollisionWithEndOfMap(EndOfMapContext context)
         {
             InvertBossDirection();
             SetStallPosition();
             StartCoroutine(GoToWaitToShootState());
+        }
+        internal override void Shoot()
+        {
+            base.Shoot();
+            AudioSource.PlayOneShot(AudioClipType.Shoot);
         }
 
         private void OnShoot()

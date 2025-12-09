@@ -1,12 +1,18 @@
 using Depthcharge.Actors.Modules;
+using Depthcharge.Audio;
+using Depthcharge.Events;
+using Depthcharge.Toolkit;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Depthcharge.Actors
 {
 
+    [RequireComponent(typeof(KeepInsideScreen))]
     public class PlayerController : Actor
     {
+
+        private KeepInsideScreen keepInsideScreen = null;
 
         #region Modules
 
@@ -31,13 +37,27 @@ namespace Depthcharge.Actors
         public ShootModule ShootModule { get => _shootModule; }
 
 
+        protected override void Awake()
+        {
+            base.Awake();
+            keepInsideScreen = GetComponent<KeepInsideScreen>();
+        }
+        protected override void Start()
+        {
+            base.Start();
+            keepInsideScreen.enabled = false;
+        }
         private void OnEnable()
         {
             _inputModule.SubscribeOnShoot(OnPressShootButton);
             _healthModule.OnTakeDamage += OnTakeDamage;
+            _shootModule.OnShoot += OnShoot;
+            GameEventBus.OnGameStart += OnGameStart;
         }
         private void OnDisable()
         {
+            GameEventBus.OnGameStart -= OnGameStart;
+            _shootModule.OnShoot -= OnShoot;
             _healthModule.OnTakeDamage -= OnTakeDamage;
             _inputModule.UnsubscribeFromShoot(OnPressShootButton);
         }
@@ -48,13 +68,22 @@ namespace Depthcharge.Actors
             _movementModule.MoveTarget(direction);
         }
 
+        private void OnGameStart()
+        {
+            keepInsideScreen.enabled = true;
+        }
         private void OnPressShootButton(InputAction.CallbackContext context)
         {
             _shootModule.Shoot();
         }
+        private void OnShoot()
+        {
+            _audioSource.PlayOneShot(AudioClipType.Shoot);
+        }
         private void OnTakeDamage(float health)
         {
             _animationModule.PlayAnimation(AnimationController.AnimationType.Damage);
+            AudioSource.PlayOneShot(AudioClipType.Damage);
         }
 
         public void EnableModules()

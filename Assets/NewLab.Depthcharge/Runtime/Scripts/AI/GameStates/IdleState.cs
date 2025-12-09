@@ -1,4 +1,5 @@
 using Depthcharge.Actors.AI;
+using Depthcharge.Audio;
 using Depthcharge.SceneManagement;
 using Depthcharge.UI;
 using Depthcharge.UI.EndGame;
@@ -13,11 +14,13 @@ namespace Depthcharge.GameManagement.AI
     {
 
         private UISystem UISystem = null;
+        private AudioSystem audioSystem = null;
         private SceneManagementSystem sceneSystem = null;
 
         public override void SetUp(GameObject owner)
         {
             UISystem = GameSystemsRoot.Instance.UISystem;
+            audioSystem = GameSystemsRoot.Instance.AudioSystem;
             sceneSystem = GameSystemsRoot.Instance.SceneSystem;
         }
         public override void OnStateEnter()
@@ -27,15 +30,24 @@ namespace Depthcharge.GameManagement.AI
             UISystem.StartUI.EnableInput();
             UISystem.StartUI.ResetSelection();
             UISystem.StartUI.SubscribeToSceneButtons(OnClickButton);
+            UISystem.StartUI.Selection.SubscribeOnSelectorPositioned(OnSelectorPositioned);
         }
         public override void OnStateExit()
         {
+            UISystem.StartUI.Selection.UnsubscribeFromSelectorPositioned(OnSelectorPositioned);
             UISystem.StartUI.UnsubscribeFromSceneButtons(OnClickButton);
+        }
+
+
+        private void OnSelectorPositioned()
+        {
+            audioSystem.PlayHoverSfx();
         }
 
         private void OnClickButton(SceneConfiguration configuration)
         {
             UISystem.LoseUI.SetButtonArg(EndGameButtonType.Reload, configuration);
+            audioSystem.PlayConfirmSfx();
             StartCoroutine(GoToTheNextState(configuration));
         }
 

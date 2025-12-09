@@ -1,5 +1,6 @@
 using Depthcharge.Actors.AI;
 using Depthcharge.Actors.Modules;
+using Depthcharge.Audio;
 using Depthcharge.Environment;
 using System.Collections;
 using System.Collections.Generic;
@@ -24,6 +25,7 @@ namespace Depthcharge.Actors
         private int bulletsShooted = 0;
         private int bulletsToShoot = 0;
         private ShootModuleManager cannons = null;
+        private int shootCount = 0;
 
         #endregion
         #region Settings
@@ -65,6 +67,7 @@ namespace Depthcharge.Actors
 
         protected override void Awake()
         {
+            base.Awake();
             bulletsToShoot = (int)(rotationLimit / rotationOffset) * 2 + 1;
             rotationOffset = rotationLimit;
             startRotationOffset = rotationOffset;
@@ -127,12 +130,31 @@ namespace Depthcharge.Actors
 
         #region Event callbacks
 
-        internal override void OnCollisionWithEndOfMap()
+        internal override void OnCollideWithBullet(float bulletDamage)
+        {
+            if (!HealthModule.IsVulnerable)
+            {
+                AudioSource.PlayOneShot(AudioClipType.InvulnerabilityDamage);
+            }
+            base.OnCollideWithBullet(bulletDamage);
+        }
+
+        internal override void OnCollisionWithEndOfMap(EndOfMapContext context)
         {
             InvertBossDirection();
             MoveToTargetY();
             StartCoroutine(GoToWaitToShootState());
         }
+        internal override void Shoot()
+        {
+            base.Shoot();
+            if (shootCount == 0)
+            {
+                AudioSource.PlayOneShotCurrentClip();
+            }
+            shootCount++;
+        }
+
         private void OnShoot()
         {
             bulletsShooted++;
@@ -201,12 +223,14 @@ namespace Depthcharge.Actors
             shootStrategy = startShootStrategy;
             ShootModule.Reload();
             ShootModule.EnableModule();
+            AudioSource.SetCurrentClip(AudioClipType.Shoot);
         }
         private void SetCannonShoot()
         {
             shootStrategy = currentCannonShootStrategy;
             cannons.ReloadShootModules();
             cannons.EnableShootModules();
+            AudioSource.SetCurrentClip(AudioClipType.CannonShoot);
         }
 
         private void InvertBossDirection()
@@ -258,6 +282,7 @@ namespace Depthcharge.Actors
         {
             yield return new WaitForSeconds(delay);
             MovementModule.SetMovementSpeed(currentMovementSpeed);
+            shootCount = 0;
             fsm.ChangeState<VulnerabilityEnemyState>();
         }
 

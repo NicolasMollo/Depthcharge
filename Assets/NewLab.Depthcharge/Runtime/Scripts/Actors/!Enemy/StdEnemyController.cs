@@ -2,6 +2,7 @@ using Depthcharge.Actors.AI;
 using Depthcharge.Actors.Modules;
 using System;
 using UnityEngine;
+using Depthcharge.Audio;
 
 namespace Depthcharge.Actors
 {
@@ -38,6 +39,7 @@ namespace Depthcharge.Actors
         private float randomDistanceOffset = 0.0f;
         private Vector2 lastPosition = Vector2.zero;
         private bool isDeadInTheLastRun = false;
+        private int numberOfCollision = 0;
 
 
         private void OnEnable()
@@ -46,6 +48,7 @@ namespace Depthcharge.Actors
                 ResetEnemy();
             if (!ShootModule.IsFullAmmo)
                 ShootModule.Reload();
+            ShootModule.DisableModule();
             HealthModule.ResetHealth();
             lastPosition = MovementModule.Target.GetPosition();
         }
@@ -77,12 +80,44 @@ namespace Depthcharge.Actors
             randomDistanceOffset = UnityEngine.Random.Range(minRandomDistance, maxRandomDistance);
             travelledDistanceToShoot = enemyConfiguration.TravelledDistanceToShoot;
         }
-        internal override void OnCollisionWithEndOfMap()
+
+        protected override void AddListeners()
+        {
+            base.AddListeners();
+            ShootModule.OnShoot += OnShoot;
+        }
+        protected override void RemoveListeners()
+        {
+            ShootModule.OnShoot -= OnShoot;
+            base.RemoveListeners();
+        }
+
+        internal override void OnCollisionWithEndOfMap(EndOfMapContext context)
         {
             isDeadInTheLastRun = false;
             Deactivation();
         }
+        internal override void OnCollisionExitWithEndOfMap(EndOfMapContext context)
+        {
+            OnCollisionWithSeaLimit();
+        }
 
+        private void OnCollisionWithSeaLimit()
+        {
+            numberOfCollision++;
+            if (numberOfCollision == 2)
+            {
+                ShootModule.DisableModule();
+                numberOfCollision = 0;
+                return;
+            }
+            ShootModule.EnableModule();
+        }
+
+        private void OnShoot()
+        {
+            AudioSource.PlayOneShot(AudioClipType.Shoot);
+        }
         protected override void OnDeath()
         {
             base.OnDeath();

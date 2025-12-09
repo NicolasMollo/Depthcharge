@@ -1,4 +1,5 @@
 using Depthcharge.Actors;
+using Depthcharge.Audio;
 using Depthcharge.Events;
 using Depthcharge.GameManagement;
 using Depthcharge.UI;
@@ -9,14 +10,17 @@ namespace Depthcharge.LevelManagement
 {
 
     [DisallowMultipleComponent]
+    [RequireComponent(typeof(AudioSourceController))]
     public abstract class BaseLevelController : MonoBehaviour
     {
 
         protected GameSystemsRoot systemsRoot = null;
         protected BaseGameUIController UI = null;
+        protected AudioSourceController _audioSource = null;
         protected GameLogic gameLogic = null;
         protected GameUIContext UIContext = default;
 
+        public AudioSourceController AudioSource { get => _audioSource; }
         protected WinConditionContainer _winCondition = null;
         public WinConditionContainer WinCondition { get => _winCondition; }
         protected LevelConfiguration _configuration = null;
@@ -32,6 +36,7 @@ namespace Depthcharge.LevelManagement
 
         private void Awake()
         {
+            _audioSource = GetComponent<AudioSourceController>();
             _stats = new LevelStats();
         }
         private void OnEnable()

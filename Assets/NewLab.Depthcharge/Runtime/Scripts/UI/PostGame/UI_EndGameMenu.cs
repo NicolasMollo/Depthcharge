@@ -41,10 +41,10 @@ namespace Depthcharge.UI.EndGame
 
         #region Texts
 
-        public UI_EndGameText SetText(EndGameTextType type, string text)
+        public UI_EndGameText SetText(EndGameTextType type, string text, Action<bool> onSetText)
         {
             UI_EndGameText endGameText = GetEndGameText(type);
-            endGameText.SetText(text);
+            endGameText.SetText(text, onSetText);
             return endGameText;
         }
         public void SetTextActiveness(EndGameTextType type, bool activeness)

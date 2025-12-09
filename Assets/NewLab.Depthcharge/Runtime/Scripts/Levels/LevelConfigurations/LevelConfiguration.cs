@@ -1,3 +1,4 @@
+using Depthcharge.Audio;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -29,6 +30,10 @@ namespace Depthcharge.LevelManagement
         [SerializeField]
         private GameObject _prefabBoss = null;
         public GameObject PrefabBoss { get => _prefabBoss; }
+
+        [SerializeField]
+        private AudioClipType _bossMusic = AudioClipType.EasyBossLevelMusic;
+        public AudioClipType BossMusic { get => _bossMusic; }
 
     }
 

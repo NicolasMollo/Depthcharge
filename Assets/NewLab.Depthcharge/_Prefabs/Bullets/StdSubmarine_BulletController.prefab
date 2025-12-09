@@ -323,6 +323,14 @@ PrefabInstance:
       propertyPath: animations.Array.data[2]
       value: 
       objectReference: {fileID: 8106854308657492192}
+    - target: {fileID: 6832142435200793111, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
+      propertyPath: audioClips.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6832142435200793111, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
+      propertyPath: audioClips.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 400e862b23d91e04d99c8beeb9c35a54, type: 2}
     - target: {fileID: 8461198669745871267, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
       propertyPath: collisionStrategies.Array.size
       value: 2
@@ -330,7 +338,7 @@ PrefabInstance:
     - target: {fileID: 8461198669745871267, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
       propertyPath: collisionStrategies.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: fd83a40337192c946a59801fecb7abad, type: 2}
+      objectReference: {fileID: 11400000, guid: e4de88fd6ee3bae4e83acd68a907b1b1, type: 2}
     - target: {fileID: 8461198669745871267, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
       propertyPath: collisionStrategies.Array.data[1]
       value: 

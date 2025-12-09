@@ -2,6 +2,7 @@ using Depthcharge.Actors.AI;
 using Depthcharge.Actors.Modules;
 using System;
 using UnityEngine;
+using Depthcharge.Audio;
 
 namespace Depthcharge.Actors
 {
@@ -69,10 +70,10 @@ namespace Depthcharge.Actors
             fsm.UpdateCurrentState();
         }
 
-        internal void OnCollisionWithEndOfMap(string tag)
+        internal override void OnCollisionWithEndOfMap(EndOfMapContext context)
         {
             if (!_collisionModule.IsEnable) return;
-            OnCollideWithEndOfMap?.Invoke(tag);
+            OnCollideWithEndOfMap?.Invoke(context.tag);
             if (killOnCollisionWithEndOfMap)
             {
                 HealthModule.TakeMaxDamage();
@@ -97,6 +98,7 @@ namespace Depthcharge.Actors
         private void OnTakeDamage(float health)
         {
             if (health <= 0.0f) return;
+            AudioSource.PlayOneShot(AudioClipType.Damage);
             _animationModule.PlayAnimation(AnimationController.AnimationType.Damage);
         }
         private void OnDeath()

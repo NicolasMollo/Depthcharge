@@ -1,4 +1,5 @@
 ﻿using Depthcharge.Actors.AI;
+using Depthcharge.Audio;
 using Depthcharge.LevelManagement;
 using Depthcharge.SceneManagement;
 using Depthcharge.UI;
@@ -16,6 +17,7 @@ namespace Depthcharge.GameManagement.AI
         protected GameLogic gameLogic = null;
         protected SceneManagementSystem sceneSystem = null;
         protected UISystem UISystem = null;
+        protected AudioSystem audioSystem = null;
         protected UI_EndGameController UI = null;
 
         [SerializeField]
@@ -26,6 +28,7 @@ namespace Depthcharge.GameManagement.AI
             gameLogic = GameLogic.Instance;
             sceneSystem = GameSystemsRoot.Instance.SceneSystem;
             UISystem = GameSystemsRoot.Instance.UISystem;
+            audioSystem = GameSystemsRoot.Instance.AudioSystem;
             UI = ConfigureUI();
         }
         protected abstract UI_EndGameController ConfigureUI();
@@ -44,6 +47,7 @@ namespace Depthcharge.GameManagement.AI
 
         private void AddListeners()
         {
+            UI.Selection.SubscribeOnSelectorPositioned(OnSelectorPositioned);
             UI.SubscribeToButton(EndGameButtonType.Reload, OnClickReloadButton);
             UI.SubscribeToButton(EndGameButtonType.Quit, OnClickQuitButton);
         }
@@ -51,11 +55,18 @@ namespace Depthcharge.GameManagement.AI
         {
             UI.UnsubscribeFromButton(EndGameButtonType.Quit, OnClickQuitButton);
             UI.UnsubscribeFromButton(EndGameButtonType.Reload, OnClickReloadButton);
+            UI.Selection.UnsubscribeFromSelectorPositioned(OnSelectorPositioned);
+        }
+
+        private void OnSelectorPositioned()
+        {
+            audioSystem.PlayHoverSfx();
         }
 
         protected virtual void OnClickQuitButton(SceneConfiguration configuration)
         {
             level.Stats.ResetAllStats();
+            audioSystem.PlayCancelSfx();
             UI.DisableInput();
             fsm.ChangeState<LoadingIdleState>();
             gameLogic.LoadGameTransitionsState = true;
@@ -64,6 +75,7 @@ namespace Depthcharge.GameManagement.AI
         protected virtual void OnClickReloadButton(SceneConfiguration configuration)
         {
             level.Stats.ResetAllStats();
+            audioSystem.PlayConfirmSfx();
             UI.DisableInput();
             StartCoroutine(OnSelectReloadButton(configuration));
             gameLogic.LoadGameTransitionsState = false;
@@ -79,6 +91,7 @@ namespace Depthcharge.GameManagement.AI
             fsm.ChangeState<LoadingGameState>();
         }
 
+
         private IEnumerator ActivateEndGameUI()
         {
             UI.SetBlocksActiveness(false);
@@ -87,7 +100,9 @@ namespace Depthcharge.GameManagement.AI
             UI.SetMenuActiveness(false);
             UI.gameObject.SetActive(true);
             UI.FadeInPanel();
+            level.AudioSource.SetVolume(0f, 0.05f);
             yield return new WaitUntil(() => UI.IsPanelFadedIn);
+            audioSystem.SetGameSfxVolumes(0f);
             UI.SetMenuActiveness(true);
             ConfigureTexts();
             yield return new WaitUntil(() => UI.AreMenuTextsConfigured);
@@ -106,7 +121,19 @@ namespace Depthcharge.GameManagement.AI
                 level.Stats.Time.ToString(@"hh\:mm\:ss")
             );
             bool isSurvival = level is SurvivalLevelController;
-            UI.ConfigureTexts(texts, isSurvival);
+            UI.ConfigureTexts(texts, OnConfigureTexts, isSurvival);
+        }
+
+        private void OnConfigureTexts(bool isUpdatedText)
+        {
+            if (isUpdatedText)
+            {
+                audioSystem.PlayScorePoints();
+            }
+            else
+            {
+                audioSystem.PlayTimePoints();
+            }
         }
 
     }

@@ -230,6 +230,18 @@ PrefabInstance:
       propertyPath: animations.Array.data[1]
       value: 
       objectReference: {fileID: 1566232586139059657}
+    - target: {fileID: 6832142435200793111, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
+      propertyPath: mixerGroup
+      value: 
+      objectReference: {fileID: -8263259052402827981, guid: 4fe136da3781e794ab1f92e50c5b3143, type: 2}
+    - target: {fileID: 6832142435200793111, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
+      propertyPath: audioClips.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6832142435200793111, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
+      propertyPath: audioClips.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 03f25b7a816c73e40bf1f533e8307199, type: 2}
     - target: {fileID: 8461198669745871267, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
       propertyPath: collisionStrategies.Array.size
       value: 4
@@ -237,11 +249,11 @@ PrefabInstance:
     - target: {fileID: 8461198669745871267, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
       propertyPath: collisionStrategies.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: 69d02f335793a7f429985a7c36818d2a, type: 2}
+      objectReference: {fileID: 11400000, guid: 36770bd6615888f47914b807c1997c56, type: 2}
     - target: {fileID: 8461198669745871267, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
       propertyPath: collisionStrategies.Array.data[1]
       value: 
-      objectReference: {fileID: 11400000, guid: fd83a40337192c946a59801fecb7abad, type: 2}
+      objectReference: {fileID: 11400000, guid: e4de88fd6ee3bae4e83acd68a907b1b1, type: 2}
     - target: {fileID: 8461198669745871267, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
       propertyPath: collisionStrategies.Array.data[2]
       value: 

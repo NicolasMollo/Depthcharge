@@ -54,6 +54,7 @@ namespace Depthcharge.LevelManagement
         private void OnGameStart()
         {
             _boss.gameObject.SetActive(true);
+            _audioSource.Play(_configuration.BossMusic);
         }
 
         protected override void AddListenersToActors()
