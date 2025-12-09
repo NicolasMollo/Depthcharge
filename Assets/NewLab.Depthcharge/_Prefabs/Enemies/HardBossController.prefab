@@ -1024,6 +1024,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mixerGroup: {fileID: -8263259052402827981, guid: 4fe136da3781e794ab1f92e50c5b3143, type: 2}
+  volume: 0.8
   playOnAwake: 0
   playInLoop: 0
   audioClips:
