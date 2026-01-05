@@ -1,5 +1,5 @@
 using UnityEngine;
-using Depthcharge.Toolkit;
+using UnityEngine.Assertions;
 
 
 namespace Depthcharge.Environment
@@ -9,73 +9,37 @@ namespace Depthcharge.Environment
     public class EnvironmentRootController : MonoBehaviour
     {
 
-        [Header("BACKGROUND")]
-        [SerializeField]
-        private BackgroundController seaBackgroundController = null;
-        [SerializeField]
-        private SpriteRenderer seaSpriteRenderer = null;
-        public Vector2 SeaSize { get => seaSpriteRenderer.bounds.size; }
-        public Vector2 SeaPosition { get => seaBackgroundController.transform.position; }
-        [SerializeField]
-        private BackgroundController skyBackgroundController = null;
-        [SerializeField]
-        private SpriteRenderer skySpriteRenderer = null;
-        public Sprite SkySprite { get => skySpriteRenderer.sprite; }
+        public static EnvironmentRootController Instance { get; private set; } = null;
 
-        [Header("SETTINGS")]
         [SerializeField]
-        private bool enableTimeBasedColor = false;
-        [SerializeField]
-        private SO_DayPhaseConfiguration dayPhaseConfig = default;
-        private DayPhaseHelper dayPhaseHelper = null;
-
-        [Header("POSITIONS")]
+        private SpriteRenderer _seaSpriteRenderer = null;
         [SerializeField]
         private Transform _topSeaTarget = null;
-        public Transform TopSeaTarget { get => _topSeaTarget; }
         [SerializeField]
         private Transform _bottomSeaTarget = null;
+
+        public Vector2 SeaSize { get => _seaSpriteRenderer.bounds.size; }
+        public Vector2 SeaPosition { get => _seaSpriteRenderer.transform.position; }
+        public Transform TopSeaTarget { get => _topSeaTarget; }
         public Transform BottomSeaTarget { get => _bottomSeaTarget; }
+
+
 
         private void Awake()
         {
-            dayPhaseHelper = new DayPhaseHelper(dayPhaseConfig);
+            SetSingleton();
+            string message = $"=== EnvirnomentRootContoller.SeaSize === \"seaSpriteRenderer\" is null!";
+            Assert.IsNotNull(_seaSpriteRenderer, message);
         }
-        private void Start()
+        private void SetSingleton()
         {
-            SetBackgroundColors();
-        }
-
-        private void SetBackgroundColors()
-        {
-            if (enableTimeBasedColor)
+            if (Instance != null)
             {
-                SetBackgroundColorBasedOnTime(seaBackgroundController);
-                SetBackgroundColorBasedOnTime(skyBackgroundController);
+                Destroy(this);
             }
             else
             {
-                seaBackgroundController.SetMorningColor();
-                skyBackgroundController.SetMorningColor();
-            }
-        }
-
-        private void SetBackgroundColorBasedOnTime(BackgroundController backgroundController)
-        {
-            switch (dayPhaseHelper.GetDayPhase())
-            {
-                case DayPhaseHelper.DayPhaseType.Morning:
-                    backgroundController.SetMorningColor();
-                    break;
-                case DayPhaseHelper.DayPhaseType.Afternoon:
-                    backgroundController.SetAfternoonColor();
-                    break;
-                case DayPhaseHelper.DayPhaseType.Evening:
-                    backgroundController.SetEveningColor();
-                    break;
-                case DayPhaseHelper.DayPhaseType.Night:
-                    backgroundController.SetNightColor();
-                    break;
+                Instance = this;
             }
         }
 

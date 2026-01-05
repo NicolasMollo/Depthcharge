@@ -1,5 +1,6 @@
 using Depthcharge.Audio;
 using Depthcharge.SceneManagement;
+using Depthcharge.TimeManagement;
 using Depthcharge.UI;
 using UnityEngine;
 
@@ -19,6 +20,8 @@ namespace Depthcharge.GameManagement
         private AudioSystem _audioSystem = null;
         [SerializeField]
         private SceneManagementSystem _sceneSystem = null;
+        [SerializeField]
+        private TimeSystem _timeSystem = null;
 
         #endregion
 
@@ -27,12 +30,14 @@ namespace Depthcharge.GameManagement
         public UISystem UISystem { get => _UISystem; }
         public AudioSystem AudioSystem { get => _audioSystem; }
         public SceneManagementSystem SceneSystem { get => _sceneSystem; }
+        public TimeSystem TimeSystem { get => _timeSystem; }
 
 
         private void Awake()
         {
             SetSingleton();
             DontDestroyOnLoad(this.gameObject);
+            // Application.targetFrameRate = 60;
         }
         private void SetSingleton()
         {

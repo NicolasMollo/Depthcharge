@@ -12,7 +12,7 @@ namespace Depthcharge.Actors
     public class PlayerController : Actor
     {
 
-        private KeepInsideScreen keepInsideScreen = null;
+        private KeepInsideScreen _keepInsideScreen = null;
 
         #region Modules
 
@@ -40,12 +40,12 @@ namespace Depthcharge.Actors
         protected override void Awake()
         {
             base.Awake();
-            keepInsideScreen = GetComponent<KeepInsideScreen>();
+            _keepInsideScreen = GetComponent<KeepInsideScreen>();
         }
         protected override void Start()
         {
             base.Start();
-            keepInsideScreen.enabled = false;
+            _keepInsideScreen.enabled = false;
         }
         private void OnEnable()
         {
@@ -70,7 +70,7 @@ namespace Depthcharge.Actors
 
         private void OnGameStart()
         {
-            keepInsideScreen.enabled = true;
+            _keepInsideScreen.enabled = true;
         }
         private void OnPressShootButton(InputAction.CallbackContext context)
         {

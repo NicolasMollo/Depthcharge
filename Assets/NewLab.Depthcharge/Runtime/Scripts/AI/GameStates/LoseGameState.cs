@@ -22,11 +22,5 @@ namespace Depthcharge.GameManagement.AI
             base.OnClickReloadButton(selectedConfiguration);
         }
 
-        protected override void OnClickQuitButton(SceneConfiguration configuration)
-        {
-            base.OnClickQuitButton(configuration);
-            gameLogic.PreviousLevelWasBoss = false;
-        }
-
     }
 }

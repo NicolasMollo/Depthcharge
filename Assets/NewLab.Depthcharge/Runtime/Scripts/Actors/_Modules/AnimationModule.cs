@@ -26,6 +26,7 @@ namespace Depthcharge.Actors.Modules
         public void PlayAnimation(AnimationController.AnimationType type)
         {
             AnimationController animation = GetAnimationByType(type);
+            if (!animation.gameObject.activeSelf) return;
             animation.Animate(owner, animator);
         }
 

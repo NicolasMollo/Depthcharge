@@ -43,8 +43,8 @@ namespace Depthcharge.UI
         public virtual void SetUp(GameUIContext context)
         {
             healthBar.SetUp(context.player.HealthModule.HealthPercentage, healthBarWidth);
-            ammo.SetUp(context.player.ShootModule.PoolSize, ammoTransparency);
-            reloadBar.SetUp(context.player.ShootModule.PoolSize);
+            ammo.SetUp(context.player.ShootModule.Ammo, ammoTransparency);
+            reloadBar.SetUp(context.player.ShootModule.Ammo);
         }
         public virtual void CleanUp(GameUIContext context) { }
 

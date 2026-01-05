@@ -75,13 +75,7 @@ namespace Depthcharge.Actors
             currentEnemies = tierEnemies;
         }
 
-        public void SpawnEnemyWithRandomDelay()
-        {
-            float randomDelay = UnityEngine.Random.Range(minSpawnDelay, maxSpawnDelay);
-            StartCoroutine(SpawnEnemyDelayed(randomDelay));
-        }
-
-        private IEnumerator SpawnEnemyDelayed(float delay)
+        public IEnumerator SpawnEnemyDelayed(float delay)
         {
             yield return new WaitForSeconds(delay);
             int randomIndex = UnityEngine.Random.Range(0, currentEnemies.Count);
@@ -100,7 +94,8 @@ namespace Depthcharge.Actors
 
         private void OnEnemyDeactivation(BaseEnemyController enemy)
         {
-            SpawnEnemyWithRandomDelay();
+            float randomDelay = UnityEngine.Random.Range(minSpawnDelay, maxSpawnDelay);
+            StartCoroutine(SpawnEnemyDelayed(randomDelay));
         }
 
     }

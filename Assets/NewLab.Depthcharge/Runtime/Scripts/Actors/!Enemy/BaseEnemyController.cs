@@ -43,6 +43,7 @@ namespace Depthcharge.Actors
         private string enemyName = string.Empty;
         [SerializeField]
         protected Vector2 movementDirection = Vector2.zero;
+        public Vector2 MovementDirection { get => movementDirection; set => movementDirection = value; }
         [SerializeField]
         [Range(1.0f, 1000.0f)]
         private float _scorePoints = 1.0f;
@@ -61,7 +62,7 @@ namespace Depthcharge.Actors
 
         public string EnemyName { get => enemyName; }
         public float ScorePoints { get => _scorePoints; protected set => _scorePoints = value; }
-        public float ShootDelay { get => _shootDelay; }
+        public float ShootDelay { get => _shootDelay; set => _shootDelay = value; }
         public bool IsFadedIn { get => fadeableAdapter.IsFadedIn; }
 
         private const float DEATH_SPEED = 0.1f;
@@ -73,9 +74,9 @@ namespace Depthcharge.Actors
         protected override void Start()
         {
             base.Start();
+            InternalSetUp();
             fsm.SetUpStates();
             fsm.SetStartState();
-            InternalSetUp();
             AddListeners();
         }
         private void OnDestroy()
@@ -120,18 +121,18 @@ namespace Depthcharge.Actors
 
         protected virtual void OnDeath()
         {
+            MovementModule.SetMovementSpeed(0);
             _animationModule.PlayAnimation(AnimationController.AnimationType.Death);
         }
         protected virtual void OnDeathAnimationStart()
         {
+            movementDirection = Vector2.down;
             scorePointsText.gameObject.SetActive(false);
-            MovementModule.SetMovementSpeed(0);
             ShootModule.DisableModule();
             collisionModule.DisableModule();
         }
         protected virtual void OnDeathAnimationEnd()
         {
-            movementDirection = Vector2.down;
             MovementModule.SetMovementSpeed(DEATH_SPEED);
             StartCoroutine(FadeOutEnemy());
         }

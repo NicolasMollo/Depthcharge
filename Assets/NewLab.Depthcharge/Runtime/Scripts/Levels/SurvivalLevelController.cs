@@ -1,5 +1,6 @@
 using Depthcharge.Actors;
 using Depthcharge.Events;
+using Depthcharge.Extensions;
 using Depthcharge.UI;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,6 +15,7 @@ namespace Depthcharge.LevelManagement
         private float elapsedTime = 0;
         private SurvivalUIController survivalUI;
         private EnemyListenersContainer listeners = null;
+        private float startSpawnDelay = 0.0f;
 
         private List<EnemySpawner> spawners = null;
         [SerializeField]
@@ -55,6 +57,7 @@ namespace Depthcharge.LevelManagement
                 return;
             }
             spawners = LevelControllerConfigurator.SetEnemySpawners(_configuration, ref spawnerProviders);
+            ListExtension.Shuffle(spawners);
             listeners = new EnemyListenersContainer(OnSpawnEnemy, OnDefeatEnemy, OnDeactivateEnemy);
             foreach (EnemySpawner spawner in spawners)
             {
@@ -86,13 +89,16 @@ namespace Depthcharge.LevelManagement
             GameEventBus.OnGameStart -= OnGameStart;
             base.RemoveListeners(); // GameEventBus.OnGameOver -= OnGameOver;
         }
+
+
         private void OnGameStart()
         {
             _audioSource.PlayCurrentClip();
             foreach (EnemySpawner spawner in spawners)
             {
                 spawner.gameObject.SetActive(true);
-                spawner.SpawnEnemyWithRandomDelay();
+                StartCoroutine(spawner.SpawnEnemyDelayed(startSpawnDelay));
+                startSpawnDelay += Random.Range(0f, 8f);
             }
         }
         private void OnGameUpdate()

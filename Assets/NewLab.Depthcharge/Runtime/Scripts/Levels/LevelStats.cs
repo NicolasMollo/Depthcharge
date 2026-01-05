@@ -18,6 +18,7 @@ namespace Depthcharge.LevelManagement
         public TimeSpan Time { get; private set; }
         public Action<float> OnIncreaseScore = null;
 
+
         public LevelStats()
         {
             EnemiesSpawned = 0;

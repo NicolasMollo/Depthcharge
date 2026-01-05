@@ -10,95 +10,98 @@ namespace Depthcharge.Actors.Modules
     public class ShootModule : BaseModule
     {
 
-        private List<BulletController> bullets = null;
-        private int bulletsShooted = 0;
-        private bool canShoot = true;
-        private bool _isReloading = false;
-        public bool IsReloading { get => _isReloading; }
-        public bool IsFullAmmo { get => bulletsShooted == 0; }
-
-        #region References
-
-        [SerializeField]
-        private Transform shootPoint = null;
-        public Transform ShootPoint { get => shootPoint; }
-        [SerializeField]
-        private Transform bulletsParent = null;
-        public Transform BulletsParent { get => bulletsParent; }
-        [SerializeField]
-        private BaseBulletFactory bulletFactory = null;
-
-        #endregion
         #region Settings
 
         [Header("SETTINGS")]
-
         [SerializeField]
-        private int poolSize = 0;
-        public int PoolSize { get => poolSize; }
+        private Transform _shootPoint = null;
         [SerializeField]
-        private bool reloadAutomatically = false;
+        private Transform _bulletsParent = null;
         [SerializeField]
-        private float reloadTime = 5.0f;
-        public float ReloadTime { get => reloadTime; }
+        private BaseBulletFactory _bulletFactory = null;
+        [SerializeField]
+        private int _ammo = 0;
+        [SerializeField]
+        [Range(1, 3)]
+        [Tooltip("Number that will be multiplied to \"ammo\" field and will be define the start count of bullets pool")]
+        private int _poolSizeMultiplier = 2;
+        [SerializeField]
+        private bool _reloadAutomatically = true;
+        [SerializeField]
+        private float _reloadTime = 5.0f;
 
         #endregion
+
+        private List<BulletController> _bullets = null;
+        private int _currentAmmo = 0;
+        private bool _canShoot = true;
+        private bool _isReloading = false;
+
+        public Transform ShootPoint { get => _shootPoint; }
+        public Transform BulletsParent { get => _bulletsParent; }
+        public int Ammo { get => _ammo; }
+        public bool IsFullAmmo { get => _currentAmmo == _ammo; }
+        public float ReloadTime { get => _reloadTime; }
+        public bool IsReloading { get => _isReloading; }
 
         public Action OnShoot = null;
         public Action<bool> OnStartReload = null;
         public Action OnReloaded = null;
-        public Action OnChangeBullets = null;
+
 
         private void Awake()
         {
-            bullets = bulletFactory.CreateBulletPool(this, poolSize);
-            canShoot = true;
+            _currentAmmo = _ammo;
+            int poolSize = _ammo * _poolSizeMultiplier;
+            _bullets = _bulletFactory.CreateBulletPool(this, poolSize);
+            _canShoot = true;
+            _isReloading = false;
         }
 
         #region API
 
         public void Shoot()
         {
-            if (!canShoot)
+            if (!_canShoot)
             {
                 return;
             }
 
-            foreach (BulletController bullet in bullets)
+            foreach (BulletController bullet in _bullets)
             {
-                if (bullet.transform.parent == bulletsParent && !bullet.gameObject.activeSelf)
+                if (bullet.transform.parent == _bulletsParent && !bullet.gameObject.activeSelf)
                 {
-                    bullet.transform.rotation = shootPoint.rotation;
+                    bullet.transform.rotation = _shootPoint.rotation;
                     bullet.transform.SetParent(null);
                     bullet.gameObject.SetActive(true);
-                    bulletsShooted++;
+                    _currentAmmo--;
                     OnShoot?.Invoke();
-                    if (bulletsShooted != bullets.Count)
+                    if (_currentAmmo == 0)
                     {
-                        return;
+                        _canShoot = false;
+                        if (_reloadAutomatically)
+                        {
+                            Reload(_reloadTime);
+                        }
                     }
+                    return;
                 }
-            }
-            if (reloadAutomatically && !_isReloading)
-            {
-                StartCoroutine(Reload(reloadTime));
             }
         }
 
-        public void Reload()
+        public void Reload(float delay = 0.0f)
         {
-            _isReloading = true;
-            OnStartReload?.Invoke(_isReloading);
-            ResetBullets();
-            bulletsShooted = 0;
-            OnReloaded?.Invoke();
-            _isReloading = !_isReloading;
+            if (_isReloading)
+            {
+                return;
+            }
+            StartCoroutine(ReloadCoroutine(delay));
         }
 
         public void IncreaseShootPointRotation(float rotationOffsetZ)
         {
-            shootPoint.rotation *= Quaternion.Euler(shootPoint.forward * rotationOffsetZ);
-            float eulerRotationZ = shootPoint.rotation.eulerAngles.z;
+            _shootPoint.rotation *= Quaternion.Euler(_shootPoint.forward * rotationOffsetZ);
+            float eulerRotationZ = _shootPoint.rotation.eulerAngles.z;
             const float STRAIGHT_ANGLE = 180.0f;
             const float FULL_ANGLE = 360.0f;
             if (eulerRotationZ > STRAIGHT_ANGLE)
@@ -109,56 +112,69 @@ namespace Depthcharge.Actors.Modules
 
         public override void EnableModule()
         {
-            canShoot = true;
+            _canShoot = true;
         }
         public override void DisableModule()
         {
-            canShoot = false;
+            _canShoot = false;
         }
 
         #endregion
         #region Private
 
-        private IEnumerator Reload(float delay)
+        private IEnumerator ReloadCoroutine(float delay)
         {
             _isReloading = true;
-            yield return new WaitUntil(AreBulletsDisabled);
             OnStartReload?.Invoke(_isReloading);
             yield return new WaitForSeconds(delay);
-            ResetBullets();
-            bulletsShooted = 0;
+            ResetExistingBullets();
+            int availableBullets = GetAvailableBullets();
+            EnsureAmmoPoolSize(availableBullets);
+            _currentAmmo = _ammo;
             OnReloaded?.Invoke();
-            _isReloading = !_isReloading;
+            _isReloading = false;
+            _canShoot = true;
         }
 
-        private void ResetBullets()
+        private void ResetExistingBullets()
         {
-            foreach (BulletController bullet in bullets)
+            foreach (BulletController bullet in _bullets)
             {
-                if (bullet.transform.parent == null && !bullet.gameObject.activeSelf)
+                if (bullet.transform.parent == _bulletsParent)
                 {
-                    bullet.transform.SetParent(bulletsParent);
-                    bullet.transform.position = shootPoint.position;
+                    continue;
+                }
+                if (!bullet.gameObject.activeSelf)
+                {
+                    bullet.transform.SetParent(_bulletsParent);
+                    bullet.transform.position = _shootPoint.position;
                     bullet.transform.rotation = Quaternion.Euler(Vector3.zero);
                 }
             }
         }
 
-        private bool AreBulletsDisabled()
+        private void EnsureAmmoPoolSize(int availableBullets)
         {
-            int deactivatedBullets = 0;
-            foreach (BulletController bullet in bullets)
+            int missingAmmo = _ammo - availableBullets;
+            if (missingAmmo > 0)
             {
-                if (!bullet.gameObject.activeSelf)
-                    deactivatedBullets++;
+                 List<BulletController> additionalBullets = _bulletFactory.CreateBulletPool(this, missingAmmo);
+                _bullets.AddRange(additionalBullets);
             }
-
-            if (deactivatedBullets == bullets.Count)
-            {
-                return true;
-            }
-            return false;
         }
+        private int GetAvailableBullets()
+        {
+            int availableBullets = 0;
+            foreach (BulletController bullet in _bullets)
+            {
+                if (bullet.transform.parent == _bulletsParent)
+                {
+                    availableBullets++;
+                }
+            }
+            return availableBullets;
+        }
+
 
         #endregion
 

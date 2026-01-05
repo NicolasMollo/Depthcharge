@@ -77,12 +77,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 5912945488153994998}
-  shootPoint: {fileID: 8020614696653367589}
-  bulletsParent: {fileID: 4832317504410171086}
-  bulletFactory: {fileID: 11400000, guid: bf4d1774e757c744e8c1a95645c1e475, type: 2}
-  poolSize: 3
-  reloadAutomatically: 1
-  reloadTime: 5
+  _shootPoint: {fileID: 8020614696653367589}
+  _bulletsParent: {fileID: 4832317504410171086}
+  _bulletFactory: {fileID: 11400000, guid: bf4d1774e757c744e8c1a95645c1e475, type: 2}
+  _ammo: 3
+  _poolSizeMultiplier: 3
+  _reloadAutomatically: 1
+  _reloadTime: 5
 --- !u!1 &2501197468908392158
 GameObject:
   m_ObjectHideFlags: 0
@@ -165,6 +166,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mixerGroup: {fileID: -8263259052402827981, guid: 4fe136da3781e794ab1f92e50c5b3143, type: 2}
+  volume: 1
   playOnAwake: 0
   playInLoop: 0
   audioClips:

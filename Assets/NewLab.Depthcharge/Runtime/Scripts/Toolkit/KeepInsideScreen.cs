@@ -19,11 +19,11 @@ namespace Depthcharge.Toolkit
 
         private void Start()
         {
-            SetScreenParams();
             halfSizeX = boxCollider.bounds.size.x * 0.5f;
         }
         private void Update()
         {
+            SetScreenParams();
             float minPosOffsetX = transform.position.x - halfSizeX;
             float maxPosOffsetX = transform.position.x + halfSizeX;
             if (minPosOffsetX <= startWindowX)

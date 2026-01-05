@@ -14,9 +14,9 @@ namespace Depthcharge.Actors.Modules
 
         private void OnTriggerEnter2D(Collider2D collider)
         {
+            LastCollisionLayer = collider.gameObject.layer;
             foreach (BaseCollisionEnterStrategy strategy in collisionStrategies)
             {
-                LastCollisionLayer = collider.gameObject.layer;
                 strategy.CollisionEnter(owner, collider);
             }
         }
@@ -25,7 +25,7 @@ namespace Depthcharge.Actors.Modules
         {
             foreach (BaseCollisionStayStrategy strategy in stayStrategies)
             {
-                LastCollisionLayer = collider.gameObject.layer;
+                // LastCollisionLayer = collider.gameObject.layer;
                 strategy.CollisionStay(owner, collider);
             }
         }
@@ -34,7 +34,7 @@ namespace Depthcharge.Actors.Modules
         {
             foreach (BaseCollisionExitStrategy strategy in exitStrategies)
             {
-                LastCollisionLayer = collider.gameObject.layer;
+                // LastCollisionLayer = collider.gameObject.layer;
                 strategy.CollisionExit(owner, collider);
             }
         }

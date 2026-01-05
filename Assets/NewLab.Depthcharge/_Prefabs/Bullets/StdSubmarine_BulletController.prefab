@@ -235,6 +235,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 7e953b36e98fd7a4cb094660149a5f88, type: 3}
+    - target: {fileID: 3734940186986571840, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4060278540778343050, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
       propertyPath: m_Layer
       value: 8
@@ -452,4 +456,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fsm: {fileID: 1176442233761039078}
   nextState: {fileID: 4471939925239566626}
-  fadeOutDelay: 0.005
+  _fadeOutDelay: 0.005

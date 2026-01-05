@@ -29,6 +29,7 @@ namespace Depthcharge.Actors.Modules
         public Action OnAnimationStart = null;
         public Action OnAnimationEnd = null;
 
+
         private void Awake()
         {
             string message = $"=== AnimationController.Awake() === Be ensure to correctly fill \"Strategy\" in Inspector!";
@@ -56,9 +57,7 @@ namespace Depthcharge.Actors.Modules
         }
         private void AnimateWithoutAnimator(Actor owner)
         {
-            OnAnimationStart?.Invoke();
             strategy.Animate(owner, null, this);
-            OnAnimationEnd?.Invoke();
         }
 
         private IEnumerator CheckAnimationState(Animator animator)

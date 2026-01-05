@@ -38,6 +38,10 @@ namespace Depthcharge.UI
         private BaseGameUIController _bossUIController = null;
         public BaseGameUIController BossUIController { get => _bossUIController; }
 
+        [SerializeField]
+        private UI_PauseController _pauseUI = null;
+        public UI_PauseController PauseUI { get => _pauseUI; }
+
         #endregion
 
         public void SetUp()
@@ -49,11 +53,17 @@ namespace Depthcharge.UI
             SetWinUIActiveness(!startUIActiveness);
             SetLoseUIActiveness(!startUIActiveness);
             SetBossUIActiveness(!startUIActiveness);
+            SetPauseUIActiveness(!startUIActiveness);
         }
 
         public void SetStartUIActiveness(bool activeness)
         {
             _startUI.gameObject.SetActive(activeness);
+        }
+
+        public void SetPauseUIActiveness(bool activeness)
+        {
+            _pauseUI.gameObject.SetActive(activeness);
         }
 
         public void SetCurrentGameUI(BaseGameUIController UI)

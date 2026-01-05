@@ -309,7 +309,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 46e3b5b8fd9b6b04186701fb545de139, type: 2}
     - target: {fileID: 8090008252788191891, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
       propertyPath: maxHealth
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8461198669745871267, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
       propertyPath: collisionStrategies.Array.size
@@ -436,4 +436,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fsm: {fileID: 1932263936358183087}
   nextState: {fileID: 3925721894297929944}
-  fadeOutDelay: 0.005
+  _fadeOutDelay: 0.005

@@ -32,6 +32,7 @@ namespace Depthcharge.Actors.Modules
             movementInput = playerInput.Std_ActionMap.HorizontalMovement.ReadValue<float>();
             return movementInput;
         }
+
         public void SubscribeOnShoot(Action<InputAction.CallbackContext> method)
         {
             playerInput.Std_ActionMap.Shoot.performed += method;
@@ -39,6 +40,15 @@ namespace Depthcharge.Actors.Modules
         public void UnsubscribeFromShoot(Action<InputAction.CallbackContext> method)
         {
             playerInput.Std_ActionMap.Shoot.performed -= method;
+        }
+
+        public void SubscribeOnPause(Action<InputAction.CallbackContext> method)
+        {
+            playerInput.Std_ActionMap.Pause.performed += method;
+        }
+        public void UnsubscribeFromPause(Action<InputAction.CallbackContext> method)
+        {
+            playerInput.Std_ActionMap.Pause.performed -= method;
         }
 
     }

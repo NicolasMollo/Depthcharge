@@ -24,7 +24,7 @@ namespace Depthcharge.GameManagement.AI
         }
         public override void OnStateEnter()
         {
-            if (gameLogic.IsLastLevel && gameLogic.PreviousLevelWasBoss)
+            if (gameLogic.GameProgression.IsLastLevel && gameLogic.GameProgression.PreviousLevelWasBoss)
             {
                 level = FindFirstObjectByType<BaseLevelController>();
                 UISystem.SetCurrentEndGameUI(UI);
@@ -39,23 +39,17 @@ namespace Depthcharge.GameManagement.AI
         protected override void OnClickReloadButton(SceneConfiguration configuration)
         {
             SceneConfiguration selectedConfiguration = configuration;
-            if (!gameLogic.PreviousLevelWasBoss && gameLogic.IsBossLevel)
+            if (!gameLogic.GameProgression.PreviousLevelWasBoss && gameLogic.GameProgression.IsBossLevel)
             {
                 selectedConfiguration = bossSceneConfiguration;
-                gameLogic.PreviousLevelWasBoss = true;
+                gameLogic.GameProgression.PreviousLevelWasBoss = true;
             }
             else
             {
-                gameLogic.IncreaseCurrentLevelNumber();
-                gameLogic.PreviousLevelWasBoss = false;
+                gameLogic.IncreaseLevelNumber();
+                gameLogic.GameProgression.PreviousLevelWasBoss = false;
             }
             base.OnClickReloadButton(selectedConfiguration);
-        }
-
-        protected override void OnClickQuitButton(SceneConfiguration configuration)
-        {
-            base.OnClickQuitButton(configuration);
-            gameLogic.PreviousLevelWasBoss = false;
         }
 
         private IEnumerator ActivateLastLevelUI()
@@ -68,9 +62,6 @@ namespace Depthcharge.GameManagement.AI
             UI.FadeInPanel();
             level.AudioSource.SetVolume(0f, 0.05f);
             yield return new WaitUntil(() => UI.IsPanelFadedIn);
-
-            // audioSystem.SetMusicVolume(0f);
-
             UI.SetMenuActiveness(true);
             ConfigureTexts();
             yield return new WaitUntil(() => UI.AreMenuTextsConfigured);
@@ -84,9 +75,9 @@ namespace Depthcharge.GameManagement.AI
             yield return new WaitForSeconds(endGamePanelDisappearingDelay);
             fsm.ChangeState<LoadingIdleState>();
             UI.ResetEndGameText();
-            gameLogic.PreviousLevelWasBoss = false;
+            gameLogic.GameProgression.PreviousLevelWasBoss = false;
             gameLogic.LoadGameTransitionsState = true;
-            gameLogic.ResetCurrentLevelNumber();
+            gameLogic.ResetLevelNumber();
         }
 
         private void OnSetEndGameText(bool isUpdatedText)

@@ -1,5 +1,6 @@
 using Depthcharge.Actors;
 using Depthcharge.Events;
+using Depthcharge.Extensions;
 using Depthcharge.UI;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,12 +13,14 @@ namespace Depthcharge.LevelManagement
 
         private List<EnemySpawner> spawners = null;
         private EnemyListenersContainer listeners = null;
+        private float startSpawnDelay = 0.0f;
         [SerializeField]
         private EnemySpawnerProvider[] spawnerProviders = null;
 
+
         protected override void SetConfiguration(ref LevelConfiguration configuration)
         {
-            configuration = gameLogic.GetLevelConfiguration();
+            configuration = gameLogic.GetCampaignConfiguration();
         }
         protected override void ConfigureUI(ref BaseGameUIController UI)
         {
@@ -26,12 +29,13 @@ namespace Depthcharge.LevelManagement
         protected override void SetGameUIContext(ref GameUIContext context)
         {
             base.SetGameUIContext(ref context);
-            context.levelNumber = gameLogic.CurrentLevelNumber;
+            context.levelNumber = gameLogic.GameProgression.CurrentLevelNumber;
         }
 
         protected override void InternalSetUp()
         {
             spawners = LevelControllerConfigurator.SetEnemySpawners(_configuration, ref spawnerProviders);
+            ListExtension.Shuffle(spawners);
             listeners = new EnemyListenersContainer(OnSpawnEnemy, OnDefeatEnemy, OnDeactivateEnemy);
             foreach (EnemySpawner spawner in spawners)
             {
@@ -61,13 +65,15 @@ namespace Depthcharge.LevelManagement
             GameEventBus.OnGameStart -= OnGameStart;
             base.RemoveListeners();
         }
+
         private void OnGameStart()
         {
             _audioSource.PlayCurrentClip();
             foreach (EnemySpawner spawner in spawners)
             {
                 spawner.gameObject.SetActive(true);
-                spawner.SpawnEnemyWithRandomDelay();
+                StartCoroutine(spawner.SpawnEnemyDelayed(startSpawnDelay));
+                startSpawnDelay += Random.Range(0f, 8f);
             }
         }
 

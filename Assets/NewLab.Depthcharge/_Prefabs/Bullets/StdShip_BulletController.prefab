@@ -178,6 +178,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: ee0ca86b1e323a641abdba68f6adaf09, type: 3}
+    - target: {fileID: 3734940186986571840, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5171899566883688671, guid: 09a2e557db3dbfd47ae7a4971ec99ca1, type: 3}
       propertyPath: movementStrategy
       value: 

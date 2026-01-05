@@ -70,7 +70,8 @@ namespace Depthcharge.GameManagement.AI
             UI.DisableInput();
             fsm.ChangeState<LoadingIdleState>();
             gameLogic.LoadGameTransitionsState = true;
-            gameLogic.ResetCurrentLevelNumber();
+            gameLogic.ResetLevelNumber();
+            gameLogic.GameProgression.PreviousLevelWasBoss = false;
         }
         protected virtual void OnClickReloadButton(SceneConfiguration configuration)
         {

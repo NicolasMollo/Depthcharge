@@ -1,6 +1,7 @@
 using Depthcharge.Actors.AI;
 using Depthcharge.SceneManagement;
-using Depthcharge.UI;
+using Depthcharge.Toolkit;
+using Depthcharge.UI.EndGame;
 using System.Collections;
 using UnityEngine;
 
@@ -9,17 +10,19 @@ namespace Depthcharge.GameManagement.AI
     public class LoadingIdleState : BaseState
     {
 
-        private UISystem UISystem = null;
+        private UI_EndGameController endGameUI = null;
         private SceneManagementSystem sceneSystem = null;
-        private bool isCameraOnTarget = false;
+        private Transform cameraTransform = null;
 
         [Header("SETTINGS")]
         [SerializeField]
         private SceneConfiguration idleSceneConfig = null;
         [SerializeField]
-        private float cameraSpeed = 1.0f;
-        [SerializeField]
         private float cameraTargetY = -10.0f;
+        [SerializeField]
+        [Range(1.0f, 10.0f)]
+        private float cameraSpeed = 1.0f;
+
 
         public override void SetUp(GameObject owner)
         {
@@ -27,46 +30,37 @@ namespace Depthcharge.GameManagement.AI
         }
         public override void OnStateEnter()
         {
-            UISystem = GameSystemsRoot.Instance.UISystem;
+            endGameUI = GameSystemsRoot.Instance.UISystem.CurrentEndGameUI;
+            cameraTransform = Camera.main.transform;
             StartCoroutine(GoToIdleState());
-        }
-        public override void OnStateExit()
-        {
-            isCameraOnTarget = false;
         }
 
         private IEnumerator GoToIdleState()
         {
-            UISystem.CurrentEndGameUI.SetMenuActiveness(false);
-            UISystem.CurrentEndGameUI.FadeOutPanel();
-            yield return new WaitUntil(() => !UISystem.CurrentEndGameUI.IsPanelFadedIn);
-            if (UISystem.CurrentEndGameUI.LastLevelPanelFadedIn)
+            if (fsm.PreviousState is EndGameState)
             {
-                UISystem.CurrentEndGameUI.SetEndGameTextActiveness(false);
-                UISystem.CurrentEndGameUI.FadeOutEndGamePanel();
-                yield return new WaitUntil(() => !UISystem.CurrentEndGameUI.LastLevelPanelFadedIn);
-                UISystem.CurrentEndGameUI.SetEndGamePanelOnTopOfHierarchy();
+                yield return HandleEndGameUI();
             }
-            UISystem.CurrentEndGameUI.gameObject.SetActive(false);
-            StartCoroutine(MoveCameraToTarget());
-            yield return new WaitUntil(() => isCameraOnTarget);
+            Vector3 cameraTarget = new Vector3(cameraTransform.position.x, cameraTargetY, cameraTransform.position.z);
+            yield return TransformTween.MoveToTarget(cameraTransform, cameraTarget, cameraSpeed);
             sceneSystem.ChangeScene(idleSceneConfig);
             yield return new WaitUntil(() => sceneSystem.CurrentScene.IsLoaded);
             fsm.ChangeToNextState();
         }
-        private IEnumerator MoveCameraToTarget()
+
+        private IEnumerator HandleEndGameUI()
         {
-            Vector2 direction = Vector2.down;
-            float calculatedSpeed = 0.0f;
-            Vector2 traslation = Vector2.zero;
-            while (Camera.main.transform.position.y >= cameraTargetY)
+            endGameUI.SetMenuActiveness(false);
+            endGameUI.FadeOutPanel();
+            yield return new WaitUntil(() => !endGameUI.IsPanelFadedIn);
+            if (endGameUI.LastLevelPanelFadedIn)
             {
-                calculatedSpeed = cameraSpeed * Time.deltaTime;
-                traslation = direction * calculatedSpeed;
-                Camera.main.transform.transform.Translate(traslation);
-                yield return null;
+                endGameUI.SetEndGameTextActiveness(false);
+                endGameUI.FadeOutEndGamePanel();
+                yield return new WaitUntil(() => !endGameUI.LastLevelPanelFadedIn);
+                endGameUI.SetEndGamePanelOnTopOfHierarchy();
             }
-            isCameraOnTarget = true;
+            endGameUI.gameObject.SetActive(false);
         }
 
     }

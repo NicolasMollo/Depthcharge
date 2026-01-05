@@ -12,7 +12,9 @@ namespace Depthcharge.Actors.Modules
 
         public override void Animate(Actor owner, Animator animator = null, AnimationController animation = null)
         {
+            animation.OnAnimationStart?.Invoke();
             owner.SpriteRenderer.sprite = sprite;
+            animation.OnAnimationEnd?.Invoke();
         }
 
     }

@@ -1,6 +1,6 @@
 using Depthcharge.Actors.AI;
-using Depthcharge.Actors.Modules;
 using Depthcharge.LevelManagement;
+using Depthcharge.Toolkit;
 using Depthcharge.UI;
 using System.Collections;
 using UnityEngine;
@@ -12,20 +12,23 @@ namespace Depthcharge.GameManagement.AI
     {
 
         private BaseLevelController level = null;
-        private BaseMovementAdapter playerMovement = null;
-        private Transform cameraTransform = null;
         private UISystem UISystem = null;
         private GameLogic gameLogic = null;
+        private Transform playerTransform = null;
+        private Transform cameraTransform = null;
 
         [Header("SETTINGS")]
         [SerializeField]
         private float playerTargetX = 0f;
         [SerializeField]
-        private float playerSpeed = 0f;
+        [Range(1.0f, 10.0f)]
+        private float playerSpeed = 1f;
         [SerializeField]
         private float cameraTargetY = 0f;
         [SerializeField]
-        private float cameraSpeed = 0f;
+        [Range(1.0f, 10.0f)]
+        private float cameraSpeed = 1f;
+
 
         public override void SetUp(GameObject owner)
         {
@@ -36,7 +39,7 @@ namespace Depthcharge.GameManagement.AI
         {
             level = FindFirstObjectByType<BaseLevelController>();
             cameraTransform = Camera.main.transform;
-            playerMovement = level.Player.GetComponentInChildren<BaseMovementAdapter>();
+            playerTransform = level.Player.transform;
             UISystem.StartUI.DisableInput();
             UISystem.SetStartUIActiveness(false);
             UISystem.CurrentGameUI.gameObject.SetActive(false);
@@ -45,77 +48,26 @@ namespace Depthcharge.GameManagement.AI
             {
                 SetCameraToTargetPosition();
             }
-            StartCoroutine(MoveCameraToTarget());
+            StartCoroutine(MoveCameraAndPlayerToTarget());
         }
 
-        #region Camera
-
-        private IEnumerator MoveCameraToTarget()
+        private IEnumerator MoveCameraAndPlayerToTarget()
         {
-            Vector2 direction = Vector2.up;
-            float calculatedSpeed = 0.0f;
-            Vector2 translation = Vector2.zero;
-            while (cameraTransform.position.y < cameraTargetY)
-            {
-                calculatedSpeed = cameraSpeed * Time.deltaTime;
-                translation = direction * calculatedSpeed;
-                cameraTransform.Translate(translation);
-                yield return null;
-            }
-            MovePlayerToTarget();
+            Vector3 cameraTarget = new Vector3(cameraTransform.position.x, cameraTargetY, cameraTransform.position.z);
+            yield return TransformTween.MoveToTarget(cameraTransform, cameraTarget, cameraSpeed);
+            Vector3 playerTarget = new Vector3(playerTargetX, playerTransform.position.y, playerTransform.position.z);
+            yield return TransformTween.MoveToTarget(playerTransform, playerTarget, playerSpeed);
+            fsm.ChangeToNextState();
         }
         private void SetCameraToTargetPosition()
         {
             Vector3 targetPosition = new Vector3(
-                cameraTransform.position.x,
+                cameraTransform.transform.position.x,
                 cameraTargetY,
-                cameraTransform.position.z
+                cameraTransform.transform.position.z
                 );
-            cameraTransform.position = targetPosition;
+            cameraTransform.transform.position = targetPosition;
         }
-
-        #endregion
-        #region Player
-
-        private void MovePlayerToTarget()
-        {
-            if (playerMovement.GetPosition().x > playerTargetX)
-            {
-                StartCoroutine(MovePlayerLeft());
-            }
-            else
-            {
-                StartCoroutine(MovePlayerRight());
-            }
-        }
-        private IEnumerator MovePlayerLeft()
-        {
-            float calculatedSpeed = 0.0f;
-            Vector2 translation = Vector2.zero;
-            while (playerMovement.GetPosition().x > playerTargetX)
-            {
-                calculatedSpeed = playerSpeed * Time.deltaTime;
-                translation = Vector2.left * calculatedSpeed;
-                playerMovement.Translate(translation);
-                yield return null;
-            }
-            fsm.ChangeToNextState();
-        }
-        private IEnumerator MovePlayerRight()
-        {
-            float calculatedSpeed = 0.0f;
-            Vector2 translation = Vector2.zero;
-            while (playerMovement.GetPosition().x < playerTargetX)
-            {
-                calculatedSpeed = playerSpeed * Time.deltaTime;
-                translation = Vector2.right * calculatedSpeed;
-                playerMovement.Translate(translation);
-                yield return null;
-            }
-            fsm.ChangeToNextState();
-        }
-
-        #endregion
 
     }
 }

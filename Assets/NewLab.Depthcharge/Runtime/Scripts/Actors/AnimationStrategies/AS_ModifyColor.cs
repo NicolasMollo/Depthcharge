@@ -15,17 +15,19 @@ namespace Depthcharge.Actors.Modules
 
         public override void Animate(Actor owner, Animator animator = null, AnimationController animation = null)
         {
-            owner.StartCoroutine(SetColor(owner.SpriteRenderer, owner.StartColor));
+            owner.StartCoroutine(SetColor(animation, owner.SpriteRenderer, owner.StartColor));
         }
 
-        private IEnumerator SetColor(SpriteRenderer sr, Color startColor)
+        private IEnumerator SetColor(AnimationController animation, SpriteRenderer sr, Color startColor)
         {
+            animation.OnAnimationStart?.Invoke();
             sr.color = color;
             yield return new WaitForSeconds(delay);
             if (sr.color == color)
             {
                 sr.color = startColor;
             }
+            animation.OnAnimationEnd?.Invoke();
         }
 
     }

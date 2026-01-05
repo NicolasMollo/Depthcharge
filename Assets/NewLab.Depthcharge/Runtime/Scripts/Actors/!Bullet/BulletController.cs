@@ -2,7 +2,6 @@ using Depthcharge.Actors.AI;
 using Depthcharge.Actors.Modules;
 using System;
 using UnityEngine;
-using Depthcharge.Audio;
 
 namespace Depthcharge.Actors
 {
@@ -43,10 +42,15 @@ namespace Depthcharge.Actors
         internal Action<string> OnCollideWithEndOfMap = null;
         internal bool killOnCollisionWithEndOfMap = true;
 
+        internal bool killedByEndOfMap = false;
+
 
         private void OnEnable()
         {
-            if (fsm.CurrentState == null) return;
+            if (fsm.CurrentState == null)
+            {
+                return;
+            }
             SpriteRenderer.color = StartColor;
             _healthModule.ResetHealth();
             _collisionModule.EnableModule();
@@ -72,10 +76,14 @@ namespace Depthcharge.Actors
 
         internal override void OnCollisionWithEndOfMap(EndOfMapContext context)
         {
-            if (!_collisionModule.IsEnable) return;
+            if (!_collisionModule.IsEnable)
+            {
+                return;
+            }
             OnCollideWithEndOfMap?.Invoke(context.tag);
             if (killOnCollisionWithEndOfMap)
             {
+                killedByEndOfMap = true;
                 HealthModule.TakeMaxDamage();
                 CollisionModule.DisableModule();
             }
@@ -87,20 +95,13 @@ namespace Depthcharge.Actors
 
         private void AddListeners()
         {
-            _healthModule.OnTakeDamage += OnTakeDamage;
             _healthModule.OnDeath += OnDeath;
         }
         private void RemoveListeners()
         {
             _healthModule.OnDeath -= OnDeath;
-            _healthModule.OnTakeDamage -= OnTakeDamage;
         }
-        private void OnTakeDamage(float health)
-        {
-            if (health <= 0.0f) return;
-            AudioSource.PlayOneShot(AudioClipType.Damage);
-            _animationModule.PlayAnimation(AnimationController.AnimationType.Damage);
-        }
+
         private void OnDeath()
         {
             fsm.ChangeToNextState();

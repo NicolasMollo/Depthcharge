@@ -12,7 +12,7 @@ namespace Depthcharge.LevelManagement
     public class BossLevelController : BaseLevelController
     {
 
-        private BossUIController bossUI = null;
+        private BossUIController _bossUI = null;
         private BaseEnemyController _boss = null;
         public BaseEnemyController Boss { get => _boss; }
 
@@ -23,7 +23,7 @@ namespace Depthcharge.LevelManagement
 
         protected override void SetConfiguration(ref LevelConfiguration configuration)
         {
-            configuration = gameLogic.GetLevelConfiguration();
+            configuration = gameLogic.GetCampaignConfiguration();
         }
         protected override void ConfigureUI(ref BaseGameUIController UI)
         {
@@ -37,9 +37,9 @@ namespace Depthcharge.LevelManagement
             string message = $"=== BossLevelController.InternalSetUp() === boss is not a BaseEnemyController!";
             Assert.IsNotNull(_boss, message);
             _boss.gameObject.SetActive(false);
-            bossUI = UI as BossUIController;
+            _bossUI = UI as BossUIController;
             message = $"=== BossLevelController.InternalSetUp() === bossUI is not a BossUIController!";
-            Assert.IsNotNull(bossUI, message);
+            Assert.IsNotNull(_bossUI, message);
         }
         protected override void AddListeners()
         {
@@ -77,7 +77,7 @@ namespace Depthcharge.LevelManagement
         }
         private void OnBossTakeDamage(float damage)
         {
-            bossUI.UpdateBossHealthBar(_boss.HealthModule.HealthPercentage);
+            _bossUI.UpdateBossHealthBar(_boss.HealthModule.HealthPercentage);
         }
         private void OnBossDeath()
         {
@@ -90,11 +90,11 @@ namespace Depthcharge.LevelManagement
         }
         private void OnBossVulnerable()
         {
-            bossUI.UpdateBossHealthBar(_boss.HealthModule.HealthPercentage);
+            _bossUI.UpdateBossHealthBar(_boss.HealthModule.HealthPercentage);
         }
         private void OnBossInvulnerable()
         {
-            bossUI.SetBossHealthBarColor(Color.gray);
+            _bossUI.SetBossHealthBarColor(Color.gray);
         }
         private void OnBossDeathAnimationEnd()
         {

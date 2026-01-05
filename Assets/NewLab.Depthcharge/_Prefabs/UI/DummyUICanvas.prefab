@@ -65,9 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Settings
-
-'
+  m_text: Exit
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 14347f31bd967ae469758e483930322c, type: 2}
   m_sharedMaterial: {fileID: -6058097216404855820, guid: 14347f31bd967ae469758e483930322c, type: 2}
@@ -717,7 +715,7 @@ GameObject:
   - component: {fileID: 4170882039337409200}
   - component: {fileID: 1553165678667521660}
   m_Layer: 0
-  m_Name: DummySettingsButton
+  m_Name: DummyExitButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

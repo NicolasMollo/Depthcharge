@@ -232,6 +232,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mixerGroup: {fileID: -8263259052402827981, guid: 4fe136da3781e794ab1f92e50c5b3143, type: 2}
+  volume: 1
   playOnAwake: 0
   playInLoop: 0
   audioClips:
@@ -758,7 +759,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1378358547
   m_SortingLayer: 3
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: ee0ca86b1e323a641abdba68f6adaf09, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

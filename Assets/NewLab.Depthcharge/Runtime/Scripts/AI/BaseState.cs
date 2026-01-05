@@ -17,6 +17,7 @@ namespace Depthcharge.Actors.AI
         public virtual void CleanUp(GameObject owner) { }
         public virtual void OnStateEnter() { }
         public virtual void OnStateUpdate() { }
+        public virtual void OnStateFixedUpdate() { }
         public virtual void OnStateExit() { }
 
     }

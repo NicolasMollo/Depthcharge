@@ -5,6 +5,7 @@ using Depthcharge.GameManagement;
 using Depthcharge.UI;
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Depthcharge.LevelManagement
 {
@@ -33,6 +34,7 @@ namespace Depthcharge.LevelManagement
         public PlayerController Player { get => player; }
 
         public Action OnWin = null;
+
 
         private void Awake()
         {
@@ -67,6 +69,9 @@ namespace Depthcharge.LevelManagement
             SetGameUIContext(ref UIContext);
             InternalSetUp();
             UI.SetUp(UIContext);
+
+            _stats.ResetAllStats();
+
             AddListenersToActors();
         }
         private void OnDestroy()
@@ -90,6 +95,7 @@ namespace Depthcharge.LevelManagement
         }
         protected virtual void AddListenersToActors()
         {
+            player.InputModule.SubscribeOnPause(OnPlayerPressPauseButton);
             player.ShootModule.OnShoot += OnPlayerShoot;
             player.ShootModule.OnStartReload += OnPlayerStartReload;
             player.ShootModule.OnReloaded += OnPlayerReloaded;
@@ -103,8 +109,13 @@ namespace Depthcharge.LevelManagement
             player.ShootModule.OnReloaded -= OnPlayerReloaded;
             player.HealthModule.OnTakeDamage -= OnPlayerTakeDamage;
             player.HealthModule.OnTakeHealth -= OnPlayerTakeHealth;
+            player.InputModule.UnsubscribeFromPause(OnPlayerPressPauseButton);
         }
 
+        private void OnPlayerPressPauseButton(InputAction.CallbackContext context)
+        {
+            systemsRoot.TimeSystem.SetTimeScale(0f);
+        }
         private void OnPlayerTakeDamage(float damage)
         {
             UI.UpdateHealthBar(player.HealthModule.HealthPercentage);

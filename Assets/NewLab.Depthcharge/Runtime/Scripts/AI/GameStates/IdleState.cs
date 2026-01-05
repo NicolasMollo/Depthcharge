@@ -13,48 +13,55 @@ namespace Depthcharge.GameManagement.AI
     public class IdleState : BaseState
     {
 
-        private UISystem UISystem = null;
-        private AudioSystem audioSystem = null;
-        private SceneManagementSystem sceneSystem = null;
+        private UISystem _uiSystem = null;
+        private AudioSystem _audioSystem = null;
+        private SceneManagementSystem _sceneSystem = null;
+
 
         public override void SetUp(GameObject owner)
         {
-            UISystem = GameSystemsRoot.Instance.UISystem;
-            audioSystem = GameSystemsRoot.Instance.AudioSystem;
-            sceneSystem = GameSystemsRoot.Instance.SceneSystem;
+            _uiSystem = GameSystemsRoot.Instance.UISystem;
+            _audioSystem = GameSystemsRoot.Instance.AudioSystem;
+            _sceneSystem = GameSystemsRoot.Instance.SceneSystem;
         }
+
         public override void OnStateEnter()
         {
-            UISystem.SetCampaignUIActiveness(false);
-            UISystem.SetStartUIActiveness(true);
-            UISystem.StartUI.EnableInput();
-            UISystem.StartUI.ResetSelection();
-            UISystem.StartUI.SubscribeToSceneButtons(OnClickButton);
-            UISystem.StartUI.Selection.SubscribeOnSelectorPositioned(OnSelectorPositioned);
+            _uiSystem.SetCampaignUIActiveness(false);
+            _uiSystem.SetStartUIActiveness(true);
+            _uiSystem.StartUI.EnableInput();
+            _uiSystem.StartUI.ResetSelection();
+            _uiSystem.StartUI.SubscribeToSceneButtons(OnClickSceneButton);
+            _uiSystem.StartUI.SubscribeToExitButton(OnClickExitButton);
+            _uiSystem.StartUI.Selection.SubscribeOnSelectorPositioned(OnSelectorPositioned);
         }
         public override void OnStateExit()
         {
-            UISystem.StartUI.Selection.UnsubscribeFromSelectorPositioned(OnSelectorPositioned);
-            UISystem.StartUI.UnsubscribeFromSceneButtons(OnClickButton);
+            _uiSystem.StartUI.Selection.UnsubscribeFromSelectorPositioned(OnSelectorPositioned);
+            _uiSystem.StartUI.UnsubscribeFromExitButton(OnClickExitButton);
+            _uiSystem.StartUI.UnsubscribeFromSceneButtons(OnClickSceneButton);
         }
-
 
         private void OnSelectorPositioned()
         {
-            audioSystem.PlayHoverSfx();
+            _audioSystem.PlayHoverSfx();
         }
-
-        private void OnClickButton(SceneConfiguration configuration)
+        private void OnClickSceneButton(SceneConfiguration configuration)
         {
-            UISystem.LoseUI.SetButtonArg(EndGameButtonType.Reload, configuration);
-            audioSystem.PlayConfirmSfx();
+            _uiSystem.LoseUI.SetButtonArg(EndGameButtonType.Reload, configuration);
+            _audioSystem.PlayConfirmSfx();
             StartCoroutine(GoToTheNextState(configuration));
+        }
+        private void OnClickExitButton(int arg)
+        {
+            _audioSystem.PlayCancelSfx();
+            Application.Quit();
         }
 
         private IEnumerator GoToTheNextState(SceneConfiguration configuration)
         {
-            sceneSystem.ChangeScene(configuration);
-            yield return new WaitUntil(() => sceneSystem.CurrentScene.IsLoaded);
+            _sceneSystem.ChangeScene(configuration);
+            yield return new WaitUntil(() => _sceneSystem.CurrentScene.IsLoaded);
             fsm.ChangeToNextState();
         }
 

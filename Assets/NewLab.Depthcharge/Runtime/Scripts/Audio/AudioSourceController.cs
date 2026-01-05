@@ -13,6 +13,7 @@ namespace Depthcharge.Audio
 
         private AudioSource source = null;
         private AudioClipData currentAudioClip = null;
+        private float lastVolume = 1.0f;
 
         [SerializeField]
         [Tooltip("If you want set the source's audio mixer group")]
@@ -33,6 +34,7 @@ namespace Depthcharge.Audio
             source = GetComponent<AudioSource>();
             source.outputAudioMixerGroup = mixerGroup;
             source.volume = volume;
+            lastVolume = source.volume;
             source.playOnAwake = playOnAwake;
             source.loop = playInLoop;
             string message = $"=== {name}.AudioSourceController.Awake() === Be ensure to add at least an \"AudioClipData\" to \"audioClips\" list!";
@@ -101,18 +103,25 @@ namespace Depthcharge.Audio
         }
         public void SetVolume(float volume)
         {
+            lastVolume = source.volume;
             source.volume = volume;
         }
         public void SetVolume(float volume, float delay)
         {
             if (source.volume > volume)
             {
+                lastVolume = source.volume;
                 StartCoroutine(SubtractVolume(volume, delay));
             }
             else
             {
+                lastVolume = source.volume;
                 StartCoroutine(AddVolume(volume, delay));
             }
+        }
+        public void ResetVolume()
+        {
+            source.volume = lastVolume;
         }
 
         private IEnumerator SubtractVolume(float volumeTarget, float delay)

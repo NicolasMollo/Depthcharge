@@ -13,15 +13,21 @@ namespace Depthcharge.Actors.AI
         private GameObject _owner = null;
         [SerializeField]
         private List<BaseState> states = null;
-
         [SerializeField]
         private BaseState startState = null;
+
+        private BaseState previousState = null;
         private BaseState currentState = null;
+        private BaseState nextState = null;
+
+        public BaseState PreviousState { get => previousState; }
         public BaseState CurrentState { get => currentState; }
+        public BaseState NextState { get => nextState; }
+
 
         private void Awake()
         {
-            string message = $"=== {this.transform.parent.name}.FSM.Awake() === Be ensure to assign fsm owner!";
+            string message = $"=== {_owner.name}.FSM.Awake() === Be ensure to assign fsm owner!";
             Assert.IsNotNull(_owner, message);
         }
 
@@ -56,26 +62,22 @@ namespace Depthcharge.Actors.AI
 
         public void ChangeToNextState()
         {
+            previousState = currentState;
+            nextState = currentState.NextState;
             currentState.OnStateExit();
-            currentState = currentState.NextState;
+            currentState = nextState;
             string message = $"=== {_owner.name}.FSM.GoToTheNextState() === Current state hasn't a next state!";
             Assert.IsNotNull(currentState, message);
             currentState.OnStateEnter();
         }
         public void ChangeState<T>() where T : BaseState
         {
+            previousState = currentState;
+            nextState = GetState<T>();
             currentState.OnStateExit();
-            currentState = GetState<T>();
+            currentState = nextState;
             string message = $"=== {_owner.name}.FSM === There isn't state of this type in the fsm!";
             Assert.IsNotNull(currentState, message);
-            currentState.OnStateEnter();
-        }
-        public void ChangeState(BaseState state)
-        {
-            string message = $"=== {_owner.name}.FSM.ChangeState() === \"state\" is null!";
-            Assert.IsNotNull(state, message);
-            currentState.OnStateExit();
-            currentState = state;
             currentState.OnStateEnter();
         }
 

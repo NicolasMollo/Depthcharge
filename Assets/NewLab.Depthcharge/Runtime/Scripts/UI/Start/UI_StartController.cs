@@ -20,6 +20,7 @@ namespace Depthcharge.UI
         [SerializeField]
         private List<BaseButtonAdapter> buttons = null;
 
+
         private void Start()
         {
             SelectionContext selectionContext = new SelectionContext(buttons, input, selector);
@@ -51,28 +52,28 @@ namespace Depthcharge.UI
                     sceneButton.OnClick -= method;
             }
         }
-        public void SubscribeToSettingsButton(Action<int> method)
+        public void SubscribeToExitButton(Action<int> method)
         {
-            UI_StdButtonAdapter settingButton = null;
+            UI_StdButtonAdapter exitButton = null;
             foreach (BaseButtonAdapter button in buttons)
             {
-                settingButton = button as UI_StdButtonAdapter;
-                if (settingButton != null)
+                exitButton = button as UI_StdButtonAdapter;
+                if (exitButton != null)
                 {
-                    settingButton.OnClick += method;
+                    exitButton.OnClick += method;
                     break;
                 }
             }
         }
-        public void UnsubscribeFromSettingsButton(Action<int> method)
+        public void UnsubscribeFromExitButton(Action<int> method)
         {
-            UI_StdButtonAdapter settingButton = null;
+            UI_StdButtonAdapter exitButton = null;
             foreach (BaseButtonAdapter button in buttons)
             {
-                settingButton = button as UI_StdButtonAdapter;
-                if (settingButton != null)
+                exitButton = button as UI_StdButtonAdapter;
+                if (exitButton != null)
                 {
-                    settingButton.OnClick -= method;
+                    exitButton.OnClick -= method;
                     break;
                 }
             }
