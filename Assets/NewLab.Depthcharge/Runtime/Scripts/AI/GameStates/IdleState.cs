@@ -32,13 +32,11 @@ namespace Depthcharge.GameManagement.AI
             _uiSystem.StartUI.EnableInput();
             _uiSystem.StartUI.ResetSelection();
             _uiSystem.StartUI.SubscribeToSceneButtons(OnClickSceneButton);
-            _uiSystem.StartUI.SubscribeToExitButton(OnClickExitButton);
             _uiSystem.StartUI.Selection.SubscribeOnSelectorPositioned(OnSelectorPositioned);
         }
         public override void OnStateExit()
         {
             _uiSystem.StartUI.Selection.UnsubscribeFromSelectorPositioned(OnSelectorPositioned);
-            _uiSystem.StartUI.UnsubscribeFromExitButton(OnClickExitButton);
             _uiSystem.StartUI.UnsubscribeFromSceneButtons(OnClickSceneButton);
         }
 
@@ -51,11 +49,6 @@ namespace Depthcharge.GameManagement.AI
             _uiSystem.LoseUI.SetButtonArg(EndGameButtonType.Reload, configuration);
             _audioSystem.PlayConfirmSfx();
             StartCoroutine(GoToTheNextState(configuration));
-        }
-        private void OnClickExitButton(int arg)
-        {
-            _audioSystem.PlayCancelSfx();
-            Application.Quit();
         }
 
         private IEnumerator GoToTheNextState(SceneConfiguration configuration)

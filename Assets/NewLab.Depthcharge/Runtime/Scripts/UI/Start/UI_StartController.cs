@@ -52,32 +52,6 @@ namespace Depthcharge.UI
                     sceneButton.OnClick -= method;
             }
         }
-        public void SubscribeToExitButton(Action<int> method)
-        {
-            UI_StdButtonAdapter exitButton = null;
-            foreach (BaseButtonAdapter button in buttons)
-            {
-                exitButton = button as UI_StdButtonAdapter;
-                if (exitButton != null)
-                {
-                    exitButton.OnClick += method;
-                    break;
-                }
-            }
-        }
-        public void UnsubscribeFromExitButton(Action<int> method)
-        {
-            UI_StdButtonAdapter exitButton = null;
-            foreach (BaseButtonAdapter button in buttons)
-            {
-                exitButton = button as UI_StdButtonAdapter;
-                if (exitButton != null)
-                {
-                    exitButton.OnClick -= method;
-                    break;
-                }
-            }
-        }
 
         public void EnableInput()
         {
