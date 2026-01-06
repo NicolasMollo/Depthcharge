@@ -40,7 +40,6 @@ namespace Depthcharge.GameManagement.AI
             level = FindFirstObjectByType<BaseLevelController>();
             cameraTransform = Camera.main.transform;
             playerTransform = level.Player.transform;
-            UISystem.StartUI.DisableInput();
             UISystem.SetStartUIActiveness(false);
             UISystem.CurrentGameUI.gameObject.SetActive(false);
             level.Player.DisableModules();

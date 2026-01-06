@@ -48,6 +48,7 @@ namespace Depthcharge.GameManagement.AI
         {
             _uiSystem.LoseUI.SetButtonArg(EndGameButtonType.Reload, configuration);
             _audioSystem.PlayConfirmSfx();
+            _uiSystem.StartUI.DisableInput();
             StartCoroutine(GoToTheNextState(configuration));
         }
 

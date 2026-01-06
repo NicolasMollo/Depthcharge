@@ -32,10 +32,6 @@ namespace Depthcharge.GameManagement
         internal void ResetCurrentLevelNumber()
         {
             _currentLevelNumber = 1;
-
-            // _currentLevelNumber = _levelsPerDifficulty + 2;
-            // _currentLevelNumber = _levelsPerDifficulty * 2;
-            // _currentLevelNumber = _levelsPerDifficulty * 3;
         }
 
     }

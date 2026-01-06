@@ -112,6 +112,10 @@ namespace Depthcharge.Actors.Modules
 
         public override void EnableModule()
         {
+            if (_isReloading)
+            {
+                return;
+            }
             _canShoot = true;
         }
         public override void DisableModule()
