@@ -30,4 +30,4 @@ Developed with [Unity 22.3.62f1](https://unity.com/releases/editor/archive)
 - Nicolas Mollo
 - Software developer
 - [Nicolas Mollo on GitHub](https://github.com/NicolasMollo)
-- [Nicolas Mollo on itch.io](https://nicolas-mollo.itch.io)
+- [Nicolas Mollo on Itch.io](https://nicolas-mollo.itch.io)
