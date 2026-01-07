@@ -23,7 +23,9 @@ Developed with [Unity 22.3.62f1](https://unity.com/releases/editor/archive)
 - Classic score-based arcade gameplay
 
 ## 📸 Screenshot
-![Gameplay 1](images/screenshot1.png)
+![Campaign Mode](Images/Depthcharge_Campaign.png)
+![Survival Mode](Images/Depthcharge_Survival.png)
+![BossFight](Images/Depthcharge_Boss.png)
 
 ## 🚀 Run the Project Locally
 1. Clone the repository:
