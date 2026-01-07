@@ -2,32 +2,32 @@
 
 🚢 Depthcharge is a personal remake of the classic 1970s arcade game **Depthcharge**, developed in **Unity**.
 
-👉 **Playable WebGL version:**
-https://nicolas-mollo.itch.io/depthcharge
+## 👉 Playable WebGL version:
+[Depthcharge playable](https://nicolas-mollo.itch.io/depthcharge)
+
+## 📁 PC build (Windows, Mac, Linux):
+[Deptcharge.v.1.0](https://drive.google.com/drive/folders/1V2r2-zKIPQjtV9A0zTw7gAJ7JnNm99ju?usp=sharing)
 
 ## 🛠️ Technologies
-
-Developed with **Unity 22.3.62f1**
+Developed with [Unity 22.3.62f1](https://unity.com/releases/editor/archive)
 
 ## 🕹️ Gameplay Overview
-
 - Control a surface ship moving horizontally
 - Drop depth charges to destroy submarines
 - Timing and positioning are essential
 - Classic score-based arcade gameplay
 
 ## 🚀 Run the Project Locally
-
 1. Clone the repository:
    ```bash
    git clone https://github.com/NicolasMollo/Depthcharge.git
    ```
 2. Open the project using Unity Hub
-3. Open the project with the compatible Unity version (**Unity 22.3.62f1**)
+3. Open the project with version [Unity 22.3.62f1](https://unity.com/releases/editor/archive)
 4. Press **Play** in the editor or build for your target platform
    
-## 👤**Author**
-Nicolas Mollo
-Software developer
-GitHub: https://github.com/NicolasMollo
-Itch.io: https://nicolas-mollo.itch.io
+## 👤 Author
+- Nicolas Mollo
+- Software developer
+- [Nicolas Mollo on GitHub](https://github.com/NicolasMollo)
+- [Nicolas Mollo on itch.io](https://nicolas-mollo.itch.io)
