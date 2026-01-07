@@ -1,12 +1,17 @@
 "# Depthcharge" 
 
 🚢 Depthcharge is a personal remake of the classic 1970s arcade game **Depthcharge**, developed in **Unity**.
+| 👉 Deptcharge playable version |
+|------|
+| [Depthcharge WebGL](https://nicolas-mollo.itch.io/depthcharge) |
 
-## 👉 Playable WebGL version:
-[Depthcharge playable](https://nicolas-mollo.itch.io/depthcharge)
+## 📥 Build Downloads
 
-## 📁 PC build (Windows, Mac, Linux):
-[Deptcharge.v.1.0](https://drive.google.com/drive/folders/1V2r2-zKIPQjtV9A0zTw7gAJ7JnNm99ju?usp=sharing)
+| Platform | Download |
+|----------|----------|
+| Windows 64-bit | [Deptcharge.v.1.0](https://drive.google.com/drive/folders/1V2r2-zKIPQjtV9A0zTw7gAJ7JnNm99ju?usp=sharing) |
+| macOS | [Deptcharge.v.1.0](https://drive.google.com/drive/folders/1V2r2-zKIPQjtV9A0zTw7gAJ7JnNm99ju?usp=sharing) |
+| Linux | [Deptcharge.v.1.0](https://drive.google.com/drive/folders/1V2r2-zKIPQjtV9A0zTw7gAJ7JnNm99ju?usp=sharing) |
 
 ## 🛠️ Technologies
 Developed with [Unity 22.3.62f1](https://unity.com/releases/editor/archive)
@@ -16,6 +21,9 @@ Developed with [Unity 22.3.62f1](https://unity.com/releases/editor/archive)
 - Drop depth charges to destroy submarines
 - Timing and positioning are essential
 - Classic score-based arcade gameplay
+
+## 📸 Screenshot
+![Gameplay 1](images/screenshot1.png)
 
 ## 🚀 Run the Project Locally
 1. Clone the repository:
